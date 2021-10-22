@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Project</title>
+
+    <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
+
+    <link rel="stylesheet" type="text/css" href="styles/map.css">
+
+    <script src="src/init_map.js"></script>
+
+
+    <!-- <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 50%;
+            width: 50vw;
+        }
+    </style> -->
+
+</head>
+
+<body>
+
+
+
+    <div id="map"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXKXsgWFGKk_nS9gDGF_x67BV7eERm594&callback=initMap&v=weekly"
+        async></script>
+
+
+    <input id="pac-input" class="controls search" type="text" placeholder="搜尋活動" />
+    <button id=createEvent>我要開團</button>
+
+    <div id="gathering-list"></div>
+
+
+
+
+    <script src="src/search.js"> </script>
+
+</body>
+
+</html>

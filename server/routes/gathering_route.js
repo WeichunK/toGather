@@ -3,12 +3,17 @@ const router = require('express').Router();
 
 const {
     getGatherings,
+    getGatheringDetail,
 } = require('../controllers/gathering_controller');
 
 // router.route('/getgatherings/:category')
 router.route('/getgatherings/:category')
     .get(getGatherings);
 // .get(wrapAsync(getGatherings));
+
+router.route('/getgatheringDetail')
+    .get(getGatheringDetail);
+
 
 // router.route('/user/signin')
 //     .post(wrapAsync(signIn));

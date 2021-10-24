@@ -20,5 +20,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WeichunK/personal_project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WeichunK/personal_project/issues"
+  },
+  "homepage": "https://github.com/WeichunK/personal_project#readme"
 }

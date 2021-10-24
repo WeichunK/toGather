@@ -69,8 +69,13 @@ const getGatherings = async (req, res) => {
 
 };
 
+const getGatheringDetail = async (req, res) => {
+
+}
+
 module.exports = {
     getGatherings,
+    getGatheringDetail,
 
 };
 

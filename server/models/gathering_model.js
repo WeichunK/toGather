@@ -47,10 +47,24 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
     // }
 };
 
+const getGatheringDetail = async () => {
+
+    try {
+
+        const [users] = await pool.query('SELECT * FROM member_2 WHERE email = ?', [email]);
+        console.log('users[0] ', users[0])
+        return users[0];
+
+    } catch (e) {
+        return null;
+    }
+
+}
+
 
 module.exports = {
     getGatherings,
-    // getProducts,
+    getGatheringDetail,
     // getHotProducts,
     // getProductsVariants,
     // getProductsImages,

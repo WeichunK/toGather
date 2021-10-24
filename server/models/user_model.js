@@ -35,7 +35,8 @@ const signUp = async (name, email, password, provider, role) => {
             provider: user.provider,
             name: user.name,
             email: user.email,
-            picture: user.picture
+            picture: user.picture,
+            expiresIn: user.access_expired
         }, TOKEN_SECRET);
         user.access_token = accessToken;
 
@@ -73,7 +74,8 @@ const nativeSignIn = async (email, password) => {
             provider: user.provider,
             name: user.name,
             email: user.email,
-            picture: user.picture
+            picture: user.picture,
+            expiresIn: TOKEN_EXPIRE
         }, TOKEN_SECRET);
 
         const queryStr = 'UPDATE member_2 SET access_token = ?, access_expired = ?, login_at = ? WHERE id = ?';

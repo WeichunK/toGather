@@ -89,6 +89,7 @@ function initMap() {
 
         // marker = new google.maps.Marker()
         marker.setMap(null);
+
         // if (!marker.map) {
         //     console.log('no marker')
         // }
@@ -96,6 +97,9 @@ function initMap() {
 
         console.log('lat', e.latLng.lat())
         console.log('lng', e.latLng.lng())
+
+        localStorage.setItem("lat", e.latLng.lat())
+        localStorage.setItem("lng", e.latLng.lng())
 
         marker = new google.maps.Marker({
             position: { lat: e.latLng.lat(), lng: e.latLng.lng() }, //marker的放置位置
@@ -117,6 +121,8 @@ function initMap() {
 
 
     map.addListener('bounds_changed', function (e) {
+        localStorage.removeItem("lat")
+        localStorage.removeItem("lng")
         console.log('getBounds', map.getBounds())
         bound.Hb.g = map.getBounds().Hb.g
         bound.Hb.i = map.getBounds().Hb.i

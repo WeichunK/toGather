@@ -5,6 +5,11 @@ const salt = parseInt(process.env.BCRYPT_SALT);
 const { TOKEN_EXPIRE, TOKEN_SECRET } = process.env; // 30 days by seconds
 const jwt = require('jsonwebtoken');
 
+const USER_ROLE = {
+    ALL: 1,
+    ADMIN: 999,
+    PREMIUM_USER: 2
+};
 
 const signUp = async (name, email, password, provider, role) => {
 
@@ -13,7 +18,7 @@ const signUp = async (name, email, password, provider, role) => {
     try {
         await conn.query('START TRANSACTION');
 
-        const emails = await conn.query('SELECT email FROM member_2 WHERE email = ? FOR UPDATE', [email]);
+        const emails = await conn.query('SELECT email FROM member WHERE email = ? FOR UPDATE', [email]);
         if (emails[0].length > 0) {
             await conn.query('COMMIT');
             return { error: 'This Email Already Exists' };
@@ -40,7 +45,7 @@ const signUp = async (name, email, password, provider, role) => {
         }, TOKEN_SECRET);
         user.access_token = accessToken;
 
-        const queryStr = 'INSERT INTO member_2 SET ?';
+        const queryStr = 'INSERT INTO member SET ?';
         const [result] = await conn.query(queryStr, user);
 
         user.id = result.insertId;
@@ -62,7 +67,7 @@ const nativeSignIn = async (email, password) => {
     try {
         await conn.query('START TRANSACTION');
 
-        const [users] = await conn.query('SELECT * FROM member_2 WHERE email = ?', [email]);
+        const [users] = await conn.query('SELECT * FROM member WHERE email = ?', [email]);
         const user = users[0];
         if (!bcrypt.compareSync(password, user.password)) {
             await conn.query('COMMIT');
@@ -78,7 +83,7 @@ const nativeSignIn = async (email, password) => {
             expiresIn: TOKEN_EXPIRE
         }, TOKEN_SECRET);
 
-        const queryStr = 'UPDATE member_2 SET access_token = ?, access_expired = ?, login_at = ? WHERE id = ?';
+        const queryStr = 'UPDATE member SET access_token = ?, access_expired = ?, login_at = ? WHERE id = ?';
         await conn.query(queryStr, [accessToken, TOKEN_EXPIRE, loginAt, user.id]);
 
         await conn.query('COMMIT');
@@ -100,11 +105,11 @@ const nativeSignIn = async (email, password) => {
 const getUserDetail = async (email, roleId) => {
     try {
         if (roleId) {
-            const [users] = await pool.query('SELECT * FROM member_2 WHERE email = ? AND role_id = ?', [email, roleId]);
+            const [users] = await pool.query('SELECT * FROM member WHERE email = ? AND role = ?', [email, roleId]);
             return users[0];
         } else {
-            const [users] = await pool.query('SELECT * FROM member_2 WHERE email = ?', [email]);
-            console.log('users[0] ', users[0])
+            const [users] = await pool.query('SELECT * FROM member WHERE email = ?', [email]);
+            // console.log('users[0] ', users[0])
             return users[0];
         }
     } catch (e) {
@@ -113,6 +118,7 @@ const getUserDetail = async (email, roleId) => {
 };
 
 module.exports = {
+    USER_ROLE,
     signUp,
     nativeSignIn,
     getUserDetail,

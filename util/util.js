@@ -1,7 +1,14 @@
 require('dotenv').config();
 const User = require('../server/models/user_model');
-const { TOKEN_SECRET } = process.env; // 30 days by seconds
+const { TOKEN_SECRET, AWS_BUCKET_NAME, AWS_BUCKET_REGION, AWS_ACCESS_KEY, AWS_SECRET_KEY } = process.env; // 30 days by seconds
 const jwt = require('jsonwebtoken');
+const path = require('path');
+const crypto = require('crypto');
+const fs = require('fs');
+const multer = require('multer');
+const S3 = require('aws-sdk/clients/s3')
+
+
 
 const authentication = (roleId) => {
     return async function (req, res, next) {
@@ -24,7 +31,7 @@ const authentication = (roleId) => {
                 next();
             } else {
                 let userDetail;
-                if (roleId == -1) {
+                if (roleId == 1) {
                     userDetail = await User.getUserDetail(user.email);
                 } else {
                     userDetail = await User.getUserDetail(user.email, roleId);
@@ -49,8 +56,60 @@ const authentication = (roleId) => {
     };
 };
 
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            // const gatheringId = req.body.gatheringId;
+            const gatheringId = 'gathering_pic'
+            const imagePath = path.join(__dirname, `../public/assets/${gatheringId}`);
+            if (!fs.existsSync(imagePath)) {
+                fs.mkdirSync(imagePath);
+            }
+            cb(null, imagePath);
+        },
+        filename: (req, file, cb) => {
+            const customFileName = crypto.randomBytes(18).toString('hex').substr(0, 8);
+            const fileExtension = file.mimetype.split('/')[1]; // get file extension from original file name
+            cb(null, customFileName + '.' + fileExtension);
+        }
+    })
+});
+
+const getImagePath = (protocol, hostname, gatheringId) => {
+    if (protocol == 'http') {
+        return protocol + '://' + hostname + ':' + port + '/assets/' + gatheringId + '/';
+    } else {
+        return protocol + '://' + hostname + '/assets/' + gatheringId + '/';
+    }
+};
+
+
+
+const s3 = new S3({
+    AWS_BUCKET_REGION,
+    AWS_ACCESS_KEY,
+    AWS_SECRET_KEY
+
+})
+
+function s3UploadFile(file, path = '') {
+    const fileStream = fs.createReadStream(file.path)
+
+    const uploadParams = {
+        Bucket: AWS_BUCKET_NAME + path,
+        Body: fileStream,
+        Key: file.filename,
+        ACL: 'public-read'
+    }
+    console.log('uploadParams', uploadParams)
+    return s3.upload(uploadParams).promise()
+
+}
 
 module.exports = {
 
-    authentication
+    authentication,
+    upload,
+    getImagePath,
+    s3UploadFile,
 };

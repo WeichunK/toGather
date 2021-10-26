@@ -5,20 +5,22 @@ const multipleStatements = true;
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
+const bcrypt = require('bcrypt');
+const salt = parseInt(process.env.BCRYPT_SALT);
+
+require('dotenv').config();
+const { DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE, TEST_USER_PWD } = process.env;
 
 const mysqlConfig = { // for EC2 machine
-    // host: "database-1.cmaisvh7jcso.ap-northeast-1.rds.amazonaws.com",
-    // user: "user2",
-    // password: "From0825*",
-    host: "localhost",
-    user: "testuser",
-    password: "test1234",
+    host: DB_HOST,
+    user: DB_USERNAME,
+    password: DB_PASSWORD,
     port: "3306",
     multipleStatements: true,
     waitForConnections: true,
     connectionLimit: 20,
     queueLimit: 0,
-    database: 'personal_project',
+    database: DB_DATABASE,
 }
 
 
@@ -46,10 +48,9 @@ const get_data = async () => {
 
     let binding;
 
-    const hash = crypto.createHash('sha256')
+    const user_password = TEST_USER_PWD
 
-    hash.update('test123')
-    let encryptedPWD = hash.digest('hex')
+    let encryptedPWD = bcrypt.hashSync(user_password, salt)
 
     function timeout(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));

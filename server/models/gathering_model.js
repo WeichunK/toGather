@@ -11,10 +11,13 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
         condition.sql = 'WHERE lng BETWEEN ? AND ? AND lat BETWEEN ? AND ?';
         condition.binding = requirement.boundary;
 
+    } else if (requirement.id != null) {
+        condition.sql = 'WHERE id = ?';
+        condition.binding = [requirement.id];
     }
 
 
-    const gatheringQuery = 'SELECT * FROM gathering_2 ' + condition.sql;
+    const gatheringQuery = 'SELECT * FROM gathering ' + condition.sql + 'ORDER BY created_at DESC;';
 
     result = await pool.query(gatheringQuery, condition.binding);
 
@@ -29,9 +32,9 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
     //     if (Hbg) {
     //         console.log('model query', Hbg, Hbi, tcg, tci)
     //         let binding = [Hbg, Hbi, tcg, tci]
-    //         result = await conn.query('select * from gathering_2 where lng between ? AND ? AND lat between ? and ?;', binding)
+    //         result = await conn.query('select * from gathering where lng between ? AND ? AND lat between ? and ?;', binding)
     //     } else {
-    //         result = await conn.query('select * from gathering_2')
+    //         result = await conn.query('select * from gathering')
     //     }
     //     console.log('result', result[0])
 
@@ -47,24 +50,59 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
     // }
 };
 
-const getGatheringDetail = async () => {
+// const getGatheringDetail = async (gatheringId) => {
+
+//     try {
+
+//         const [gathering] = await pool.query('SELECT * FROM member_2 WHERE id = ?', [gatheringId]);
+//         console.log('users[0] ', gathering[0])
+//         return gathering[0];
+
+//     } catch (e) {
+//         return null;
+//     }
+
+// }
+
+const hostGathering = async (gathering) => {
+
+
+    const conn = await pool.getConnection();
 
     try {
+        await conn.query('START TRANSACTION');
 
-        const [users] = await pool.query('SELECT * FROM member_2 WHERE email = ?', [email]);
-        console.log('users[0] ', users[0])
-        return users[0];
+        gathering.created_at = new Date();
+        gathering.status = 1;
 
-    } catch (e) {
-        return null;
+        const queryStr = 'INSERT INTO gathering SET ?';
+        const [result] = await conn.query(queryStr, gathering);
+
+        // gathering.id = result.insertId;
+        await conn.query('COMMIT');
+        return result;
+    } catch (error) {
+        console.log(error);
+        await conn.query('ROLLBACK');
+        return { error };
+    } finally {
+        await conn.release();
     }
 
 }
 
 
+const joinGathering = async (gathering) => {
+
+}
+
+
+
 module.exports = {
     getGatherings,
-    getGatheringDetail,
+    // getGatheringDetail,
+    hostGathering,
+    joinGathering,
     // getHotProducts,
     // getProductsVariants,
     // getProductsImages,

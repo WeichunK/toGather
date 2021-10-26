@@ -2,7 +2,7 @@
 // const util = require('../../util/util');
 const Gatherings = require('../models/gathering_model');
 const pageSize = 6;
-
+const { s3UploadFile } = require('../../util/util');
 
 // require('dotenv').config();
 // const validator = require('validator');
@@ -33,7 +33,13 @@ const getGatherings = async (req, res) => {
                 }
                 break;
 
+            }
 
+            case 'details': {
+                const id = parseInt(req.query.id);
+                if (Number.isInteger(id)) {
+                    return await Gatherings.getGatherings(pageSize, paging, { id });
+                }
             }
 
             default: {
@@ -42,9 +48,6 @@ const getGatherings = async (req, res) => {
 
         };
     }
-
-
-
 
 
     const gatheringsList = await findGatherings(category);
@@ -69,13 +72,71 @@ const getGatherings = async (req, res) => {
 
 };
 
-const getGatheringDetail = async (req, res) => {
+// const getGatheringDetail = async (req, res) => {
+
+
+// }
+
+
+
+const hostGathering = async (req, res, next) => {
+    console.log('req.files', req.files)
+    const gathering = {
+        host_id: req.user.id,
+        title: req.body.title,
+        description: req.body.description,
+        category: req.body.category,
+        picture: req.files.main_image[0].path,
+        start_on: req.body.start_on,
+        max_participant: req.body.max_participant,
+        min_participant: req.body.min_participant,
+        place: req.body.place,
+        lng: req.body.lng,
+        lat: req.body.lat
+    }
+
+    console.log('gathering', gathering)
+
+    let uploadResult = await s3UploadFile(req.files.main_image[0])
+    console.log('uploadResult', uploadResult)
+
+    const result = await Gatherings.hostGathering(gathering)
+
+
+
+
+    if (result.error) {
+        res.status(403).send({ error: result.error });
+        return;
+    }
+
+    res.status(200).send({
+        data: {
+            gathering: gathering
+        }
+    })
+    return;
 
 }
 
+
+const joinGathering = async (req, res) => {
+
+
+    const result = await Gatherings.joinGathering(gathering)
+
+}
+
+
+
+
+
 module.exports = {
     getGatherings,
-    getGatheringDetail,
+    // getGatheringDetail,
+    hostGathering,
+    joinGathering,
+
 
 };
 

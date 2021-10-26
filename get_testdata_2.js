@@ -5,20 +5,19 @@ const multipleStatements = true;
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
+require('dotenv').config();
+const { DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
 
 const mysqlConfig = { // for EC2 machine
-    // host: "database-1.cmaisvh7jcso.ap-northeast-1.rds.amazonaws.com",
-    // user: "user2",
-    // password: "From0825*",
-    host: "localhost",
-    user: "testuser",
-    password: "test1234",
+    host: DB_HOST,
+    user: DB_USERNAME,
+    password: DB_PASSWORD,
     port: "3306",
     multipleStatements: true,
     waitForConnections: true,
     connectionLimit: 20,
     queueLimit: 0,
-    database: 'personal_project',
+    database: DB_DATABASE,
 }
 
 function timeout(ms) {

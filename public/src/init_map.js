@@ -1,4 +1,5 @@
 
+
 const url = location.href
 let tagValue = 'all'
 let tagType
@@ -27,6 +28,8 @@ function ajax(src, callback) {
     }
     sendAJAX()
 }
+
+
 
 function initMap() {
     var initPoint = { lat: 25.0467073, lng: 121.5137439 };
@@ -201,36 +204,51 @@ function initMap() {
         //     })
 
 
-        ajax(apiPath + geomPath, function (response) {
-            console.log(response);
+        const getGatheringList = () => {
 
-            const gatheringList = document.getElementById('gathering-list')
-            gatheringList.innerHTML = ''
+            ajax(apiPath + geomPath, function (response) {
+                console.log(response);
 
-            for (let i in response.data) {
+                const gatheringList = document.getElementById('gathering-list')
+                gatheringList.innerHTML = ''
 
-
-                marker = new google.maps.Marker({
-                    position: { lat: response.data[i].lat, lng: response.data[i].lng },
-                    map: map
-                });
-
-                // <img src="要插入的圖片 URL" alt="圖片替代文字" title="要顯示的文字" border="圖片邊框"></img>
-                let eventPic = document.createElement('img')
-                eventPic.src = response.data[i].picture
-                eventPic.style = `height: 100px;`
-                eventPic.setAttribute('title', response.data[i].title)
-                // eventPic.title = response.data[i].title
-                gatheringList.appendChild(eventPic)
-                gatheringList.appendChild(document.createTextNode(` ${response.data[i].title}`))
-                gatheringList.appendChild(document.createElement('br'))
-
-                // gatheringList.appendChild(document.createElement('<br>'))
-
-            }
+                for (let i in response.data) {
 
 
-        })
+                    marker = new google.maps.Marker({
+                        position: { lat: response.data[i].lat, lng: response.data[i].lng },
+                        map: map
+                    });
+
+                    // <img src="要插入的圖片 URL" alt="圖片替代文字" title="要顯示的文字" border="圖片邊框"></img>
+                    let eventPic = document.createElement('img')
+                    eventPic.src = response.data[i].picture
+                    eventPic.style = `height: 100px;`
+                    eventPic.setAttribute('title', response.data[i].title)
+                    // eventPic.title = response.data[i].title
+                    gatheringList.appendChild(eventPic)
+                    gatheringList.appendChild(document.createTextNode(` ${response.data[i].title}`))
+                    gatheringList.appendChild(document.createElement('br'))
+
+                    // gatheringList.appendChild(document.createElement('<br>'))
+
+                }
+
+
+            })
+
+        }
+
+        getGatheringList()
+
+
+        var socket = io();
+
+
+
+
+        socket.on('updateGatheringList', getGatheringList())
+
 
 
     });

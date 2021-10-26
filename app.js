@@ -12,6 +12,11 @@ const { PORT, API_VERSION } = process.env;
 const port = PORT
 app.use(cors());
 
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
 // API routes
 app.use('/api/' + API_VERSION,
     // rateLimiterRoute,
@@ -25,6 +30,9 @@ app.use('/api/' + API_VERSION,
     ]
 );
 
-app.listen(port, () => { console.log(`Listening on port: ${port}`); });
+// app.listen(port, () => { console.log(`Listening on port: ${port}`); });
+server.listen(port, () => { console.log(`Listening on port: ${port}`); });
 
-module.exports = app;
+app.io = io;
+
+module.exports = { app, server, io };

@@ -12,6 +12,10 @@
 
     <script src="src/init_map.js"></script>
 
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"
+        integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
+        crossorigin="anonymous"></script>
+
 
     <!-- <style>
         /* Always set the map height explicitly to define the size of the div
@@ -44,12 +48,50 @@
 
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXKXsgWFGKk_nS9gDGF_x67BV7eERm594&callback=initMap&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXg0bmVrXJ6hF8Nq5voQG6TbA5UQFha7k&callback=initMap&v=weekly"
         async></script>
 
+    <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJNQVAiLCJlbWFpbCI6InRlc3Q2MDFAdGVzdC5jb20iLCJwaWN0dXJlIjoiaHR0cHM6Ly9jZG4uZWF0Z2V0aGVyLmNvbS9tZW1iZXIvZmRhMWE4MDMtOTU0ZC00ZTJjLTljMjAtNWM5MzRjOWNlMDJmL2F2YXRhci85YTM4Y2U4Mi1kOWRkLTQ4YzUtYTA3YS1iOTQyMGE4N2RjNjkuanBnIiwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTE2MTE1MH0.-xp3dYkjDr0LLOkbyvrt7CfSDxiKm9QHPxlOE5Z4lZw")</script>
 
     <input id="pac-input" class="controls search" type="text" placeholder="搜尋活動" />
-    <button id=createEvent>我要開團</button>
+    <div id=createEvent>
+        <button>我要開團</button>
+    </div>
+
+    <div id="hostGathering" style="display: none;">
+        <h3>請輸入活動資訊</h3>
+
+        <form method="post" action="/api/1.0/getgatherings/hostGathering" enctype="multipart/form-data">
+            <!-- ID <input type="text" name="product_id" /><br /> -->
+            Category <select name="category" id="category">
+                <option value="food">美食美酒</option>
+                <option value="sport">運動健身</option>
+                <option value="travel">旅行出遊</option>
+                <option value="learning">體驗學習</option>
+                <option value="media">影音展演</option>
+                <option value="business">商業投資</option>
+                <option value="party">唱歌派對</option>
+                <option value="gmae">遊戲卡牌</option>
+                <option value="beauty">美容時尚</option>
+                <option value="astrology">命理諮商</option>
+                <option value="others">其他</option>
+
+
+            </select><br />
+            Title <input type="text" name="title" id="title" /><br />
+            Description<br /><textarea name="description" id="description"></textarea><br />
+            start_on <input type="text" name="start_on" id="start_on" /><br />
+            min_participant <input type=" text" name="min_participant" id="min_participant" /><br />
+            max_participant <input type="text" name="max_participant" id="max_participant" /><br />
+            place <input type="text" name="place" id="place" /><br />
+            <hr />
+            picture <input type="file" name="main_image" id="main_image" /><br />
+            <!-- <input id="gathering_submit" type="submit" value="開團囉" /> -->
+            <button id="gathering_submit" onclick="return onClick(this.form)">開團囉</button>
+            <input id="cancel_submit" type="button" value="取消" />
+        </form>
+    </div>
+
 
     <div id="gathering-list"></div>
 
@@ -57,6 +99,225 @@
 
 
     <script src="src/search.js"> </script>
+    <script>
+
+        const hostGathering = document.getElementById("hostGathering")
+
+        document.getElementById("createEvent").addEventListener('click', () => {
+            hostGathering.style.display = 'block'
+        })
+
+        document.getElementById("cancel_submit").addEventListener('click', () => {
+            hostGathering.style.display = 'none'
+        })
+
+        document.getElementById("gathering_submit").addEventListener('click', () => {
+            hostGathering.style.display = 'none'
+        })
+
+
+        function onClick(form) {
+            console.log('type of form', typeof (form))
+            console.log('form.title.value', form.title.value)
+            let dataToSent = new FormData(form)
+
+            for (let pair of dataToSent.entries()) {
+                console.log("pair", pair)
+            }
+
+            // if (!Boolean(form.category.value.trim())) {
+            //     alert("Category不可為空");
+            //     return false;
+            // }
+            // if (!Boolean(form.productTitle.value.trim())) {
+            //     alert("Product Title不可為空！");
+            //     return false;
+            // }
+
+            // if (!Boolean(form.price.value.trim())) {
+            //     alert("Price不可為空");
+            //     return false;
+            // }
+
+            // if (isNaN(form.price.value)) {
+            //     alert("Price請輸入數字！");
+            //     return false;
+            // }
+
+            // if (!Boolean(form.texture.value.trim())) {
+            //     alert("Texture不可為空");
+            //     return false;
+            // }
+
+            // if (!Boolean(form.wash.value.trim())) {
+            //     alert("Wash不可為空");
+            //     return false;
+            // }
+
+
+            // if (!Boolean(form.place.value.trim())) {
+            //     alert("Place不可為空");
+            //     return false;
+            // }
+
+
+            // for (let i = 0; i < form['黑色'].length; i++) {
+            //     if (isNaN(form['黑色'][i].value)) {
+            //         alert("Stocks請輸入數字！");
+            //         return false;
+            //     }
+            // }
+
+            // for (let i = 0; i < form['藍色'].length; i++) {
+            //     if (isNaN(form['藍色'][i].value)) {
+            //         alert("Stocks請輸入數字！");
+            //         return false;
+            //     }
+            // }
+
+            // for (let i = 0; i < form['灰色'].length; i++) {
+            //     if (isNaN(form['灰色'][i].value)) {
+            //         alert("Stocks請輸入數字！");
+            //         return false;
+            //     }
+            // }
+
+            // for (let i = 0; i < form['粉紅'].length; i++) {
+            //     if (isNaN(form['粉紅'][i].value)) {
+            //         alert("Stocks請輸入數字！");
+            //         return false;
+            //     }
+            // }
+
+            // for (let i = 0; i < form['白色'].length; i++) {
+            //     if (isNaN(form['白色'][i].value)) {
+            //         alert("Stocks請輸入數字！");
+            //         return false;
+            //     }
+            // }
+
+            // alert("資料格式正確，即將為您建檔！");
+
+            if (localStorage.getItem('lat')) {
+
+                dataToSent.append('lat', localStorage.getItem('lat'));
+                dataToSent.append('lng', localStorage.getItem('lng'));
+
+
+            } else {
+                alert("請在地圖上選取位置");
+                return false;
+            }
+
+
+
+            if (localStorage.getItem('token')) {
+                var jwt = localStorage.getItem('token')
+                console.log('JWT', jwt)
+                alert("資料格式正確，即將為您建檔！");
+            } else {
+                alert('請先登入')
+                window.location.href = '/admin/signIn.html'
+            }
+            console.log("dataToSent", dataToSent)
+            const accessToken = localStorage.getItem("token");
+            // fetch("/api/1.0/getgatherings/hostGathering", {
+
+            //     body: dataToSent,
+            //     headers: new Headers({
+            //         "Content-Type": "multipart/form-data",
+            //         "Authorization": `Bearer ${accessToken}`
+            //     }),
+            //     method: "POST"
+            // }).then((e => e.json())).then((e => {
+            //     console.log(e)
+            //     alert('error')
+            // }
+            // )).then(window.alert("註冊成功！")).catch((e => {
+            //     console.log(e)
+            // }
+            // ))
+
+
+            let xhr = new XMLHttpRequest();
+            var url = '/api/1.0/getgatherings/hostGathering';
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+            // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('apiResponse.data', xhr.responseText)
+                    // if (xhr.responseText == 'admin') {
+                    //     alert('已成功輸入一筆資料')
+                    //     window.location.href = '/admin/product.html'
+                    // } else {
+                    //     alert('無權限操作此頁')
+                    // }
+                }
+            };
+            xhr.send(dataToSent);
+
+
+
+            // .finally(location.reload())
+
+
+
+            return false
+        }
+
+
+
+        // localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiaWF0IjoxNjM0ODg4Mzk4fQ.LDSiUhPGsVvk6Q-H7TKtPJhmTQkb1MYSC2_b8yF5NPE")
+        // // const createEvent = document.getElementById("createEvent")
+        // // const cancelSubmit = document.getElementById("cancel_submit")
+        // // const hostGathering = document.getElementById("hostGathering")
+
+        // document.getElementById("createEvent").addEventListener('click', () => {
+        //     hostGathering.style.display = 'block'
+        // })
+
+        // document.getElementById("cancel_submit").addEventListener('click', () => {
+        //     hostGathering.style.display = 'none'
+        // })
+
+        // document.getElementById("hostGathering").addEventListener('click', () => {
+        //     hostGathering.style.display = 'none'
+        // })
+
+        // document.getElementById("gathering_submit").addEventListener("click", () => {
+        //     const category = document.getElementById("category").value
+        //     const title = document.getElementById("title").value
+        //     const description = document.getElementById("description").value
+        //     const startOn = document.getElementById("start_on").value
+        //     const minParticipant = document.getElementById("min_participant").value
+        //     const maxParticipant = document.getElementById("max_participant").value
+        //     const place = document.getElementById("place").value
+        //     const mainImage = document.getElementById("main_image").value
+
+        //     const accessToken = localStorage.getItem("token");
+
+        //     fetch("http://diekleidungen.com/api/1.0/user/signup", {
+
+
+        //         body: JSON.stringify(i),
+        //         headers: new Headers({
+        //             "Content-Type": "multipart/form-data",
+        //             "Authorization": `Bearer ${a}`
+        //         }),
+        //         method: "POST"
+        //     }).then((e => e.json())).then((e => {
+        //         console.log(e),
+        //             void 0 !== e && sessionStorage.setItem("userLoginStatus", JSON.stringify(e.data))
+        //     }
+        //     )).then(window.alert("註冊成功！")).catch((e => {
+        //         console.log(e)
+        //     }
+        //     )).finally(location.reload()(document.querySelector(".loading").style.display = "none"))
+        // })
+
+    </script>
 
 </body>
 

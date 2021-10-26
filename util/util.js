@@ -92,6 +92,7 @@ const s3 = new S3({
 
 })
 
+
 function s3UploadFile(file, path = '') {
     const fileStream = fs.createReadStream(file.path)
 

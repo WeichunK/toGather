@@ -1,5 +1,30 @@
 const { pool } = require('./mysqlcon');
 
+// const express = require('express');
+// const app = express();
+
+// // const app = require('../../app')
+// const http = require('http');
+// // const server = http.createServer(app);
+
+
+// const server = require('../../app')
+// const { Server } = require("socket.io");
+// // const io = new Server(server);
+
+
+// const io = require("socket.io")(server, {
+//     cors: {
+//         origin: "*",
+//         methods: ["GET", "POST"],
+//         allowedHeaders: ["my-custom-header"],
+//         credentials: true
+//     }
+// });
+
+const { io } = require("../../app")
+
+
 const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
     const conn = await pool.getConnection();
     let result;
@@ -86,7 +111,9 @@ const hostGathering = async (gathering) => {
         await conn.query('ROLLBACK');
         return { error };
     } finally {
+        // io.emit('updateGatheringList', 'DB updated');
         await conn.release();
+
     }
 
 }

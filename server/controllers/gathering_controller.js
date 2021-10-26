@@ -86,7 +86,7 @@ const hostGathering = async (req, res, next) => {
         title: req.body.title,
         description: req.body.description,
         category: req.body.category,
-        picture: req.files.main_image[0].path,
+        // picture: req.files.main_image[0].path,
         start_on: req.body.start_on,
         max_participant: req.body.max_participant,
         min_participant: req.body.min_participant,
@@ -97,8 +97,9 @@ const hostGathering = async (req, res, next) => {
 
     console.log('gathering', gathering)
 
-    let uploadResult = await s3UploadFile(req.files.main_image[0])
+    let uploadResult = await s3UploadFile(req.files.main_image[0], '/gathering')
     console.log('uploadResult', uploadResult)
+    gathering.picture = uploadResult.Location
 
     const result = await Gatherings.hostGathering(gathering)
 
@@ -109,6 +110,8 @@ const hostGathering = async (req, res, next) => {
         res.status(403).send({ error: result.error });
         return;
     }
+
+    // req.app.io.emit('updateGatheringList', 'DB updated');
 
     res.status(200).send({
         data: {

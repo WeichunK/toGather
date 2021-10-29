@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { authentication, upload, s3UploadFile } = require('../../util/util');
+const { authentication, upload } = require('../../util/util');
 // const { wrapAsync } = require('../../util/util');
 
 const cpUpload = upload.fields([
@@ -21,18 +21,18 @@ const {
 
 // router.route('/getgatherings/:category')
 router.route('/getgatherings/:category')
-    .get(getGatherings);
+    .get(authentication(USER_ROLE.FREE), getGatherings);
 // .get(wrapAsync(getGatherings));
 
 // router.route('/getgatheringDetail')
 //     .get(getGatheringDetail);
 
-router.route('/getgatherings/hostGathering')
+router.route('/gatherings/hostGathering')
     .post(authentication(USER_ROLE.ALL), cpUpload, hostGathering);
 
 
-router.route('/getgatherings/joinGathering')
-    .post(authentication(USER_ROLE.ALL), joinGathering);
+router.route('/gatherings/joinGathering')
+    .get(authentication(USER_ROLE.ALL), joinGathering);
 // router.route('/user/signin')
 //     .post(wrapAsync(signIn));
 

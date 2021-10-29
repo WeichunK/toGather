@@ -12,9 +12,10 @@
 
     <script src="src/init_map.js"></script>
 
-    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"
+
+    <!-- <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"
         integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> -->
 
 
     <!-- <style>
@@ -38,6 +39,13 @@
         }
     </style> -->
 
+    <style type="text/css">
+        .createEvent {
+            border-style: solid;
+            border-color: black;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -47,21 +55,19 @@
     <div id="map"></div>
 
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXg0bmVrXJ6hF8Nq5voQG6TbA5UQFha7k&callback=initMap&v=weekly"
-        async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&v=weekly" async></script>
 
-    <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJNQVAiLCJlbWFpbCI6InRlc3Q2MDFAdGVzdC5jb20iLCJwaWN0dXJlIjoiaHR0cHM6Ly9jZG4uZWF0Z2V0aGVyLmNvbS9tZW1iZXIvZmRhMWE4MDMtOTU0ZC00ZTJjLTljMjAtNWM5MzRjOWNlMDJmL2F2YXRhci85YTM4Y2U4Mi1kOWRkLTQ4YzUtYTA3YS1iOTQyMGE4N2RjNjkuanBnIiwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTE2MTE1MH0.-xp3dYkjDr0LLOkbyvrt7CfSDxiKm9QHPxlOE5Z4lZw")</script>
+    <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTM0NzUxMH0.I9kMnrgYzV_UalnMXgQmhxGh2Fd3a-MplE1dUySYcu4")</script>
 
     <input id="pac-input" class="controls search" type="text" placeholder="搜尋活動" />
     <div id=createEvent>
         <button>我要開團</button>
     </div>
-
+    <br>
     <div id="hostGathering" style="display: none;">
         <h3>請輸入活動資訊</h3>
 
-        <form method="post" action="/api/1.0/getgatherings/hostGathering" enctype="multipart/form-data">
+        <form method="post" action="/api/1.0/gatherings/hostGathering" enctype="multipart/form-data">
             <!-- ID <input type="text" name="product_id" /><br /> -->
             Category <select name="category" id="category">
                 <option value="food">美食美酒</option>
@@ -240,7 +246,7 @@
 
 
             let xhr = new XMLHttpRequest();
-            var url = '/api/1.0/getgatherings/hostGathering';
+            var url = '/api/1.0/gatherings/hostGathering';
             xhr.open('POST', url);
             xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
             // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
@@ -254,6 +260,7 @@
                     // } else {
                     //     alert('無權限操作此頁')
                     // }
+                    window.location.reload();
                 }
             };
             xhr.send(dataToSent);

@@ -1,6 +1,6 @@
 
 
-const url = location.href
+let url = location.href
 let tagValue = 'all'
 let tagType
 if (url.indexOf('?') !== -1) {
@@ -10,7 +10,7 @@ if (url.indexOf('?') !== -1) {
 
 let map;
 
-let bound = { Hb: {}, tc: {} }
+// let bound = { Hb: {}, tc: {} }
 
 function ajax(src, callback) {
     let response
@@ -122,16 +122,32 @@ function initMap() {
 
     });
 
+    let ne;
+    let sw;
+    let bound_w;
+    let bound_e;
+    let bound_s;
+    let bound_n;
 
     map.addListener('bounds_changed', function (e) {
         localStorage.removeItem("lat")
         localStorage.removeItem("lng")
         console.log('getBounds', map.getBounds())
-        bound.Hb.g = map.getBounds().Hb.g
-        bound.Hb.i = map.getBounds().Hb.i
-        bound.tc.g = map.getBounds().tc.g
-        bound.tc.i = map.getBounds().tc.i
-        console.log('bound', bound)
+        console.log('getBounds', typeof map.getBounds())
+
+        ne = map.getBounds().getNorthEast();
+        sw = map.getBounds().getSouthWest();
+
+        bound_w = sw.lng()
+        bound_e = ne.lng()
+        bound_s = sw.lat()
+        bound_n = ne.lat()
+
+        // bound.Hb.g = map.getBounds().Hb.g
+        // bound.Hb.i = map.getBounds().Hb.i
+        // bound.tc.g = map.getBounds().tc.g
+        // bound.tc.i = map.getBounds().tc.i
+        // console.log('bound', bound)
         // console.log('getBounds_bounds_changed', map.getBounds())
 
 
@@ -166,7 +182,7 @@ function initMap() {
             apiPath = 'http://localhost:3000/api/1.0/getgatherings/all?'
         }
 
-        let geomPath = `Hbg=${bound.Hb.g}&Hbi=${bound.Hb.i}&tcg=${bound.tc.g}&tci=${bound.tc.i}`
+        let geomPath = `Hbg=${bound_w}&Hbi=${bound_e}&tcg=${bound_s}&tci=${bound_n}`
 
         marker.setMap(null);
 
@@ -221,13 +237,19 @@ function initMap() {
                     });
 
                     // <img src="要插入的圖片 URL" alt="圖片替代文字" title="要顯示的文字" border="圖片邊框"></img>
+                    let eventBlock = document.createElement('div')
+                    eventBlock.setAttribute('class', 'gathering')
+                    eventBlock.setAttribute('onclick', `location.href='http://localhost:3000/gathering.html?id=${response.data[i].id}';`)
+
+                    eventBlock.style = `border-style: solid; border-color: black;`
                     let eventPic = document.createElement('img')
                     eventPic.src = response.data[i].picture
                     eventPic.style = `height: 100px;`
                     eventPic.setAttribute('title', response.data[i].title)
                     // eventPic.title = response.data[i].title
-                    gatheringList.appendChild(eventPic)
-                    gatheringList.appendChild(document.createTextNode(` ${response.data[i].title}`))
+                    eventBlock.appendChild(eventPic)
+                    eventBlock.appendChild(document.createTextNode(` ${response.data[i].title}`))
+                    gatheringList.appendChild(eventBlock)
                     gatheringList.appendChild(document.createElement('br'))
 
                     // gatheringList.appendChild(document.createElement('<br>'))
@@ -242,12 +264,12 @@ function initMap() {
         getGatheringList()
 
 
-        var socket = io();
+        // var socket = io();
 
 
 
 
-        socket.on('updateGatheringList', getGatheringList())
+        // socket.on('updateGatheringList', getGatheringList())
 
 
 

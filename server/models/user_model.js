@@ -8,7 +8,8 @@ const jwt = require('jsonwebtoken');
 const USER_ROLE = {
     ALL: 1,
     ADMIN: 999,
-    PREMIUM_USER: 2
+    PREMIUM_USER: 2,
+    FREE: 3,
 };
 
 const signUp = async (name, email, password, provider, role) => {

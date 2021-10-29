@@ -14,8 +14,13 @@ const authentication = (roleId) => {
     return async function (req, res, next) {
         let accessToken = req.get('Authorization');
         if (!accessToken) {
-            res.status(401).send({ error: 'Unauthorized' });
-            return;
+            if (roleId == 3) {
+                next();
+            } else {
+                res.status(401).send({ error: 'Unauthorized' });
+                return;
+            }
+
         }
 
         accessToken = accessToken.replace('Bearer ', '');
@@ -31,7 +36,7 @@ const authentication = (roleId) => {
                 next();
             } else {
                 let userDetail;
-                if (roleId == 1) {
+                if (roleId == 1 | roleId == 3) {
                     userDetail = await User.getUserDetail(user.email);
                 } else {
                     userDetail = await User.getUserDetail(user.email, roleId);

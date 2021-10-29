@@ -30,9 +30,69 @@ app.use('/api/' + API_VERSION,
     ]
 );
 
+
+
+
+
+
+io.on('connection', (socket) => {
+    console.log('a user connected!');
+    socket.on('disconnect', () => {
+        console.log('a user disconnected')
+    })
+
+
+    // socket.join("room-" + 1);
+    // //Send this event to everyone in the room.
+    // io.sockets.in("room-" + roomno).emit('connectToRoom', "You are in room no. " + roomno);
+
+
+
+    // socket.on('addRoom', (room) => {
+    //     socket.join(room)
+    //     //(1)發送給在同一個 room 中除了自己外的 Client
+    //     socket.to(room).emit('addRoom', '已有新人加入聊天室！')
+    //     //(2)發送給在 room 中所有的 Client
+    //     io.sockets.in(room).emit('addRoom', '已加入聊天室！')
+    // })
+
+
+    socket.on('addRoom', room => {
+        // check currently staying room
+        const nowRoom = Object.keys(socket.rooms).find(room => {
+            return room !== socket.id
+        })
+        // if yes, quite cirrent room
+        if (nowRoom) {
+            socket.leave(nowRoom)
+        }
+        // join new room
+        socket.join(room)
+        io.sockets.in(room).emit('addRoom', `有新人加入聊天室 ${room}！`)
+
+        socket.on('chat message', (msg) => {
+            console.log('meaasge: ' + msg);
+            io.sockets.in(room).emit('chat message', msg);
+        });
+    })
+
+
+
+
+    // 加入這一段
+    // 接收來自前端的 greet 事件
+    // 然後回送 greet 事件，並附帶內容
+    // socket.on("greet", () => {
+    //     socket.emit("greet", "Hi! Client.");
+    // });
+
+    //...
+});
+
 // app.listen(port, () => { console.log(`Listening on port: ${port}`); });
 server.listen(port, () => { console.log(`Listening on port: ${port}`); });
 
-app.io = io;
+// app.io = io;
 
-module.exports = { app, server, io };
+module.exports = { app };
+// module.exports = { app, server, io };

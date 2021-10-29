@@ -26,23 +26,26 @@ const { io } = require("../../app")
 
 
 const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
-    const conn = await pool.getConnection();
+    // const conn = await pool.getConnection();
     let result;
-    const condition = { sql: '', binding: [] };
+    const condition = { sql: '', binding: [], order: '' };
     if (requirement.keyword != null) {
         condition.sql = 'WHERE title LIKE ?';
         condition.binding = [`%${requirement.keyword}%`];
+        condition.order = 'ORDER BY created_at DESC;'
     } else if (requirement.boundary != null) {
         condition.sql = 'WHERE lng BETWEEN ? AND ? AND lat BETWEEN ? AND ?';
         condition.binding = requirement.boundary;
+        condition.order = 'ORDER BY created_at DESC;'
 
     } else if (requirement.id != null) {
         condition.sql = 'WHERE id = ?';
         condition.binding = [requirement.id];
+        condition.order = ';'
     }
 
 
-    const gatheringQuery = 'SELECT * FROM gathering ' + condition.sql + 'ORDER BY created_at DESC;';
+    const gatheringQuery = 'SELECT * FROM gathering ' + condition.sql + condition.order;
 
     result = await pool.query(gatheringQuery, condition.binding);
 
@@ -119,7 +122,34 @@ const hostGathering = async (gathering) => {
 }
 
 
-const joinGathering = async (gathering) => {
+const joinGathering = async (participant) => {
+
+    const conn = await pool.getConnection();
+
+    try {
+        await conn.query('START TRANSACTION');
+
+        participant.created_at = new Date();
+
+
+        const queryStr = 'INSERT INTO participant SET ?';
+        const [result] = await conn.query(queryStr, participant);
+
+        // gathering.id = result.insertId;
+        await conn.query('COMMIT');
+        return result;
+    } catch (error) {
+        console.log(error);
+        await conn.query('ROLLBACK');
+        return { error };
+    } finally {
+        // io.emit('updateGatheringList', 'DB updated');
+        await conn.release();
+
+    }
+
+
+
 
 }
 

@@ -68,7 +68,13 @@ const getGatherings = async (req, res) => {
 
 
     console.log('num of result: ', gatheringsList.length)
-    res.status(200).send({ data: gatheringsList });
+
+    if (req.user) {
+        res.status(200).send({ data: gatheringsList, user: { name: req.user.name } });
+    } else {
+        res.status(200).send({ data: gatheringsList });
+    }
+
 
 };
 
@@ -125,8 +131,26 @@ const hostGathering = async (req, res, next) => {
 
 const joinGathering = async (req, res) => {
 
+    let participant = {
+        gathering_id: req.query.id,
+        participant_id: req.user.id,
+    }
 
-    const result = await Gatherings.joinGathering(gathering)
+    const result = await Gatherings.joinGathering(participant)
+
+    if (result.error) {
+        res.status(403).send({ error: result.error });
+        return;
+    }
+
+
+    res.status(200).send({
+        data: {
+            participant: participant
+        }
+    })
+    return;
+
 
 }
 

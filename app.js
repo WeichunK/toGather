@@ -56,6 +56,7 @@ io.on('connection', (socket) => {
     //     io.sockets.in(room).emit('addRoom', '已加入聊天室！')
     // })
 
+    var chatLists = {}
 
     socket.on('addRoom', room => {
         // check currently staying room
@@ -70,9 +71,24 @@ io.on('connection', (socket) => {
         socket.join(room)
         io.sockets.in(room).emit('addRoom', `有新人加入聊天室 ${room}！`)
 
-        socket.on('chat message', (msg) => {
-            console.log('meaasge: ' + msg);
-            io.sockets.in(room).emit('chat message', msg);
+        if (chatLists[room]) {
+            console.log('have message records')
+            socket.emit('initialRoom', chatLists[room])
+        }
+
+
+        socket.on('chat message', (chat) => {
+            console.log('meaasge: ' + chat.content);
+
+            if (chatLists[room]) {
+                chatLists[room].push(chat)
+            } else {
+                chatLists[room] = [chat]
+            }
+
+            console.log('chatLists', chatLists)
+
+            io.sockets.in(room).emit('chat message', `${chat.speaker}: ${chat.content}`);
         });
     })
 

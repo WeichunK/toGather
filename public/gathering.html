@@ -48,55 +48,37 @@
         }
     </style> -->
 
+    <link rel="stylesheet" type="text/css" href="styles/header_footer.css">
+    <link rel="stylesheet" type="text/css" href="./styles/gathering.css">
+
     <style type="text/css">
-        #left {
-            height: 100%;
+        #left-info {
+            /* height: 100%; */
+            overflow: auto;
         }
 
-        /* #right {
+        #left-info::-webkit-scrollbar {
+            width: 1px;
+            background-color: black;
+        }
+
+
+
+        #right {
+            margin: 0;
+            padding-bottom: 0.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             height: 100%;
+            display: flex;
 
         }
 
-        #groupChatRoom {
+        /* #groupChatRoom {
 
             border: 2px #55adff solid;
         } */
 
-        .wrapper {
-            display: grid;
-            grid-template-columns: 1fr 6fr auto;
 
-        }
-
-
-        .box1 {
-            grid-column-start: 2;
-            grid-column-end: 2;
-            grid-row-start: 1;
-            grid-row-end: 3;
-        }
-
-        .box2 {
-            grid-column-start: 2;
-            grid-column-end: 2;
-            grid-row-start: 4;
-            grid-row-end: 6;
-        }
-
-        .box3 {
-            grid-column-start: 2;
-            grid-column-end: 2;
-            grid-row-start: 7;
-            grid-row-end: 8;
-        }
-
-        .box4 {
-            grid-column-start: 2;
-            grid-column-end: 2;
-            grid-row-start: 9;
-            grid-row-end: 10;
-        }
 
         /* #map {
             height: 65%;
@@ -104,22 +86,31 @@
         } */
 
 
+
+
+
+
+
+
         #groupChatRoom {
             display: flex;
             flex-direction: column;
-        }
+            height: 100%;
+            width: 90%;
+            /* border: thin;
+            border-color: turquoise; */
+
+            box-shadow: 1px 1px 8px grey;
+            /* width:460px;
+            line-height:100px; */
+            /* text-align: center; */
 
 
-
-        #right {
-            margin: 0;
-            padding-bottom: 3rem;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
         }
 
         #messages {
-            height: 500px;
+            /* height: 500px; */
+
             /* width: 300px; */
             overflow: scroll;
         }
@@ -132,7 +123,7 @@
             /* left: 0;
             right: 0; */
             display: flex;
-            height: 3rem;
+            /* height: 3rem; */
             box-sizing: border-box;
             backdrop-filter: blur(10px);
             /* width: 20%; */
@@ -165,6 +156,7 @@
             list-style-type: none;
             margin: 0;
             padding: 0;
+            height: 100%;
         }
 
         #messages>li {
@@ -180,53 +172,90 @@
 
 <body>
 
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXg0bmVrXJ6hF8Nq5voQG6TbA5UQFha7k&callback=initMap&v=weekly"
-        async></script>
-
-
-    <div class=contianer－fluid>
-
-        <div class='row row－cols－2 justify-content-between'>
-
-            <div id=left class="col-9 wrapper justify-content-between">
+    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&v=weekly" async></script>
 
 
 
-                <div id="map" class="box1"></div>
+
+    <div class='wrap'>
+
+        <div id="header">
 
 
+            <div class="main-header">
+                <a class="logo name" href="/index.html">
+                    <!-- <img src="https://www.pngkit.com/png/full/207-2070900_the-gathering-logo-clear-gathering-word.png"
+                        height="48"> -->
 
-                <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+                    <img src="./assets/logo3.png" height="48">
 
 
-                <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTM0NzUxMH0.I9kMnrgYzV_UalnMXgQmhxGh2Fd3a-MplE1dUySYcu4")</script>
+                </a>
+                <!-- <div class="main-nav">
+                    <a href="/index.html?tag=women" class="tag">女裝</a>
+                    <div class="tag-line">|</div>
+                    <a href="/index.html?tag=men" class="tag">男裝</a>
+                    <div class="tag-line">|</div>
+                    <a href="/index.html?tag=accessories" class="tag">配件</a>
 
+                </div> -->
 
-                <div id="gatheringDetail" class="box2">
+                <!-- <input class="search" /> -->
 
+                <!-- <a class="cart">
+                    <img src="/img/icons/cart.png" height="44" />
+                    <div class="count">0</div>
+                </a> -->
+
+                <div class="member">
+                    <a href="/profile.html"><img src="https://dft5bbbk1fziz.cloudfront.net/img/icons/member.png"
+                            height="44"></a>
                 </div>
-
-                <div id=joinEvent class="box3">
-                    <button>我要加入</button>
-                </div>
-                <br>
-
-                <div onclick='location.href="http://localhost:3000/index.html"' class="box4">
-                    <button>回首頁</button>
-                </div>
-                <br>
 
 
             </div>
 
 
-
-            <div id=right class='col-3 '>
-                <div id=groupChatRoom>
+        </div>
 
 
-                    <!-- <div id="container">
+
+        <div id="left-pic"></div>
+
+        <div id="left-map"></div>
+
+
+
+        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+
+
+        <!-- <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw")</script> -->
+        <div id=left-info>
+
+            <div id="gatheringDetail">
+
+            </div>
+
+            <div id=joinEvent style="width: fit-content;">
+                <button>我要加入</button>
+            </div>
+            <br>
+
+            <div onclick='location.href="http://localhost:3000/index.html"' class="box4">
+                <button>回首頁</button>
+            </div>
+            <br>
+
+
+        </div>
+
+
+
+        <div id=right>
+            <div id=groupChatRoom>
+
+                <h3 style=" text-align: center;">群組聊天室</h3>
+                <!-- <div id="container">
                         <div id="status-box">Server: <span id="status">-</span> / <span id="online">0</span> online.
                         </div>
                         <div id="content">
@@ -249,24 +278,27 @@
                     </div> -->
 
 
-                    <ul id="messages"></ul>
-                    <div>
-                        <form id="messagesForm" action="">
-                            <input id="messageInput" autocomplete="off" /> <button>Send</button>
-                        </form>
-                    </div>
+                <ul id="messages"></ul>
+                <div>
+                    <form id="messagesForm" action="">
+                        <input id="messageInput" autocomplete="off" /> <button>Send</button>
+                    </form>
                 </div>
             </div>
-
         </div>
+
     </div>
+
     <script>
 
-        const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTM0NzUxMH0.I9kMnrgYzV_UalnMXgQmhxGh2Fd3a-MplE1dUySYcu4"
+
+        var user = {};
+
+        const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw"
 
         localStorage.setItem("token", accessToken)
 
-        function ajax(src, callback) {
+        function ajax(src, accessToken, callback) {
             let response
             const xhr = new XMLHttpRequest()
             xhr.onreadystatechange = function () {
@@ -276,12 +308,16 @@
                     callback(response)
                 }
             }
-            function sendAJAX() {
+            function sendAJAX(accessToken) {
                 xhr.open('GET', src)
-                xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+                if (accessToken) {
+                    // console.log('accessToken: ', accessToken)
+                    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+                }
+
                 xhr.send()
             }
-            sendAJAX()
+            sendAJAX(accessToken)
         }
 
         function initMap() {
@@ -291,15 +327,31 @@
             if (url.indexOf('?') !== -1 & url.split('?')[1].split('=')[0] == 'id') {
                 const gatheringId = url.split('?')[1].split('=')[1]
                 console.log('gatheringId', gatheringId)
-                ajax(`/api/1.0/getgatherings/details?id=${gatheringId}`, function (response) {
+
+
+                let accessToken = localStorage.getItem("token")
+
+                console.log('accessToken', accessToken)
+
+                ajax(`/api/1.0/getgatherings/details?id=${gatheringId}`, accessToken, function (response) {
                     // console.log(response);
                     console.log('response', response)
                     console.log('response.data[0].lat', response.data[0].lat)
                     // initMap(response.data[0].lat, response.data[0].lng)
-                    if (response.user.name) {
+                    if (response.user) {
                         console.log('response.user.name ', response.user.name)
-                        var userName = response.user.name
+                        user.name = response.user.name
                     }
+
+
+
+                    const leftPic = document.getElementById('left-pic')
+                    let eventPic = document.createElement('img')
+                    eventPic.src = response.data[0].picture
+                    eventPic.style = `height: 100%;`
+                    // eventPic.style = `widtg: 250px;`
+                    leftPic.appendChild(eventPic)
+
 
 
                     const gatheringDetail = document.getElementById('gatheringDetail')
@@ -307,12 +359,12 @@
                     gatheringDetail.appendChild(document.createTextNode(` ${response.data[0].title}`))
                     gatheringDetail.appendChild(document.createElement('br'))
 
-                    let eventPic = document.createElement('img')
-                    eventPic.src = response.data[0].picture
-                    eventPic.style = `height: 350px;`
-                    // eventPic.style = `widtg: 250px;`
-                    gatheringDetail.appendChild(eventPic)
-                    gatheringDetail.appendChild(document.createElement('br'))
+                    // let eventPic = document.createElement('img')
+                    // eventPic.src = response.data[0].picture
+                    // eventPic.style = `height: 350px;`
+                    // // eventPic.style = `widtg: 250px;`
+                    // gatheringDetail.appendChild(eventPic)
+                    // gatheringDetail.appendChild(document.createElement('br'))
 
                     gatheringDetail.appendChild(document.createTextNode(` ${response.data[0].description}`))
                     gatheringDetail.appendChild(document.createElement('br'))
@@ -360,13 +412,13 @@
 
                     const initPoint = { lat: response.data[0].lat, lng: response.data[0].lng };
                     console.log('initPoint', initPoint)
-                    map = new google.maps.Map(document.getElementById("map"), {
+                    map = new google.maps.Map(document.getElementById("left-map"), {
                         center: initPoint,
                         zoom: 18,
                     });
 
-                    let mapDiv = document.getElementById("map")
-                    mapDiv.style = 'height: 50vh;width: 40vw;'
+                    let mapDiv = document.getElementById("left-map")
+                    mapDiv.style = 'height: 100%;width: 98%;'
 
 
                     let marker = new google.maps.Marker()
@@ -398,7 +450,9 @@
 
             const gatheringId = url.split('?')[1].split('=')[1]
 
-            ajax(`/api/1.0/gatherings/joinGathering?id=${gatheringId}`, function (response) {
+            const accessToken = localStorage.getItem("token")
+
+            ajax(`/api/1.0/gatherings/joinGathering?id=${gatheringId}`, accessToken, function (response) {
                 // console.log(response);
                 console.log('response', response)
                 alert('成功加入')
@@ -408,6 +462,122 @@
 
 
         })
+
+
+
+
+
+
+
+
+
+
+
+
+        var socket = io();
+        const form = document.getElementById('messagesForm');
+        const input = document.getElementById('messageInput');
+
+
+
+        //  const accessToken = localStorage.getItem("token");
+        // fetch("/api/1.0/getgatherings/hostGathering", {
+
+        //     body: dataToSent,
+        //     headers: new Headers({
+        //         "Content-Type": "multipart/form-data",
+        //         "Authorization": `Bearer ${accessToken}`
+        //     }),
+        //     method: "POST"
+        // }).then((e => e.json())).then((e => {
+        //     console.log(e)
+        //     alert('error')
+        // }
+        // )).then(window.alert("註冊成功！")).catch((e => {
+        //     console.log(e)
+        // }
+        // ))
+
+        // socket.on('create-room', () => {
+        //     const roomId = uuid(`${Date.now()}`, uuid.DNS);
+        //     socket.join(roomId);
+        //     socket.emit('join-room-message', `You've join ${roomId} room`);
+        //     io.to(roomId).emit('room-brocast', `${socket.id} has join this room`);
+        // })
+
+        // socket.on('join-room', (roomId) => {
+        //     socket.join(roomId);
+        //     socket.emit('join-room-message', `You've join ${roomId} room`);
+        //     io.sockets.to(roomId).emit('room-brocast', `${socket.id} has join this room`);
+        // });
+
+        let chatRecord
+        socket.on('addRoom', message => {
+            console.log(message)
+
+            socket.on('initialRoom', chatList => {
+                console.log('initialRoom', 'chatList.length', chatList.length)
+
+                for (let i in chatList) {
+                    chatRecord = document.createElement('li');
+                    // item.textContent = userName + ':' + msg;
+                    chatRecord.textContent = chatList[i].content;
+                    messages.appendChild(chatRecord);
+                }
+
+
+                document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
+
+
+
+
+            })
+
+        })
+
+
+
+
+
+        // let room = 'room1'
+        let room = location.href.split('?')[1].split('=')[1]
+        socket.emit('addRoom', room)
+
+        let messagesList = []
+        let chat
+        form.addEventListener('submit', function (e) {
+            console.log('submit')
+            e.preventDefault();
+            if (input.value) {
+                console.log('input.value', input.value)
+                chat = { speaker: user.name, content: input.value }
+                // chat.speaker = user.name
+                // chat.content = input.value
+                socket.emit('chat message', chat);
+
+                messagesList.push(chat)
+                input.value = '';
+                console.log(messagesList)
+            }
+        })
+
+
+
+        socket.on('chat message', function (msg) {
+            const item = document.createElement('li');
+            // item.textContent = userName + ':' + msg;
+            item.textContent = msg;
+            messages.appendChild(item);
+            document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
+
+        })
+
+
+
+
+
+
+
 
 
 
@@ -458,79 +628,79 @@
 
 
 
-        var socket = io();
-        const form = document.getElementById('messagesForm');
-        const input = document.getElementById('messageInput');
+        // var socket = io();
+        // const form = document.getElementById('messagesForm');
+        // const input = document.getElementById('messageInput');
 
 
 
-        //  const accessToken = localStorage.getItem("token");
-        // fetch("/api/1.0/getgatherings/hostGathering", {
+        // //  const accessToken = localStorage.getItem("token");
+        // // fetch("/api/1.0/getgatherings/hostGathering", {
 
-        //     body: dataToSent,
-        //     headers: new Headers({
-        //         "Content-Type": "multipart/form-data",
-        //         "Authorization": `Bearer ${accessToken}`
-        //     }),
-        //     method: "POST"
-        // }).then((e => e.json())).then((e => {
-        //     console.log(e)
-        //     alert('error')
-        // }
-        // )).then(window.alert("註冊成功！")).catch((e => {
-        //     console.log(e)
-        // }
-        // ))
+        // //     body: dataToSent,
+        // //     headers: new Headers({
+        // //         "Content-Type": "multipart/form-data",
+        // //         "Authorization": `Bearer ${accessToken}`
+        // //     }),
+        // //     method: "POST"
+        // // }).then((e => e.json())).then((e => {
+        // //     console.log(e)
+        // //     alert('error')
+        // // }
+        // // )).then(window.alert("註冊成功！")).catch((e => {
+        // //     console.log(e)
+        // // }
+        // // ))
 
-        // socket.on('create-room', () => {
-        //     const roomId = uuid(`${Date.now()}`, uuid.DNS);
-        //     socket.join(roomId);
-        //     socket.emit('join-room-message', `You've join ${roomId} room`);
-        //     io.to(roomId).emit('room-brocast', `${socket.id} has join this room`);
+        // // socket.on('create-room', () => {
+        // //     const roomId = uuid(`${Date.now()}`, uuid.DNS);
+        // //     socket.join(roomId);
+        // //     socket.emit('join-room-message', `You've join ${roomId} room`);
+        // //     io.to(roomId).emit('room-brocast', `${socket.id} has join this room`);
+        // // })
+
+        // // socket.on('join-room', (roomId) => {
+        // //     socket.join(roomId);
+        // //     socket.emit('join-room-message', `You've join ${roomId} room`);
+        // //     io.sockets.to(roomId).emit('room-brocast', `${socket.id} has join this room`);
+        // // });
+
+
+        // socket.on('addRoom', message => {
+        //     console.log(message)
         // })
 
-        // socket.on('join-room', (roomId) => {
-        //     socket.join(roomId);
-        //     socket.emit('join-room-message', `You've join ${roomId} room`);
-        //     io.sockets.to(roomId).emit('room-brocast', `${socket.id} has join this room`);
-        // });
-
-
-        socket.on('addRoom', message => {
-            console.log(message)
-        })
 
 
 
 
+        // // let room = 'room1'
+        // let room = location.href.split('?')[1].split('=')[1]
+        // socket.emit('addRoom', room)
 
-        // let room = 'room1'
-        let room = location.href.split('?')[1].split('=')[1]
-        socket.emit('addRoom', room)
+        // let messagesList = []
 
-        let messagesList = []
-
-        form.addEventListener('submit', function (e) {
-            console.log('submit')
-            e.preventDefault();
-            if (input.value) {
-                console.log('input.value', input.value)
-                socket.emit('chat message', input.value);
-                messagesList.push(input.value)
-                input.value = '';
-            }
-        })
-
+        // form.addEventListener('submit', function (e) {
+        //     console.log('submit')
+        //     e.preventDefault();
+        //     if (input.value) {
+        //         console.log('input.value', input.value)
+        //         socket.emit('chat message', input.value);
+        //         messagesList.push(input.value)
+        //         input.value = '';
+        //     }
+        // })
 
 
-        socket.on('chat message', function (msg) {
-            const item = document.createElement('li');
-            // item.textContent = userName + ':' + msg;
-            item.textContent = msg;
-            messages.appendChild(item);
-            document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
 
-        })
+        // socket.on('chat message', function (msg) {
+        //     const item = document.createElement('li');
+        //     // item.textContent = userName + ':' + msg;
+        //     item.textContent = msg;
+        //     messages.appendChild(item);
+        //     document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
+
+        // })
 
     </script>
 

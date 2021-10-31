@@ -12,7 +12,7 @@
 
     <script src="src/init_map.js"></script>
 
-
+    <link rel="stylesheet" type="text/css" href="styles/header_footer.css">
     <!-- <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"
         integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
         crossorigin="anonymous"></script> -->
@@ -40,11 +40,11 @@
     </style> -->
 
     <style type="text/css">
-        .createEvent {
-            border-style: solid;
-            border-color: black;
-        }
+
     </style>
+
+
+
 
 </head>
 
@@ -52,54 +52,126 @@
 
 
 
-    <div id="map"></div>
+    <div class="wrap">
+        <div id="header">
+
+
+            <div class="main-header">
+                <a class="logo name" href="/index.html">
+                    <!-- <img src="https://www.pngkit.com/png/full/207-2070900_the-gathering-logo-clear-gathering-word.png"
+                        height="48"> -->
+
+                    <img src="./assets/logo3.png" height="48">
+
+
+                </a>
+                <!-- <div class="main-nav">
+                    <a href="/index.html?tag=women" class="tag">女裝</a>
+                    <div class="tag-line">|</div>
+                    <a href="/index.html?tag=men" class="tag">男裝</a>
+                    <div class="tag-line">|</div>
+                    <a href="/index.html?tag=accessories" class="tag">配件</a>
+
+                </div> -->
+
+                <!-- <input class="search" /> -->
+
+                <!-- <a class="cart">
+                    <img src="/img/icons/cart.png" height="44" />
+                    <div class="count">0</div>
+                </a> -->
+
+                <div class="member">
+                    <a href="/profile.html"><img src="https://dft5bbbk1fziz.cloudfront.net/img/icons/member.png"
+                            height="44"></a>
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+        <div id="right">
+
+            <div id="map"></div>
+
+
+        </div>
+
+
+        <div id="left">
+
+            <input id="pac-input" class="controls search" type="text" placeholder="搜尋活動" />
+            <div id=createEvent>
+                <button>我要開團</button>
+            </div>
+            <br>
+            <div id="hostGathering" style="display: none;">
+                <h3>請輸入活動資訊</h3>
+
+                <form method="post" action="/api/1.0/gatherings/hostGathering" enctype="multipart/form-data">
+                    <!-- ID <input type="text" name="product_id" /><br /> -->
+                    Category <select name="category" id="category">
+                        <option value="food">美食美酒</option>
+                        <option value="sport">運動健身</option>
+                        <option value="travel">旅行出遊</option>
+                        <option value="learning">體驗學習</option>
+                        <option value="media">影音展演</option>
+                        <option value="business">商業投資</option>
+                        <option value="party">唱歌派對</option>
+                        <option value="gmae">遊戲卡牌</option>
+                        <option value="beauty">美容時尚</option>
+                        <option value="astrology">命理諮商</option>
+                        <option value="others">其他</option>
+
+
+                    </select><br />
+                    Title <input type="text" name="title" id="title" /><br />
+                    Description<br /><textarea name="description" id="description"></textarea><br />
+                    start_on <input type="text" name="start_on" id="start_on" /><br />
+                    min_participant <input type=" text" name="min_participant" id="min_participant" /><br />
+                    max_participant <input type="text" name="max_participant" id="max_participant" /><br />
+                    place <input type="text" name="place" id="place" /><br />
+                    <hr />
+                    picture <input type="file" name="main_image" id="main_image" /><br />
+                    <!-- <input id="gathering_submit" type="submit" value="開團囉" /> -->
+                    <button id="gathering_submit" onclick="return onClick(this.form)">開團囉</button>
+                    <input id="cancel_submit" type="button" value="取消" />
+                </form>
+            </div>
+
+
+            <div id="gathering-list"></div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
 
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&v=weekly" async></script>
 
-    <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTM0NzUxMH0.I9kMnrgYzV_UalnMXgQmhxGh2Fd3a-MplE1dUySYcu4")</script>
-
-    <input id="pac-input" class="controls search" type="text" placeholder="搜尋活動" />
-    <div id=createEvent>
-        <button>我要開團</button>
-    </div>
-    <br>
-    <div id="hostGathering" style="display: none;">
-        <h3>請輸入活動資訊</h3>
-
-        <form method="post" action="/api/1.0/gatherings/hostGathering" enctype="multipart/form-data">
-            <!-- ID <input type="text" name="product_id" /><br /> -->
-            Category <select name="category" id="category">
-                <option value="food">美食美酒</option>
-                <option value="sport">運動健身</option>
-                <option value="travel">旅行出遊</option>
-                <option value="learning">體驗學習</option>
-                <option value="media">影音展演</option>
-                <option value="business">商業投資</option>
-                <option value="party">唱歌派對</option>
-                <option value="gmae">遊戲卡牌</option>
-                <option value="beauty">美容時尚</option>
-                <option value="astrology">命理諮商</option>
-                <option value="others">其他</option>
+    <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw")</script>
 
 
-            </select><br />
-            Title <input type="text" name="title" id="title" /><br />
-            Description<br /><textarea name="description" id="description"></textarea><br />
-            start_on <input type="text" name="start_on" id="start_on" /><br />
-            min_participant <input type=" text" name="min_participant" id="min_participant" /><br />
-            max_participant <input type="text" name="max_participant" id="max_participant" /><br />
-            place <input type="text" name="place" id="place" /><br />
-            <hr />
-            picture <input type="file" name="main_image" id="main_image" /><br />
-            <!-- <input id="gathering_submit" type="submit" value="開團囉" /> -->
-            <button id="gathering_submit" onclick="return onClick(this.form)">開團囉</button>
-            <input id="cancel_submit" type="button" value="取消" />
-        </form>
-    </div>
 
 
-    <div id="gathering-list"></div>
+
+
+
+
 
 
 
@@ -325,6 +397,12 @@
         // })
 
     </script>
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="./styles/home.css">
+
 
 </body>
 

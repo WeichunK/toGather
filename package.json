@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@aws-sdk/client-s3": "^3.38.0",
-    "aws-sdk": "^2.1014.0",
+    "aws-sdk": "^2.1018.0",
     "axios": "^0.23.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",

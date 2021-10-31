@@ -13,8 +13,10 @@ const S3 = require('aws-sdk/clients/s3')
 const authentication = (roleId) => {
     return async function (req, res, next) {
         let accessToken = req.get('Authorization');
+        // console.log("req.get('Authorization')", accessToken)
         if (!accessToken) {
             if (roleId == 3) {
+                console.log('no access token')
                 next();
             } else {
                 res.status(401).send({ error: 'Unauthorized' });

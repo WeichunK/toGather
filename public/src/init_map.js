@@ -129,7 +129,7 @@ function initMap() {
     let bound_s;
     let bound_n;
 
-    map.addListener('bounds_changed', function (e) {
+    map.addListener('bounds_changed', async function (e) {
         localStorage.removeItem("lat")
         localStorage.removeItem("lng")
         console.log('getBounds', map.getBounds())
@@ -226,6 +226,7 @@ function initMap() {
                 console.log(response);
 
                 const gatheringList = document.getElementById('gathering-list')
+                gatheringList.style = `border-style: none; border-color: light; width:90%;`
                 gatheringList.innerHTML = ''
 
                 for (let i in response.data) {
@@ -236,21 +237,32 @@ function initMap() {
                         map: map
                     });
 
+
+
+
                     // <img src="要插入的圖片 URL" alt="圖片替代文字" title="要顯示的文字" border="圖片邊框"></img>
                     let eventBlock = document.createElement('div')
                     eventBlock.setAttribute('class', 'gathering')
                     eventBlock.setAttribute('onclick', `location.href='http://localhost:3000/gathering.html?id=${response.data[i].id}';`)
 
-                    eventBlock.style = `border-style: solid; border-color: black;`
+                    // eventBlock.style = `border-style: solid; border-color: grey; width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
+                    eventBlock.style = `width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
                     let eventPic = document.createElement('img')
                     eventPic.src = response.data[i].picture
-                    eventPic.style = `height: 100px;`
+                    eventPic.style = `width: 200px; height: 200px; border-radius: 20%;`
                     eventPic.setAttribute('title', response.data[i].title)
                     // eventPic.title = response.data[i].title
                     eventBlock.appendChild(eventPic)
                     eventBlock.appendChild(document.createTextNode(` ${response.data[i].title}`))
                     gatheringList.appendChild(eventBlock)
-                    gatheringList.appendChild(document.createElement('br'))
+                    // gatheringList.appendChild(document.createElement('br'))
+
+
+                    let divider = document.createElement('div')
+                    divider.style = `margin-top: 12px; margin-bottom: 12px; border-style: solid; border-bottom: grey; border-color: #66A8FF; width:100%`
+
+                    gatheringList.appendChild(divider)
+
 
                     // gatheringList.appendChild(document.createElement('<br>'))
 
@@ -274,6 +286,18 @@ function initMap() {
 
 
     });
+
+
+
+
+
+    // const head = document.getElementsByTagName('HEAD').item(0);
+
+
+    // style.href = './styles/home.css';
+    // style.rel = 'stylesheet';
+    // style.type = 'text/css';
+
 
 
 }

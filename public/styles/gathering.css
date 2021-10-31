@@ -1,0 +1,42 @@
+.wrap {
+    display: grid;
+    grid-template-columns: auto 450px 460px;
+    grid-template-rows: 100px  300px auto;
+    height: 100vh;
+    width: 98vw;
+    margin: 0 auto;
+
+    grid-template-areas:
+    "header header header"
+    "picBlock mapBlock rightBlock"
+    "infoBlock infoBlock rightBlock";
+
+
+  }
+
+#header {
+    grid-area: header;
+}
+
+#left-pic {
+    grid-area: picBlock;
+    /* overflow: scroll; */
+   
+}
+
+#left-map {
+    grid-area: mapBlock;
+    /* overflow: scroll; */
+   
+}
+
+#left-info {
+    grid-area: infoBlock;
+    /* overflow: scroll; */
+   
+}
+
+
+#right {
+    grid-area: rightBlock;
+}

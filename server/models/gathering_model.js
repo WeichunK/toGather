@@ -78,6 +78,30 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
     // }
 };
 
+
+
+const getParticipants = async (pageSize, paging = 0, requirement = {}) => {
+
+
+    let result;
+    const condition = { sql: '', binding: [], order: '' };
+    if (requirement.id != null) {
+        condition.sql = 'having gathering_id = ?';
+        condition.binding = [requirement.id];
+        condition.order = ';'
+    }
+
+
+    const gatheringQuery = 'SELECT p.participant_id as id, p.gathering_id, m.name as user_name FROM participant p left join member m on p.participant_id = m.id ' + condition.sql + condition.order;
+
+    result = await pool.query(gatheringQuery, condition.binding);
+
+    return result[0];
+
+
+}
+
+
 // const getGatheringDetail = async (gatheringId) => {
 
 //     try {
@@ -158,6 +182,7 @@ const joinGathering = async (participant) => {
 module.exports = {
     getGatherings,
     // getGatheringDetail,
+    getParticipants,
     hostGathering,
     joinGathering,
     // getHotProducts,

@@ -42,6 +42,13 @@ const getGatherings = async (req, res) => {
                 }
             }
 
+            case 'participants': {
+                const id = parseInt(req.query.id);
+                if (Number.isInteger(id)) {
+                    return await Gatherings.getParticipants(pageSize, paging, { id });
+                }
+            }
+
             default: {
                 return await Gatherings.getGatherings(pageSize, paging, { boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
             }
@@ -93,7 +100,7 @@ const hostGathering = async (req, res, next) => {
         description: req.body.description,
         category: req.body.category,
         // picture: req.files.main_image[0].path,
-        start_on: req.body.start_on,
+        start_at: req.body.start_at,
         max_participant: req.body.max_participant,
         min_participant: req.body.min_participant,
         place: req.body.place,

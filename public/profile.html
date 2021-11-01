@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="styles/header_footer.css">
+
+
+    <link rel="stylesheet" type="text/css" href="styles/profile.css">
+
+
+</head>
+
+<body>
+
+
+    <div class='wrap'>
+
+        <div id="header">
+
+            <div class="main-header">
+                <a class="logo name" href="/index.html">
+                    <!-- <img src="https://www.pngkit.com/png/full/207-2070900_the-gathering-logo-clear-gathering-word.png"
+                        height="48"> -->
+
+                    <img src="./assets/logo3.png" height="48">
+
+
+                </a>
+                <!-- <div class="main-nav">
+                    <a href="/index.html?tag=women" class="tag">女裝</a>
+                    <div class="tag-line">|</div>
+                    <a href="/index.html?tag=men" class="tag">男裝</a>
+                    <div class="tag-line">|</div>
+                    <a href="/index.html?tag=accessories" class="tag">配件</a>
+
+                </div> -->
+
+                <!-- <input class="search" /> -->
+
+                <!-- <a class="cart">
+                    <img src="/img/icons/cart.png" height="44" />
+                    <div class="count">0</div>
+                </a> -->
+
+                <div class="member">
+                    <a href="/profile.html"><img src="https://dft5bbbk1fziz.cloudfront.net/img/icons/member.png"
+                            height="44"></a>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div id="left">
+        </div>
+
+
+        <div id="right">
+        </div>
+
+
+
+
+
+
+
+        <script>
+
+
+            const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw"
+
+            localStorage.setItem("token", accessToken)
+
+            function ajax(src, accessToken, callback) {
+                let response
+                const xhr = new XMLHttpRequest()
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        response = JSON.parse(xhr.responseText)
+                        // response = xhr.responseText;
+                        callback(response)
+                    }
+                }
+                function sendAJAX(accessToken) {
+                    xhr.open('GET', src)
+                    if (accessToken) {
+                        // console.log('accessToken: ', accessToken)
+                        xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+                    }
+
+                    xhr.send()
+                }
+                sendAJAX(accessToken)
+            }
+
+
+
+
+            let participant;
+            url = location.href
+            const gatheringId = url.split('?')[1].split('=')[1]
+
+            ajax(`/api/1.0//user/getmemberprofile?id=${gatheringId}`, accessToken, function (response) {
+                // console.log(response);
+                console.log('response', response)
+
+                for (let i in response.data) {
+
+                    participant = document.createElement('li');
+
+                    participant.textContent = response.data[i].user_name;
+                    participant.setAttribute('onclick', `location.href='http://localhost:3000/profile.html?id=${response.data[i].id}';`)
+                    participant.style = `cursor:pointer;`
+
+                    participants.appendChild(participant);
+                }
+            })
+
+
+
+
+        </script>
+
+
+
+
+</body>
+
+
+
+</html>

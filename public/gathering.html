@@ -241,7 +241,7 @@
             </div>
             <br>
 
-            <div onclick='location.href="http://localhost:3000/index.html"' class="box4">
+            <div onclick='location.href="/index.html"' class="box4">
                 <button>回首頁</button>
             </div>
             <br>
@@ -252,9 +252,18 @@
 
 
         <div id=right>
+            <!-- <div id=participant-list>
+                <h3 style=" text-align: center;">成員</h3>
+                <ul id="participants"></ul>
+
+
+            </div> -->
             <div id=groupChatRoom>
 
-                <h3 style=" text-align: center;">群組聊天室</h3>
+                <h6 style=" text-align: center;">成員</h6>
+                <ul id="participants"></ul>
+
+                <h6 style=" text-align: center;">群組聊天室</h6>
                 <!-- <div id="container">
                         <div id="status-box">Server: <span id="status">-</span> / <span id="online">0</span> online.
                         </div>
@@ -294,9 +303,9 @@
 
         var user = {};
 
-        const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw"
+        // const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw"
 
-        localStorage.setItem("token", accessToken)
+        // localStorage.setItem("token", accessToken)
 
         function ajax(src, accessToken, callback) {
             let response
@@ -355,6 +364,7 @@
 
 
                     const gatheringDetail = document.getElementById('gatheringDetail')
+                    // gatheringDetail.style = 'text-align: left;'
 
                     gatheringDetail.appendChild(document.createTextNode(` ${response.data[0].title}`))
                     gatheringDetail.appendChild(document.createElement('br'))
@@ -456,7 +466,7 @@
                 // console.log(response);
                 console.log('response', response)
                 alert('成功加入')
-
+                window.location.reload();
 
             })
 
@@ -510,6 +520,36 @@
         //     socket.emit('join-room-message', `You've join ${roomId} room`);
         //     io.sockets.to(roomId).emit('room-brocast', `${socket.id} has join this room`);
         // });
+
+
+        let participant;
+        url = location.href
+        const gatheringId = url.split('?')[1].split('=')[1]
+
+        const accessToken = localStorage.getItem("token")
+
+        ajax(`/api/1.0/getgatherings/participants?id=${gatheringId}`, accessToken, function (response) {
+            // console.log(response);
+            console.log('response', response)
+
+            for (let i in response.data) {
+
+                participant = document.createElement('li');
+
+                participant.textContent = response.data[i].user_name;
+                participant.setAttribute('onclick', `location.href='/profile.html?id=${response.data[i].id}';`)
+                participant.style = `cursor:pointer;`
+
+                participants.appendChild(participant);
+            }
+        })
+
+
+
+
+
+
+
 
         let chatRecord
         socket.on('addRoom', message => {
@@ -566,8 +606,16 @@
         socket.on('chat message', function (msg) {
             const item = document.createElement('li');
             // item.textContent = userName + ':' + msg;
-            item.textContent = msg;
+
+            if (msg.speaker == user.name) {
+                item.style = 'text-align: right;'
+                item.textContent = `${msg.content}`;
+            } else {
+                item.textContent = `${msg.speaker}: ${msg.content}`;
+            }
+
             messages.appendChild(item);
+
             document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
 
         })

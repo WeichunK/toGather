@@ -76,51 +76,7 @@ function initMap() {
 
     // console.log('latLng', latLng)
 
-    const svgMarker = {
-        path: "M62.4861,29.9994,82.2446,10.2408A6,6,0,0,0,78.0022-.0017H18a5.9968,5.9968,0,0,0-6,6v84.003a6,6,0,0,0,12,0V60H78.0022a6,6,0,0,0,4.2424-10.2425ZM24,48V11.9987H63.5174L49.7591,25.757a5.9979,5.9979,0,0,0,0,8.4847L63.5174,48Z",
-        fillColor: "red",
-        fillOpacity: 0.6,
-        strokeWeight: 0,
-        rotation: 0,
-        scale: 0.4,
-        anchor: new google.maps.Point(15, 100),
-    };
 
-
-    let marker = new google.maps.Marker()
-    map.addListener('click', function (e) {
-
-        // marker = new google.maps.Marker()
-        marker.setMap(null);
-
-        // if (!marker.map) {
-        //     console.log('no marker')
-        // }
-        console.log('marker', marker)
-
-        console.log('lat', e.latLng.lat())
-        console.log('lng', e.latLng.lng())
-
-        localStorage.setItem("lat", e.latLng.lat())
-        localStorage.setItem("lng", e.latLng.lng())
-
-        marker = new google.maps.Marker({
-            position: { lat: e.latLng.lat(), lng: e.latLng.lng() }, //marker的放置位置
-            // icon: {
-            //     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-            //     scale: 10
-            // },
-            // position: map.getCenter(),
-            icon: svgMarker,
-            map: map //這邊的map指的是第四行的map變數
-        });
-
-        // console.log('marker.map', marker.map)
-
-        // console.log('getBounds', map.getBounds())
-
-
-    });
 
     let ne;
     let sw;
@@ -177,9 +133,9 @@ function initMap() {
 
         let apiPath
         if (tagType === 'search') {
-            apiPath = `http://localhost:3000/api/1.0/getgatherings/search?keyword=${tagValue}&`
+            apiPath = `/api/1.0/getgatherings/search?keyword=${tagValue}&`
         } else {
-            apiPath = 'http://localhost:3000/api/1.0/getgatherings/all?'
+            apiPath = '/api/1.0/getgatherings/all?'
         }
 
         let geomPath = `Hbg=${bound_w}&Hbi=${bound_e}&tcg=${bound_s}&tci=${bound_n}`
@@ -243,7 +199,7 @@ function initMap() {
                     // <img src="要插入的圖片 URL" alt="圖片替代文字" title="要顯示的文字" border="圖片邊框"></img>
                     let eventBlock = document.createElement('div')
                     eventBlock.setAttribute('class', 'gathering')
-                    eventBlock.setAttribute('onclick', `location.href='http://localhost:3000/gathering.html?id=${response.data[i].id}';`)
+                    eventBlock.setAttribute('onclick', `location.href='/gathering.html?id=${response.data[i].id}';`)
 
                     // eventBlock.style = `border-style: solid; border-color: grey; width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
                     eventBlock.style = `width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
@@ -298,9 +254,64 @@ function initMap() {
     // style.rel = 'stylesheet';
     // style.type = 'text/css';
 
+    let mapForHost = new google.maps.Map(document.getElementById("mapForHost"), {
+        center: initPoint,
+        zoom: 13,
+    });
 
+
+
+
+    const svgMarker = {
+        path: "M62.4861,29.9994,82.2446,10.2408A6,6,0,0,0,78.0022-.0017H18a5.9968,5.9968,0,0,0-6,6v84.003a6,6,0,0,0,12,0V60H78.0022a6,6,0,0,0,4.2424-10.2425ZM24,48V11.9987H63.5174L49.7591,25.757a5.9979,5.9979,0,0,0,0,8.4847L63.5174,48Z",
+        fillColor: "red",
+        fillOpacity: 0.6,
+        strokeWeight: 0,
+        rotation: 0,
+        scale: 0.4,
+        anchor: new google.maps.Point(15, 100),
+    };
+
+
+    let marker = new google.maps.Marker()
+    mapForHost.addListener('click', function (e) {
+
+        // marker = new google.maps.Marker()
+        marker.setMap(null);
+
+        // if (!marker.map) {
+        //     console.log('no marker')
+        // }
+        console.log('marker', marker)
+
+        console.log('lat', e.latLng.lat())
+        console.log('lng', e.latLng.lng())
+
+        localStorage.setItem("lat", e.latLng.lat())
+        localStorage.setItem("lng", e.latLng.lng())
+
+        marker = new google.maps.Marker({
+            position: { lat: e.latLng.lat(), lng: e.latLng.lng() }, //marker的放置位置
+            // icon: {
+            //     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            //     scale: 10
+            // },
+            // position: map.getCenter(),
+            icon: svgMarker,
+            map: mapForHost //這邊的map指的是第四行的map變數
+        });
+
+        // console.log('marker.map', marker.map)
+
+        // console.log('getBounds', map.getBounds())
+
+
+    });
 
 }
+
+
+
 
 
 

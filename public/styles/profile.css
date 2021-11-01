@@ -1,8 +1,6 @@
-
-
 .wrap {
     display: grid;
-    grid-template-columns: auto 50%;
+    grid-template-columns: auto 350px;
     grid-template-rows: 100px auto;
     height: 100vh;
     width: 98vw;
@@ -23,7 +21,7 @@
     grid-area: leftBlock;
     overflow: scroll;
     padding-left: 30px;
-    margin-top: 8px;
+   
 }
 
 
@@ -47,61 +45,4 @@
 
 #right {
     grid-area: rightBlock;
-    margin-top: 8px;
-}
-
-#map {
-    height: 100vh;
-    width: 100%;
-}
-
-#gathering {
-    background-color: aqua;
-}
-
-
-
-
-  
-/* .createEvent {
-    border-style: solid;
-    border-color: black;
-} */
-
-#pac-input {
-    /* width:90%; */
-   
-    height: 35px;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 5px 5px 12px grey;
-}
-
-
-
-.sibling-main {
-    display:flex; 
-    justify-content:end; 
-    align-items:center;
-    
-}
-
-.sibling-main .sibling-A{
-    position:absolute;
-}
-.sibling-main .sibling-B{
-    position:absolute;
-}
-
-.sibling-A {
-    
-    margin-right: 3px;
-
-   
-}
-
-.sibling-B {
-    width: min-content;
-    margin-bottom: 3px;
-    margin-right: 10px;
 }

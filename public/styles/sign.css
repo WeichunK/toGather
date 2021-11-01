@@ -1,0 +1,74 @@
+.wrap {
+    display: grid;
+    grid-template-columns: auto 65%;
+    grid-template-rows: 80px  auto;
+    height: 100vh;
+    width: 98vw;
+    margin: 0 auto;
+
+    grid-template-areas:
+    "header header"
+    "leftBlock rightBlock";
+
+
+  }
+
+#header {
+    grid-area: header;
+}
+
+#left {
+    grid-area: leftBlock;
+    /* overflow: scroll; */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction: column;
+    margin-left: 20%;
+    margin-bottom: 15%;
+   
+}
+
+
+
+
+#right {
+    grid-area: rightBlock;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    
+}
+
+
+
+#card {
+    width: 50%;
+    height: 75%;
+    border-radius:10px;
+    background-color: white;
+    text-align: center;
+    margin: auto;
+    padding: auto;
+    /* display:flex; */
+
+}
+
+
+.form {
+    margin: 15% auto 5% auto;
+    width: 90%;
+}
+
+
+.divider {
+
+    /* margin-top: 6px;  */
+    margin-bottom: 5%; 
+    /* border-style: solid;  */
+    border-bottom: solid; 
+    border-color: grey; 
+    border-width: 1px;
+    width:100%
+
+}

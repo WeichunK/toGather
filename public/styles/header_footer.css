@@ -10,29 +10,57 @@
 
 
 .main-header {
-	height: 100px;
+	height: 80px;
     width: 100vw;
     display: flex;
     align-items: flex-start;
     /* align-items:stretch; */
-    justify-content:space-between;
+    /* justify-content:space-between; */
     position: fixed;
     top: 0;
+	left: -5px;
     /* border-bottom: 40px solid #2b2d2f; */
     z-index: 99;
     background-color: white;
+	/* border-bottom: solid;
+	border-color: #66A8FF; */
+	margin-bottom: 5px;
+	/* opacity:0.1; */
+
+	box-shadow: 1px 1px 8px grey;
 }
 
 
 .main-header > .logo {
     margin-left: 60px;
-    margin-top: 26px;
+    margin-top: 13px;
+}
+
+.main-header > .host {
+    margin-left: 600px;
+    margin-top: 13px;
+	cursor: pointer;
+}
+
+
+.main-header > .signinout {
+	margin-top: 20px;
+	margin-left: 50px;
+	/* margin-right: 54px; */
+	cursor: pointer;
+}
+
+.main-header > .member {
+    margin-top: 14px;
+  	margin-left: 42px;
+  	margin-right: 54px;
+  	cursor: pointer;
 }
 
 
 .main-header > .main-nav {
     margin-left: 96px;
-    margin-top: 44px;
+    margin-top: 22px;
     display: flex;
 }
 
@@ -49,12 +77,12 @@
 	background-repeat: no-repeat;
 	background-position: right center;
 	margin-left: auto;
-	margin-top: 30px;
+	margin-top: 15px;
 }
 
 
 .main-header >  .cart {
-	margin-top: 28px;
+	margin-top: 14px;
 	margin-left: 42px;
 	position: relative;
 	/* z-index: 0; */
@@ -76,12 +104,7 @@
 	/* z-index: 1; */
 }
 
-.main-header > .member {
-    margin-top: 28px;
-  	margin-left: 42px;
-  	margin-right: 54px;
-  	cursor: pointer;
-}
+
 
 .main-footer {
 	display: block;

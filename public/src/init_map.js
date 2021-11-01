@@ -185,6 +185,18 @@ function initMap() {
                 gatheringList.style = `border-style: none; border-color: light; width:90%;`
                 gatheringList.innerHTML = ''
 
+                if (tagType === 'search') {
+                    if (response.data.length == 0) {
+
+                    }
+                    var initPoint = { lat: response.data[0].lat, lng: response.data[0].lng };
+                    map = new google.maps.Map(document.getElementById("map"), {
+                        center: initPoint,
+                        zoom: 15,
+                    });
+                }
+
+
                 for (let i in response.data) {
 
 

@@ -207,6 +207,28 @@
                     <div class="count">0</div>
                 </a> -->
 
+                <!-- Button trigger modal -->
+
+
+
+
+
+                <div class="host">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" id="hostbutton">
+                        我要開團
+                    </button>
+
+                </div>
+
+                <div class="signinout">
+
+                    <a href="/sign.html"><img src="./assets/1031506_authorize_enter_login_sign in_signin_icon.png"
+                            height="30"></a>
+
+                </div>
+
+
                 <div class="member">
                     <a href="/profile.html"><img src="https://dft5bbbk1fziz.cloudfront.net/img/icons/member.png"
                             height="44"></a>
@@ -214,6 +236,8 @@
 
 
             </div>
+
+
 
 
         </div>
@@ -350,6 +374,8 @@
                     if (response.user) {
                         console.log('response.user.name ', response.user.name)
                         user.name = response.user.name
+                        user.id = response.user.id
+                        console.log('user.id_1', user.id)
                     }
 
 
@@ -555,23 +581,23 @@
         socket.on('addRoom', message => {
             console.log(message)
 
-            socket.on('initialRoom', chatList => {
-                console.log('initialRoom', 'chatList.length', chatList.length)
+            // socket.on('initialRoom', chatList => {
+            //     console.log('initialRoom', 'chatList.length', chatList.length)
 
-                for (let i in chatList) {
-                    chatRecord = document.createElement('li');
-                    // item.textContent = userName + ':' + msg;
-                    chatRecord.textContent = chatList[i].content;
-                    messages.appendChild(chatRecord);
-                }
-
-
-                document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
+            //     for (let i in chatList) {
+            //         chatRecord = document.createElement('li');
+            //         // item.textContent = userName + ':' + msg;
+            //         chatRecord.textContent = chatList[i].content;
+            //         messages.appendChild(chatRecord);
+            //     }
 
 
+            //     document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
 
 
-            })
+
+
+            // })
 
         })
 
@@ -581,7 +607,41 @@
 
         // let room = 'room1'
         let room = location.href.split('?')[1].split('=')[1]
-        socket.emit('addRoom', room)
+        socket.emit('addRoom', { room: room, userId: user.id })
+
+        socket.on(`${room}+${user.id}`, chatRecord => {
+            console.log('chatRecord', chatRecord)
+
+
+
+            // item.textContent = userName + ':' + msg;
+            let messages = document.getElementById('messages')
+
+            for (let i in chatRecord) {
+                console.log('current user.id', user.id)
+                console.log('chatRecord[i].user_id', chatRecord[i].user_id)
+                const item = document.createElement('li');
+
+                if (chatRecord[i].user_id == user.id) {
+                    item.style = 'text-align: right;'
+                    item.textContent = chatRecord[i].content
+                } else {
+                    item.textContent = `${chatRecord[i].user_name}: ${chatRecord[i].content}`;
+                }
+
+                messages.appendChild(item);
+            }
+
+
+            document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
+
+
+
+
+
+        })
+
+
 
         let messagesList = []
         let chat
@@ -590,7 +650,8 @@
             e.preventDefault();
             if (input.value) {
                 console.log('input.value', input.value)
-                chat = { speaker: user.name, content: input.value }
+                console.log('user.id', user.id)
+                chat = { speaker: user.name, content: input.value, roomId: room, userId: user.id }
                 // chat.speaker = user.name
                 // chat.content = input.value
                 socket.emit('chat message', chat);

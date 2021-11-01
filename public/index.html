@@ -98,7 +98,7 @@
 
                 <div class="host">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
+                        data-bs-target="#staticBackdrop" id="hostbutton">
                         我要開團
                     </button>
 
@@ -400,6 +400,25 @@
     <script src="src/search.js"> </script>
     <script>
 
+
+
+        document.getElementById("hostbutton").addEventListener('click', () => {
+            if (!localStorage.getItem('token')) {
+                alert('請先登入')
+                window.location.href = '/sign.html'
+
+            }
+        })
+
+
+
+
+
+
+
+
+
+
         const hostGathering = document.getElementById("hostGathering")
 
         document.getElementById("createEvent").addEventListener('click', () => {
@@ -413,6 +432,16 @@
         document.getElementById("gathering_submit").addEventListener('click', () => {
             hostGathering.style.display = 'none'
         })
+
+
+
+
+
+
+
+
+
+
 
 
         function onClick(form) {

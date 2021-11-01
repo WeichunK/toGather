@@ -77,7 +77,7 @@ const getGatherings = async (req, res) => {
     console.log('num of result: ', gatheringsList.length)
 
     if (req.user) {
-        res.status(200).send({ data: gatheringsList, user: { name: req.user.name } });
+        res.status(200).send({ data: gatheringsList, user: { name: req.user.name, id: req.user.id } });
     } else {
         res.status(200).send({ data: gatheringsList });
     }

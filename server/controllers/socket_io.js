@@ -1,4 +1,4 @@
-
+const Chat = require('../models/chat_model');
 
 
 const chat = function (io) {
@@ -26,8 +26,9 @@ const chat = function (io) {
 
         var chatLists = {}
 
-        socket.on('addRoom', room => {
+        socket.on('addRoom', async roomInfo => {
             // check currently staying room
+            let room = roomInfo.room
             const nowRoom = Object.keys(socket.rooms).find(room => {
                 return room !== socket.id
             })
@@ -39,22 +40,27 @@ const chat = function (io) {
             socket.join(room)
             io.sockets.in(room).emit('addRoom', `有新人加入聊天室 ${room}！`)
 
-            if (chatLists[room]) {
-                console.log('have message records')
-                socket.emit('initialRoom', chatLists[room])
-            }
+            let result = await Chat.getChatRecord(room);
+            console.log('socket io result[0]', result)
+            io.emit(`${room}+${roomInfo.userId}`, result)
+
+            // if (chatLists[room]) {
+            //     console.log('have message records')
+            //     socket.emit('initialRoom', chatLists[room])
+            // }
 
 
-            socket.on('chat message', (chat) => {
+            socket.on('chat message', async (chat) => {
                 console.log('meaasge: ' + chat.content);
+                const result = await Chat.writeChatRecord(chat.roomId, chat.userId, chat.speaker, chat.content)
 
-                if (chatLists[room]) {
-                    chatLists[room].push(chat)
-                } else {
-                    chatLists[room] = [chat]
-                }
+                // if (chatLists[room]) {
+                //     chatLists[room].push(chat)
+                // } else {
+                //     chatLists[room] = [chat]
+                // }
 
-                console.log('chatLists', chatLists)
+                // console.log('chatLists', chatLists)
 
                 io.sockets.in(room).emit('chat message', chat);
             });

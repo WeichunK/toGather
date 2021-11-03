@@ -176,6 +176,8 @@ function initMap() {
         //     })
 
 
+
+
         const getGatheringList = () => {
 
             ajax(apiPath + geomPath, function (response) {
@@ -192,7 +194,7 @@ function initMap() {
                     var initPoint = { lat: response.data[0].lat, lng: response.data[0].lng };
                     map = new google.maps.Map(document.getElementById("map"), {
                         center: initPoint,
-                        zoom: 15,
+                        zoom: 14,
                     });
                 }
 
@@ -206,12 +208,18 @@ function initMap() {
                     });
 
 
+                    // const clickGathering = function (gatheringId) {
 
+                    //     console.log(gatheringId)
+                    //     window.location.href = `/gathering.html?id=${gatheringId}`
+                    // }
 
                     // <img src="要插入的圖片 URL" alt="圖片替代文字" title="要顯示的文字" border="圖片邊框"></img>
                     let eventBlock = document.createElement('div')
                     eventBlock.setAttribute('class', 'gathering')
+                    // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
                     eventBlock.setAttribute('onclick', `location.href='/gathering.html?id=${response.data[i].id}';`)
+                    eventBlock.setAttribute('id', response.data[i].id)
 
                     // eventBlock.style = `border-style: solid; border-color: grey; width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
                     eventBlock.style = `width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
@@ -219,9 +227,14 @@ function initMap() {
                     eventPic.src = response.data[i].picture
                     eventPic.style = `width: 200px; height: 200px; border-radius: 20%;`
                     eventPic.setAttribute('title', response.data[i].title)
+                    eventPic.setAttribute('class', 'eventPic')
                     // eventPic.title = response.data[i].title
                     eventBlock.appendChild(eventPic)
                     eventBlock.appendChild(document.createTextNode(` ${response.data[i].title}`))
+                    eventBlock.appendChild(document.createElement('br'))
+                    eventBlock.appendChild(document.createTextNode(`團主: ${response.data[i].name}`))
+
+
                     gatheringList.appendChild(eventBlock)
                     // gatheringList.appendChild(document.createElement('br'))
 

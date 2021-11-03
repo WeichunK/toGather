@@ -103,13 +103,13 @@ const nativeSignIn = async (email, password) => {
 };
 
 
-const getUserDetail = async (email, roleId) => {
+const getUserDetail = async (userEmail, roleId) => {
     try {
         if (roleId) {
-            const [users] = await pool.query('SELECT * FROM member WHERE email = ? AND role = ?', [email, roleId]);
+            const [users] = await pool.query('SELECT * FROM member WHERE email = ? AND role = ?', [userEmail, roleId]);
             return users[0];
         } else {
-            const [users] = await pool.query('SELECT * FROM member WHERE email = ?', [email]);
+            const [users] = await pool.query('SELECT * FROM member WHERE email = ?', [userEmail]);
             // console.log('users[0] ', users[0])
             return users[0];
         }

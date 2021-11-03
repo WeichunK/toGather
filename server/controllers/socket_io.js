@@ -41,7 +41,7 @@ const chat = function (io) {
             io.sockets.in(room).emit('addRoom', `有新人加入聊天室 ${room}！`)
 
             let result = await Chat.getChatRecord(room);
-            console.log('socket io result[0]', result)
+            // console.log('socket io result[0]', result)
             io.emit(`${room}+${roomInfo.userId}`, result)
 
             // if (chatLists[room]) {
@@ -65,6 +65,36 @@ const chat = function (io) {
                 io.sockets.in(room).emit('chat message', chat);
             });
         })
+
+
+
+
+
+
+
+
+
+
+        socket.on('newparticipant', async (participantData) => {
+
+
+
+            console.log('participantData: ' + participantData);
+            console.log('participantData.hostId', participantData.hostId)
+
+            console.log('host_newparticipant_${participantData.hostId}', `host_newparticipant_${participantData.hostId}`)
+
+            io.emit(`host_newparticipant_${participantData.hostId}`, participantData);
+        });
+
+
+
+
+
+
+
+
+
 
 
 

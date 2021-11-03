@@ -27,7 +27,7 @@ app.use('/api/' + API_VERSION,
         // require('./server/routes/product_route'),
         // require('./server/routes/marketing_route'),
         require('./server/routes/user_route'),
-        // require('./server/routes/order_route'),
+        require('./server/routes/tracking_route'),
     ]
 );
 

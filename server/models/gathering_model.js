@@ -39,13 +39,13 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
         condition.order = 'ORDER BY created_at DESC;'
 
     } else if (requirement.id != null) {
-        condition.sql = 'WHERE id = ?';
+        condition.sql = 'WHERE g.id = ?';
         condition.binding = [requirement.id];
         condition.order = ';'
     }
 
 
-    const gatheringQuery = 'SELECT * FROM gathering ' + condition.sql + condition.order;
+    const gatheringQuery = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin FROM gathering g LEFT JOIN member m ON g.host_id = m.id ' + condition.sql + condition.order;
 
     result = await pool.query(gatheringQuery, condition.binding);
 
@@ -169,6 +169,7 @@ const joinGathering = async (participant) => {
     } finally {
         // io.emit('updateGatheringList', 'DB updated');
         await conn.release();
+
 
     }
 

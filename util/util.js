@@ -47,6 +47,7 @@ const authentication = (roleId) => {
                     res.status(403).send({ error: 'Forbidden' });
                 } else {
                     req.user.id = userDetail.id;
+                    req.user.name = userDetail.name;
                     req.user.role_id = userDetail.role;
                     req.user.introduction = userDetail.introduction
                     req.user.job = userDetail.job

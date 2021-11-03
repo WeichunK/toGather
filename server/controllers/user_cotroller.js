@@ -102,9 +102,17 @@ const signIn = async (req, res) => {
     return;
 }
 
-const getMemberProfile = (req, res) => {
+const getMemberProfile = async (req, res) => {
+
+
+    // console.log('req.user.id', req.user.id)
+    // let memberData = await User.getUserDetail(req.user.email)
+
+
+
     res.status(200).send({
         data: {
+            id: req.user.id,
             provider: req.user.provider,
             name: req.user.name,
             email: req.user.email,
@@ -113,6 +121,8 @@ const getMemberProfile = (req, res) => {
             job: req.user.job,
             title: req.user.title,
             age: req.user.age,
+            popularity: req.user.popularity,
+            coin: req.user.coin,
         }
 
     });

@@ -1,6 +1,7 @@
 // const _ = require('lodash');
 // const util = require('../../util/util');
 const Gatherings = require('../models/gathering_model');
+const User = require('../models/user_model');
 const pageSize = 6;
 const { s3UploadFile } = require('../../util/util');
 
@@ -58,6 +59,9 @@ const getGatherings = async (req, res) => {
 
 
     const gatheringsList = await findGatherings(category);
+
+
+    // console.log('gatheringsList', gatheringsList)
 
     if (!gatheringsList) {
         res.status(400).send({ error: 'Wrong Request' });
@@ -141,14 +145,22 @@ const joinGathering = async (req, res) => {
     let participant = {
         gathering_id: req.query.id,
         participant_id: req.user.id,
+
     }
 
     const result = await Gatherings.joinGathering(participant)
+
+    participant.participant_name = req.user.name;
 
     if (result.error) {
         res.status(403).send({ error: result.error });
         return;
     }
+
+
+    // let memberData = await User.getUserDetail(req.user.email)
+
+    // console.log('memberData', memberData)
 
 
     res.status(200).send({

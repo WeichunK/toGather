@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="styles/profile.css">
 
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -55,6 +55,12 @@
 
 
         <div id="left">
+
+            <div id=profileList></div>
+
+
+
+
         </div>
 
 
@@ -70,53 +76,74 @@
         <script>
 
 
-            const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw"
 
-            localStorage.setItem("token", accessToken)
 
-            function ajax(src, accessToken, callback) {
-                let response
-                const xhr = new XMLHttpRequest()
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        response = JSON.parse(xhr.responseText)
-                        // response = xhr.responseText;
-                        callback(response)
+
+            function ajax(src, callback) {
+
+                if (localStorage.getItem("token")) {
+                    const accessToken = localStorage.getItem("token");
+                    let response
+                    const xhr = new XMLHttpRequest()
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            response = JSON.parse(xhr.responseText)
+                            // response = xhr.responseText;
+                            callback(response)
+                        }
                     }
-                }
-                function sendAJAX(accessToken) {
-                    xhr.open('GET', src)
-                    if (accessToken) {
-                        // console.log('accessToken: ', accessToken)
-                        xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-                    }
+                    function sendAJAX(accessToken) {
+                        xhr.open('GET', src)
+                        if (accessToken) {
+                            // console.log('accessToken: ', accessToken)
+                            xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+                        }
 
-                    xhr.send()
+                        xhr.send()
+                    }
+                    sendAJAX(accessToken)
+
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '請先登入',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    })
                 }
-                sendAJAX(accessToken)
+
             }
 
 
 
 
-            let participant;
-            url = location.href
-            const gatheringId = url.split('?')[1].split('=')[1]
 
-            ajax(`/api/1.0//user/getmemberprofile?id=${gatheringId}`, accessToken, function (response) {
+
+
+            ajax('/api/1.0/user/getmemberprofile', function (response) {
                 // console.log(response);
                 console.log('response', response)
 
-                for (let i in response.data) {
+                let profileList = document.getElementById('profileList')
 
-                    participant = document.createElement('li');
 
-                    participant.textContent = response.data[i].user_name;
-                    participant.setAttribute('onclick', `location.href='http://localhost:3000/profile.html?id=${response.data[i].id}';`)
-                    participant.style = `cursor:pointer;`
+                let name = document.createElement('li')
+                name.textContent = response.data.name;
+                // participant.textContent = response.data[i].user_name;
+                // participant.setAttribute('onclick', `location.href='http://localhost:3000/profile.html?id=${response.data[i].id}';`)
+                // participant.style = `cursor:pointer;`
+                profileList.appendChild(name);
 
-                    participants.appendChild(participant);
-                }
+                let email = document.createElement('li')
+                email.textContent = response.data.email;
+                profileList.appendChild(email);
+
+                let gender = document.createElement('li')
+                email.textContent = response.data.gender;
+                profileList.appendChild(gender);
+
+
+
             })
 
 

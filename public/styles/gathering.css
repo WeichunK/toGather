@@ -23,7 +23,13 @@
 #left-pic {
     /* grid-area: picBlock; */
     /* overflow: scroll; */
+    
    
+}
+
+
+#left-block{
+    grid-area: leftBlock;
 }
 
 #left-map {

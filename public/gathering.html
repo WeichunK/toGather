@@ -182,6 +182,9 @@
         }
     </style>
 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -256,6 +259,26 @@
         </div>
 
 
+        <div id="left-block">
+
+
+            <div class="rating-box">
+                <h1 class="rating-boxH1">Rating-System</h1>
+                <div class="rating">
+                    <span class="fa fa-star-o"></span>
+                    <span class="fa fa-star-o"></span>
+                    <span class="fa fa-star-o"></span>
+                    <span class="fa fa-star-o"></span>
+                    <span class="fa fa-star-o"></span>
+                </div>
+                <h4 id="rating-value">
+                    </h1>
+            </div>
+            <script src="./src/rating.js"></script>
+
+        </div>
+
+
 
         <!-- <div id="left-pic"></div> -->
 
@@ -297,6 +320,22 @@
             <br>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
 
 
@@ -308,7 +347,7 @@
 
 
             </div> -->
-            <div id=groupChatRoom>
+            <div id=groupChatRoom style="height: 95vh;">
 
                 <h6 style=" text-align: center;">成員</h6>
                 <ul id="participants"></ul>
@@ -384,7 +423,7 @@
             sendAJAX(accessToken)
         }
 
-        function initMap() {
+        async function initMap() {
 
             url = location.href
 
@@ -398,12 +437,32 @@
 
                 // let accessToken = localStorage.getItem("token")
 
-                console.log('accessToken', accessToken)
+                await ajax(`/api/1.0/getgatherings/participants?id=${gatheringId}`, accessToken, async function (response) {
+                    // console.log('responseparticipants', response.data.length)
+                    gathering.numOfParticipants = response.data.length
+                })
 
-                ajax(`/api/1.0/getgatherings/details?id=${gatheringId}`, accessToken, function (response) {
+
+
+
+                console.log('gathering', gathering)
+
+
+
+
+                ajax(`/api/1.0/getgatherings/details?id=${gatheringId}`, accessToken, async function (response) {
+
+
+
+
+
+
+
+
                     // console.log(response);
                     console.log('response', response)
                     console.log('response.data[0].lat', response.data[0].lat)
+                    gathering.title = response.data[0].title
                     // initMap(response.data[0].lat, response.data[0].lng)
                     if (response.user) {
 
@@ -436,6 +495,9 @@
                     eventPic.alt = "..."
 
 
+                    eventPic.style = "height:28vh;object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
+
+
                     gatheringDetail.appendChild(eventPic)
 
 
@@ -458,6 +520,7 @@
 
                     let cardDescriptiion = document.createElement('p')
                     cardDescriptiion.className = "card-text";
+                    cardDescriptiion.style = "white-space: pre-line;"
                     cardDescriptiion.appendChild(document.createTextNode(` ${response.data[0].description}`))
                     console.log(response.data[0].description)
 
@@ -500,6 +563,12 @@
                     let maxParticipant = document.createElement('li');
                     maxParticipant.className = "list-group-item";
                     maxParticipant.appendChild(document.createTextNode(`人數上限 ${response.data[0].max_participant}`))
+
+
+                    let currentParticipant = document.createElement('li');
+                    currentParticipant.className = "list-group-item";
+                    currentParticipant.appendChild(document.createTextNode(`目前人數 ${parseInt(gathering.numOfParticipants) + 1}`))
+
 
 
                     let statusCode = document.createElement('li');
@@ -548,6 +617,8 @@
                     listGroup.appendChild(time)
                     listGroup.appendChild(minParticipant)
                     listGroup.appendChild(maxParticipant)
+                    listGroup.appendChild(currentParticipant)
+
                     listGroup.appendChild(statusCode)
                     listGroup.appendChild(host)
                     listGroup.appendChild(joinEventButton)
@@ -656,7 +727,7 @@
 
 
 
-                            ajax(`/api/1.0/getgatherings/participants?id=${gatheringId} `, accessToken, function (responseParticipants) {
+                            ajax(`/api/1.0/getgatherings/participants?id=${gatheringId}`, accessToken, function (responseParticipants) {
                                 // console.log(response);
                                 console.log('response', responseParticipants)
 
@@ -691,8 +762,6 @@
 
 
                                 }
-
-
 
                             })
 
@@ -739,7 +808,7 @@
                             socket.emit('addRoom', { room: room, userId: user.id })
 
                             socket.on(`${room}+${user.id}`, chatRecord => {
-                                console.log('chatRecord', chatRecord)
+                                // console.log('chatRecord', chatRecord)
 
 
 
@@ -810,7 +879,7 @@
                                 item = document.createElement('li');
                                 // item.textContent = userName + ':' + msg;
 
-                                console.log('comapre', 'msg.speaker: ', msg.speaker, 'user.name:', user.name)
+                                // console.log('comapre', 'msg.speaker: ', msg.speaker, 'user.name:', user.name)
 
                                 if (msg.speaker == user.name) {
                                     item.style = 'text-align: right;'

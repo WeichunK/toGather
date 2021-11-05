@@ -11,7 +11,7 @@ const {
     getGatherings,
     // getGatheringDetail,
     hostGathering,
-    joinGathering,
+    attendGathering,
 
 } = require('../controllers/gathering_controller');
 
@@ -31,8 +31,8 @@ router.route('/gatherings/hostGathering')
     .post(authentication(USER_ROLE.ALL), cpUpload, hostGathering);
 
 
-router.route('/gatherings/joinGathering')
-    .get(authentication(USER_ROLE.ALL), joinGathering);
+router.route('/gatherings/attendGathering/:action')
+    .get(authentication(USER_ROLE.ALL), attendGathering);
 // router.route('/user/signin')
 //     .post(wrapAsync(signIn));
 

@@ -67,7 +67,7 @@
 
         #left-info::-webkit-scrollbar {
             width: 1px;
-            /* background-color: black; */
+            background-color: black;
         }
 
 
@@ -257,9 +257,9 @@
 
 
 
-        <!-- <div id="left-pic"></div> -->
+        <div id="left-pic"></div>
 
-        <!-- <div id="left-map"></div> -->
+        <div id="left-map"></div>
 
 
 
@@ -273,27 +273,27 @@
 
             </div>
 
-            <!-- <div id=joinEvent style="width: fit-content;">
-            
+            <div id=joinEvent style="width: fit-content;">
+                <!-- <button>我要加入</button> -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="button" autocomplete="off">我要加入</button>
             </div>
 
             <div id=quitEvent style="width: fit-content; display: none;">
-            
+                <!-- <button>我要加入</button> -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="button" autocomplete="off">我要退出</button>
-            </div> -->
+            </div>
 
 
 
 
 
             <br>
-            <!-- <div onclick='location.href="/index.html"' class="box4">
-             
+
+            <div onclick='location.href="/index.html"' class="box4">
+                <!-- <button>回首頁</button> -->
                 <button type="button" class="btn btn-primary btn-sm" disabled data-bs-toggle="button"
                     autocomplete="off">回首頁</button>
-            </div> -->
-
+            </div>
             <br>
 
 
@@ -384,7 +384,7 @@
             sendAJAX(accessToken)
         }
 
-        function initMap() {
+        async function initMap() {
 
             url = location.href
 
@@ -400,7 +400,7 @@
 
                 console.log('accessToken', accessToken)
 
-                ajax(`/api/1.0/getgatherings/details?id=${gatheringId}`, accessToken, function (response) {
+                ajax(`/api/1.0/getgatherings/details?id=${gatheringId}`, accessToken, async function (response) {
                     // console.log(response);
                     console.log('response', response)
                     console.log('response.data[0].lat', response.data[0].lat)
@@ -418,165 +418,120 @@
 
 
 
-                    // let mapDiv = document.getElementById("left-map")
-                    // mapDiv.style = 'height: 100%;width: 98%;'
+
+
+
+
+
+                    // const gatheringDetail = document.getElementById('gatheringDetail')
+
+                    // gatheringDetail.class = "card"
+                    // gatheringDetail.style = "width: 18rem;"
+
+
+                    // let eventPic = document.createElement('img')
+                    // eventPic.src = response.data[0].picture
+
+                    // eventPic.class = "card-img-top"
+                    // eventPic.alt = "..."
+
+
+                    // gatheringDetail.appendChild(eventPic)
+
+
+                    // let cardBody = document.createElement('div')
+                    // cardBody.class = "card-body";
+
+                    // let cardTitle = document.createElement('h5')
+                    // cardTitle.class = "card-title";
+                    // cardTitle.appendChild(document.createTextNode(` ${response.data[0].title}`))
+
+
+
+                    // let cardDescriptiion = document.createElement('p')
+                    // cardDescriptiion.class = "card-text";
+                    // cardDescriptiion.appendChild(document.createTextNode(` ${response.data[0].description}`))
+                    // console.log(response.data[0].description)
+
+                    // cardBody.appendChild(cardTitle)
+                    // cardBody.appendChild(cardDescriptiion)
+
+
+
+
+                    // gatheringDetail.appendChild(cardBody)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    const leftPic = document.getElementById('left-pic')
+                    let eventPic = document.createElement('img')
+                    eventPic.src = response.data[0].picture
+                    eventPic.style = `height: 100%;`
+
+                    leftPic.appendChild(eventPic)
 
 
 
                     const gatheringDetail = document.getElementById('gatheringDetail')
 
-                    gatheringDetail.class = "card"
-                    gatheringDetail.style = "width: 28rem; height:80%;"
 
+                    gathering.title = response.data[0].title;
 
-                    let eventPic = document.createElement('img')
-                    eventPic.src = response.data[0].picture
-
-                    eventPic.className = "card-img-top"
-                    eventPic.alt = "..."
-
-
-                    gatheringDetail.appendChild(eventPic)
-
-
-                    let eventMap = document.createElement('div')
-                    eventMap.id = "left-map";
+                    gatheringDetail.appendChild(document.createTextNode(` ${response.data[0].title}`))
+                    gatheringDetail.appendChild(document.createElement('br'))
 
 
 
-                    gatheringDetail.appendChild(eventMap)
+                    gatheringDetail.appendChild(document.createTextNode(` ${response.data[0].description}`))
+                    gatheringDetail.appendChild(document.createElement('br'))
+
+                    gatheringDetail.appendChild(document.createTextNode(`地點 ${response.data[0].place}`))
+                    gatheringDetail.appendChild(document.createElement('br'))
+
+                    gatheringDetail.appendChild(document.createTextNode(`時間 ${response.data[0].start_at}`))
+                    gatheringDetail.appendChild(document.createElement('br'))
+
+                    gatheringDetail.appendChild(document.createTextNode(`幾人成團 ${response.data[0].min_participant}`))
+                    gatheringDetail.appendChild(document.createElement('br'))
+
+                    gatheringDetail.appendChild(document.createTextNode(`人數上限 ${response.data[0].max_participant}`))
+                    gatheringDetail.appendChild(document.createElement('br'))
 
 
-                    let cardBody = document.createElement('div')
-                    cardBody.className = "card-body";
+                    gatheringDetail.appendChild(document.createTextNode(`狀態 ${response.data[0].status}`))
+                    gatheringDetail.appendChild(document.createElement('br'))
 
-                    let cardTitle = document.createElement('h5')
-                    cardTitle.className = "card-title";
-                    cardTitle.appendChild(document.createTextNode(` ${response.data[0].title}`))
-
-
-
-                    let cardDescriptiion = document.createElement('p')
-                    cardDescriptiion.className = "card-text";
-                    cardDescriptiion.appendChild(document.createTextNode(` ${response.data[0].description}`))
-                    console.log(response.data[0].description)
-
-                    cardBody.appendChild(cardTitle)
-                    cardBody.appendChild(cardDescriptiion)
-
-
-
-
-                    gatheringDetail.appendChild(cardBody)
-
-
-
-
-
-
-                    let listGroup = document.createElement('ul');
-                    listGroup.className = "list-group list-group-flush";
-
-
-
-
-                    let listGroupItem = document.createElement('li');
-                    listGroupItem.className = "list-group-item";
-                    listGroupItem.appendChild(document.createTextNode(`地點 ${response.data[0].place}`))
-
-
-                    let time = document.createElement('li');
-                    time.className = "list-group-item";
-                    time.appendChild(document.createTextNode(`時間 ${response.data[0].start_at}`))
-
-
-
-                    let minParticipant = document.createElement('li');
-                    minParticipant.className = "list-group-item";
-                    minParticipant.appendChild(document.createTextNode(`幾人成團 ${response.data[0].min_participant}`))
-
-
-
-                    let maxParticipant = document.createElement('li');
-                    maxParticipant.className = "list-group-item";
-                    maxParticipant.appendChild(document.createTextNode(`人數上限 ${response.data[0].max_participant}`))
-
-
-                    let statusCode = document.createElement('li');
-                    statusCode.className = "list-group-item";
-                    statusCode.appendChild(document.createTextNode(`狀態 ${response.data[0].status}`))
-
-
-
-                    let host = document.createElement('li');
-                    host.className = "list-group-item";
-                    host.appendChild(document.createTextNode(`主揪 ${hostInfo.hostName}`))
-
-
-                    let joinEventButton = document.createElement('a');
-                    joinEventButton.className = "btn btn-primary";
-                    joinEventButton.id = "joinEvent";
-                    joinEventButton.setAttribute("data-bs-toggle", "button")
-                    joinEventButton.setAttribute("autocomplete", "off")
-                    joinEventButton.appendChild(document.createTextNode("我要加入"))
-
-
-                    let quitEventButton = document.createElement('a');
-                    quitEventButton.className = "btn btn-primary";
-                    quitEventButton.id = "quitEvent";
-                    quitEventButton.style = "display: none;"
-                    quitEventButton.setAttribute("data-bs-toggle", "button")
-                    quitEventButton.setAttribute("autocomplete", "off")
-                    quitEventButton.appendChild(document.createTextNode("我要退出"))
-
-
-
-
-                    let returnHome = document.createElement('a');
-                    returnHome.className = "btn btn-primary btn-sm box4";
-
-
-                    returnHome.setAttribute("onclick", 'location.href=" /index.html"')
-                    returnHome.setAttribute("data-bs-toggle", "button")
-                    returnHome.setAttribute("autocomplete", "off")
-                    returnHome.appendChild(document.createTextNode("回首頁"))
-
-
-
-
-                    listGroup.appendChild(listGroupItem)
-                    listGroup.appendChild(time)
-                    listGroup.appendChild(minParticipant)
-                    listGroup.appendChild(maxParticipant)
-                    listGroup.appendChild(statusCode)
-                    listGroup.appendChild(host)
-                    listGroup.appendChild(joinEventButton)
-                    listGroup.appendChild(quitEventButton)
-                    listGroup.appendChild(document.createElement('br'))
-                    listGroup.appendChild(returnHome)
-
-                    gatheringDetail.appendChild(listGroup)
-
-
-
-                    statusCode
-
+                    gatheringDetail.appendChild(document.createTextNode(`主揪 ${hostInfo.hostName}`))
+                    gatheringDetail.appendChild(document.createElement('br'))
 
 
 
 
                     // let eventBlock = document.createElement('div')
                     // eventBlock.setAttribute('class', 'gathering')
-                    // eventBlock.setAttribute('onclick', `location.href = 'http://localhost:3000/gathering.html?id=${response.data[i].id}'; `)
+                    // eventBlock.setAttribute('onclick', `location.href='http://localhost:3000/gathering.html?id=${response.data[i].id}';`)
 
-                    // eventBlock.style = `border - style: solid; border - color: black; `
+                    // eventBlock.style = `border-style: solid; border-color: black;`
                     // let eventPic = document.createElement('img')
                     // eventPic.src = response.data[i].picture
-                    // eventPic.style = `height: 100px; `
+                    // eventPic.style = `height: 100px;`
                     // eventPic.setAttribute('title', response.data[i].title)
                     // // eventPic.title = response.data[i].title
                     // eventBlock.appendChild(eventPic)
-                    // eventBlock.appendChild(document.createTextNode(` ${ response.data[i].title } `))
+                    // eventBlock.appendChild(document.createTextNode(` ${response.data[i].title}`))
                     // gatheringList.appendChild(eventBlock)
                     // gatheringList.appendChild(document.createElement('br'))
 
@@ -589,8 +544,8 @@
                         zoom: 18,
                     });
 
-                    // let mapDiv = document.getElementById("left-map")
-                    // mapDiv.style = 'height: 100%;width: 98%;'
+                    let mapDiv = document.getElementById("left-map")
+                    mapDiv.style = 'height: 100%;width: 98%;'
 
 
                     let marker = new google.maps.Marker()
@@ -632,7 +587,7 @@
                     if (accessToken) {
 
 
-                        ajax('/api/1.0/user/getmemberprofile', accessToken, function (response) {
+                        await ajax('/api/1.0/user/getmemberprofile', accessToken, function (response) {
                             // console.log(response);
                             console.log('response getmemberprofile', response)
 
@@ -656,7 +611,7 @@
 
 
 
-                            ajax(`/api/1.0/getgatherings/participants?id=${gatheringId} `, accessToken, function (responseParticipants) {
+                            ajax(`/api/1.0/getgatherings/participants?id=${gatheringId}`, accessToken, function (responseParticipants) {
                                 // console.log(response);
                                 console.log('response', responseParticipants)
 
@@ -683,8 +638,8 @@
 
                                     participant = document.createElement('li');
                                     participant.textContent = responseParticipants.data[i].user_name;
-                                    participant.setAttribute('onclick', `location.href = '/profile.html?id=${responseParticipants.data[i].id}'; `)
-                                    participant.style = `cursor: pointer; `
+                                    participant.setAttribute('onclick', `location.href='/profile.html?id=${responseParticipants.data[i].id}';`)
+                                    participant.style = `cursor:pointer;`
 
                                     participants.appendChild(participant);
 
@@ -735,7 +690,7 @@
                             // let room = 'room1'
                             let room = location.href.split('?')[1].split('=')[1]
 
-                            // console.log('{ room: room, userId: user.id }', room, user.id)
+                            console.log('{ room: room, userId: user.id }', room, user.id)
                             socket.emit('addRoom', { room: room, userId: user.id })
 
                             socket.on(`${room}+${user.id}`, chatRecord => {
@@ -751,13 +706,13 @@
                                     // console.log('chatRecord[i].user_id', chatRecord[i].user_id)
                                     const item = document.createElement('li');
 
-                                    // console.log('comapre', 'chatRecord[i].user_id: ', chatRecord[i].user_id, 'user.id:', user.id)
+                                    console.log('comapre', 'chatRecord[i].user_id: ', chatRecord[i].user_id, 'user.id:', user.id)
 
                                     if (chatRecord[i].user_id == user.id) {
                                         item.style = 'text-align: right;'
-                                        item.textContent = `我: ${chatRecord[i].content} `
+                                        item.textContent = `我: ${chatRecord[i].content}`
                                     } else {
-                                        item.textContent = `${chatRecord[i].user_name}: ${chatRecord[i].content} `;
+                                        item.textContent = `${chatRecord[i].user_name}: ${chatRecord[i].content}`;
                                     }
 
                                     messages.appendChild(item);
@@ -814,9 +769,9 @@
 
                                 if (msg.speaker == user.name) {
                                     item.style = 'text-align: right;'
-                                    item.textContent = `我: ${msg.content} `;
+                                    item.textContent = `我: ${msg.content}`;
                                 } else {
-                                    item.textContent = `${msg.speaker}: ${msg.content} `;
+                                    item.textContent = `${msg.speaker}: ${msg.content}`;
                                 }
 
                                 messages.appendChild(item);
@@ -833,7 +788,7 @@
                                 // })
 
                                 Swal.fire({
-                                    title: `${msg.speaker} say: ${msg.content} `,
+                                    title: `${msg.speaker} say: ${msg.content}`,
                                     position: 'bottom-end',
                                     showClass: {
 
@@ -925,163 +880,11 @@
 
 
 
-                    document.getElementById("joinEvent").addEventListener('click', () => {
-
-                        const gatheringId = url.split('?')[1].split('=')[1]
-
-                        // const accessToken = localStorage.getItem("token")
-
-                        if (accessToken) {
-
-                            ajax(`/api/1.0/gatherings/attendGathering/join?id=${gatheringId}`, accessToken, function (response) {
-                                // console.log(response);
-                                console.log('response', response)
-
-
-                                let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: response.data.participant.participant_name }
-
-
-                                console.log('participantData', participantData)
-
-                                alert('成功加入')
-                                socket.emit('addParticipant', participantData)
-
-
-                                // socket.emit(`host_newparticipant_${ participantData.hostId } `, msg.content)
-
-
-
-
-                                window.location.reload();
-
-                            })
-
-
-                        } else {
-
-                            Swal.fire({
-                                title: 'Error!',
-                                text: '請先登入',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            }).then(function () {
-                                window.location.href = '/sign.html'
-                            })
-
-                        }
-
-                    })
-
-
-
-                    document.getElementById("quitEvent").addEventListener('click', () => {
-
-                        const gatheringId = url.split('?')[1].split('=')[1]
-
-                        // const accessToken = localStorage.getItem("token")
-
-                        if (accessToken) {
-
-                            ajax(`/api/1.0/gatherings/attendGathering/quit?id=${gatheringId}`, accessToken, function (response) {
-                                // console.log(response);
-                                console.log('response', response)
-
-
-                                let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: response.data.participant.participant_name }
-
-
-                                console.log('participantData', participantData)
-
-                                alert('成功退出')
-                                socket.emit('removeParticipant', participantData)
-
-
-                                // socket.emit(`host_newparticipant_${ participantData.hostId } `, msg.content)
-
-
-
-
-                                window.location.reload();
-
-                            })
-
-
-                        } else {
-
-                            Swal.fire({
-                                title: 'Error!',
-                                text: '請先登入',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            }).then(function () {
-                                window.location.href = '/sign.html'
-                            })
-
-                        }
-
-                    })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 })
             } else {
                 console.log('wrong parameter')
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1114,7 +917,101 @@
 
 
 
+        document.getElementById("joinEvent").addEventListener('click', () => {
 
+            const gatheringId = url.split('?')[1].split('=')[1]
+
+            // const accessToken = localStorage.getItem("token")
+
+            if (accessToken) {
+
+                ajax(`/api/1.0/gatherings/attendGathering/join?id=${gatheringId}`, accessToken, function (response) {
+                    // console.log(response);
+                    console.log('response', response)
+
+
+                    let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: response.data.participant.participant_name }
+
+
+                    console.log('participantData', participantData)
+
+                    alert('成功加入')
+                    socket.emit('addParticipant', participantData)
+
+
+                    // socket.emit(`host_newparticipant_${participantData.hostId}`, msg.content)
+
+
+
+
+                    window.location.reload();
+
+                })
+
+
+            } else {
+
+                Swal.fire({
+                    title: 'Error!',
+                    text: '請先登入',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(function () {
+                    window.location.href = '/sign.html'
+                })
+
+            }
+
+        })
+
+
+
+        document.getElementById("quitEvent").addEventListener('click', () => {
+
+            const gatheringId = url.split('?')[1].split('=')[1]
+
+            // const accessToken = localStorage.getItem("token")
+
+            if (accessToken) {
+
+                ajax(`/api/1.0/gatherings/attendGathering/quit?id=${gatheringId}`, accessToken, function (response) {
+                    // console.log(response);
+                    console.log('response', response)
+
+
+                    let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: response.data.participant.participant_name }
+
+
+                    console.log('participantData', participantData)
+
+                    alert('成功退出')
+                    socket.emit('removeParticipant', participantData)
+
+
+                    // socket.emit(`host_newparticipant_${participantData.hostId}`, msg.content)
+
+
+
+
+                    window.location.reload();
+
+                })
+
+
+            } else {
+
+                Swal.fire({
+                    title: 'Error!',
+                    text: '請先登入',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(function () {
+                    window.location.href = '/sign.html'
+                })
+
+            }
+
+        })
 
 
 
@@ -1154,7 +1051,7 @@
         //     body: dataToSent,
         //     headers: new Headers({
         //         "Content-Type": "multipart/form-data",
-        //         "Authorization": `Bearer ${ accessToken } `
+        //         "Authorization": `Bearer ${accessToken}`
         //     }),
         //     method: "POST"
         // }).then((e => e.json())).then((e => {
@@ -1167,7 +1064,7 @@
         // ))
 
         // socket.on('create-room', () => {
-        //     const roomId = uuid(`${ Date.now() } `, uuid.DNS);
+        //     const roomId = uuid(`${Date.now()}`, uuid.DNS);
         //     socket.join(roomId);
         //     socket.emit('join-room-message', `You've join ${roomId} room`);
         //     io.to(roomId).emit('room-brocast', `${socket.id} has join this room`);

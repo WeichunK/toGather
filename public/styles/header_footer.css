@@ -42,6 +42,12 @@
 	cursor: pointer;
 }
 
+.main-header > .chat {
+    margin-left: 20px;
+    margin-top: 13px;
+	cursor: pointer;
+}
+
 
 .main-header > .signinout {
 	margin-top: 20px;

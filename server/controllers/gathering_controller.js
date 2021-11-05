@@ -140,7 +140,7 @@ const hostGathering = async (req, res, next) => {
 }
 
 
-const joinGathering = async (req, res) => {
+const attendGathering = async (req, res) => {
 
     let participant = {
         gathering_id: req.query.id,
@@ -148,7 +148,21 @@ const joinGathering = async (req, res) => {
 
     }
 
-    const result = await Gatherings.joinGathering(participant)
+    const action = req.params.action;
+
+    let result;
+
+    if (action == 'join') {
+        console.log('join')
+        result = await Gatherings.attendGathering(participant, 'join')
+
+        // return await Gatherings.getGatherings(pageSize, paging);
+    } else if (action == 'quit') {
+        console.log('quit')
+        result = await Gatherings.attendGathering(participant, 'quit')
+    }
+
+
 
     participant.participant_name = req.user.name;
 
@@ -166,7 +180,8 @@ const joinGathering = async (req, res) => {
     res.status(200).send({
         data: {
             participant: participant
-        }
+        },
+        action: action
     })
     return;
 
@@ -181,7 +196,7 @@ module.exports = {
     getGatherings,
     // getGatheringDetail,
     hostGathering,
-    joinGathering,
+    attendGathering,
 
 
 };

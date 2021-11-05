@@ -1,7 +1,7 @@
 .wrap {
     display: grid;
-    grid-template-columns: 20% 55% auto;
-    grid-template-rows: 100px  auto auto 100px;
+    grid-template-columns: auto 450px 460px;
+    grid-template-rows: 100px  250px auto;
     height: 100vh;
     max-height: 100vh;
     width: 90vw;
@@ -9,9 +9,8 @@
 
     grid-template-areas:
     "header header header"
-    "leftBlock infoBlock rightBlock"
-    "leftBlock infoBlock rightBlock"
-    "leftBlock comment rightBlock";
+    "picBlock mapBlock rightBlock"
+    "infoBlock infoBlock rightBlock";
 
 
   }
@@ -21,15 +20,15 @@
 }
 
 #left-pic {
-    /* grid-area: picBlock; */
+    grid-area: picBlock;
     /* overflow: scroll; */
    
 }
 
 #left-map {
-    /* grid-area: mapBlock; */
+    grid-area: mapBlock;
     /* overflow: scroll; */
-   height:28vh;
+   
 }
 
 #left-info {
@@ -43,9 +42,4 @@
     grid-area: rightBlock;
     height: 70vh;
     max-height: 70vh;
-}
-
-
-#commentArea {
-    grid-area: header;
 }

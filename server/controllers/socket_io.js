@@ -75,7 +75,7 @@ const chat = function (io) {
 
 
 
-        socket.on('newparticipant', async (participantData) => {
+        socket.on('addParticipant', async (participantData) => {
 
 
 
@@ -84,12 +84,23 @@ const chat = function (io) {
 
             console.log('host_newparticipant_${participantData.hostId}', `host_newparticipant_${participantData.hostId}`)
 
-            io.emit(`host_newparticipant_${participantData.hostId}`, participantData);
+            io.emit(`host_addParticipant_${participantData.hostId}`, participantData);
         });
 
 
 
 
+        socket.on('removeParticipant', async (participantData) => {
+
+
+
+            console.log('participantData: ' + participantData);
+            console.log('participantData.hostId', participantData.hostId)
+
+            console.log('host_quitParticipant_${participantData.hostId}', `host_quitParticipant_${participantData.hostId}`)
+
+            io.emit(`host_removeParticipant_${participantData.hostId}`, participantData);
+        });
 
 
 

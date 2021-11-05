@@ -146,19 +146,30 @@ const hostGathering = async (gathering) => {
 }
 
 
-const joinGathering = async (participant) => {
+const attendGathering = async (participant, action) => {
 
     const conn = await pool.getConnection();
-
+    let queryStr;
+    let binding;
     try {
         await conn.query('START TRANSACTION');
+        let binding;
+        if (action == 'join') {
+            participant.created_at = new Date();
+            queryStr = 'INSERT INTO participant SET ?';
+            binding = participant;
+            console.log('binding', binding)
 
-        participant.created_at = new Date();
+
+        } else if (action == 'quit') {
+
+            queryStr = 'DELETE FROM participant where gathering_id = ? and participant_id =?;';
+            binding = [participant.gathering_id, participant.participant_id]
 
 
-        const queryStr = 'INSERT INTO participant SET ?';
-        const [result] = await conn.query(queryStr, participant);
+        }
 
+        let [result] = await conn.query(queryStr, binding);
         // gathering.id = result.insertId;
         await conn.query('COMMIT');
         return result;
@@ -185,7 +196,7 @@ module.exports = {
     // getGatheringDetail,
     getParticipants,
     hostGathering,
-    joinGathering,
+    attendGathering,
     // getHotProducts,
     // getProductsVariants,
     // getProductsImages,

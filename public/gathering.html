@@ -390,45 +390,140 @@
     <script>
 
 
-        var socket = io();
 
-        var hostInfo = {};
-        var user = {}
-        var gathering = {}
-        const accessToken = localStorage.getItem("token")
 
         // const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw"
 
         // localStorage.setItem("token", accessToken)
 
-        function ajax(src, accessToken, callback) {
-            let response
-            const xhr = new XMLHttpRequest()
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    response = JSON.parse(xhr.responseText)
-                    // response = xhr.responseText;
-                    callback(response)
+
+
+
+        // async function fetchData(url, accessToken) {
+        //     try {
+        //         let response
+        //         if (accessToken) {
+
+        //             const headers = {
+        //                 'Content-Type': 'application/json',
+        //                 'Authorization': `Bearer ${accessToken}`
+        //             }
+        //             response = await fetch(url, { headers: headers });
+        //         } else {
+        //             response = await fetch(url);
+        //         }
+
+
+        //         const output = response.json();
+        //         console.log(output);
+
+        //         return output
+        //     } catch (e) {
+        //         console.log("error", e);
+        //     }
+        // }
+
+
+
+
+
+
+
+
+
+
+
+
+        function fetchData(src, accessToken) {
+            // console.log('access', accessToken)
+
+            function processStatus(response) {
+                // 狀態 "0" 是處理本地檔案 (例如Cordova/Phonegap等等)
+                if (response.status === 200 || response.status === 0) {
+                    return Promise.resolve(response)
+                } else {
+                    return Promise.reject(new Error(response.statusText))
                 }
             }
-            function sendAJAX(accessToken) {
-                xhr.open('GET', src)
-                if (accessToken) {
-                    // console.log('accessToken: ', accessToken)
-                    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+
+            if (accessToken) {
+                const headers = {
+                    // 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
                 }
 
-                xhr.send()
+                return fetch(src, { headers: headers })
+                    .then(processStatus)
+                    .then((response) => { return response.json(); })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+
+            } else {
+                const headers = {}
+                return fetch(src)
+                    .then(processStatus)
+                    .then((response) => { return response.json(); })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             }
-            sendAJAX(accessToken)
+
+
+
+
+
+
         }
+
+
+
+
+
+
+        // async function ajax(src, accessToken) {
+
+        //     const xhr = new XMLHttpRequest()
+
+        //     xhr.onload = function () {
+        //         if (xhr.readyState === 4 && xhr.status === 200) {
+        //             let response = JSON.parse(xhr.responseText)
+        //             // response = xhr.responseText;
+        //             console.log('ajax response', response)
+        //             return response
+        //         }
+        //     }
+
+        //     await xhr.open('GET', src)
+        //     if (accessToken) {
+        //         // console.log('accessToken: ', accessToken)
+        //         xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+        //     }
+        //     console.log('ready to send ajax')
+        //     let output = await xhr.send()
+
+        //     return output
+
+
+
+
+
+        // }
 
         async function initMap() {
 
-            url = location.href
+
+            var socket = io();
+
+            var hostInfo = {};
+            var user = {}
+            var gathering = {}
+
+            const accessToken = localStorage.getItem("token")
 
 
 
+            let url = location.href
 
             if (url.indexOf('?') !== -1 & url.split('?')[1].split('=')[0] == 'id') {
                 const gatheringId = url.split('?')[1].split('=')[1]
@@ -437,20 +532,210 @@
 
                 // let accessToken = localStorage.getItem("token")
 
-                await ajax(`/api/1.0/getgatherings/participants?id=${gatheringId}`, accessToken, async function (response) {
-                    // console.log('responseparticipants', response.data.length)
-                    gathering.numOfParticipants = response.data.length
-                })
+                let participantsData = await fetchData(`/api/1.0/getgatherings/participants?id=${gatheringId}`, accessToken)
 
-
-
+                console.log('participantsData', participantsData, gatheringId)
+                gathering.numOfParticipants = participantsData.data.length
 
                 console.log('gathering', gathering)
 
 
 
 
-                ajax(`/api/1.0/getgatherings/details?id=${gatheringId}`, accessToken, async function (response) {
+                let getgatheringDetails = await fetchData(`/api/1.0/getgatherings/details?id=${gatheringId}`, accessToken)
+
+                // console.log('getgatheringDetails.data[0].lat', getgatheringDetails.data[0].lat)
+                gathering.title = getgatheringDetails.data[0].title
+
+
+                console.log('getgatheringDetails.user', getgatheringDetails.user)
+
+                // console.log('getgatheringDetails.data[0]', getgatheringDetails.data[0])
+
+                // initMap(response.data[0].lat, response.data[0].lng)
+
+
+                hostInfo.hostName = getgatheringDetails.data[0].name
+                hostInfo.hostId = getgatheringDetails.data[0].host_id
+                // console.log('response.data.host_id', response.data[0].host_id)
+
+
+
+                // let mapDiv = document.getElementById("left-map")
+                // mapDiv.style = 'height: 100%;width: 98%;'
+
+                const gatheringDetail = document.getElementById('gatheringDetail')
+
+                gatheringDetail.class = "card"
+                gatheringDetail.style = "width: 28rem; height:80%;"
+
+
+                let eventPic = document.createElement('img')
+                eventPic.src = getgatheringDetails.data[0].picture
+
+                eventPic.className = "card-img-top"
+                eventPic.alt = "..."
+
+
+                eventPic.style = "height:28vh;object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
+
+
+                gatheringDetail.appendChild(eventPic)
+
+
+                let eventMap = document.createElement('div')
+                eventMap.id = "left-map";
+
+
+
+                gatheringDetail.appendChild(eventMap)
+
+
+                let cardBody = document.createElement('div')
+                cardBody.className = "card-body";
+
+                let cardTitle = document.createElement('h5')
+                cardTitle.className = "card-title";
+                cardTitle.appendChild(document.createTextNode(` ${getgatheringDetails.data[0].title}`))
+
+
+
+                let cardDescriptiion = document.createElement('p')
+                cardDescriptiion.className = "card-text";
+                cardDescriptiion.style = "white-space: pre-line;"
+                cardDescriptiion.appendChild(document.createTextNode(` ${getgatheringDetails.data[0].description}`))
+                // console.log(getgatheringDetails.data[0].description)
+
+                cardBody.appendChild(cardTitle)
+                cardBody.appendChild(cardDescriptiion)
+
+
+
+
+                gatheringDetail.appendChild(cardBody)
+
+
+
+
+
+
+                let listGroup = document.createElement('ul');
+                listGroup.className = "list-group list-group-flush";
+
+
+
+
+                let listGroupItem = document.createElement('li');
+                listGroupItem.className = "list-group-item";
+                listGroupItem.appendChild(document.createTextNode(`地點 ${getgatheringDetails.data[0].place}`))
+
+
+                let time = document.createElement('li');
+                time.className = "list-group-item";
+                time.appendChild(document.createTextNode(`時間 ${getgatheringDetails.data[0].start_at}`))
+
+
+
+                let minParticipant = document.createElement('li');
+                minParticipant.className = "list-group-item";
+                minParticipant.appendChild(document.createTextNode(`幾人成團 ${getgatheringDetails.data[0].min_participant}`))
+
+
+
+                let maxParticipant = document.createElement('li');
+                maxParticipant.className = "list-group-item";
+                maxParticipant.appendChild(document.createTextNode(`人數上限 ${getgatheringDetails.data[0].max_participant}`))
+
+
+                let currentParticipant = document.createElement('li');
+                currentParticipant.className = "list-group-item";
+                currentParticipant.appendChild(document.createTextNode(`目前人數 ${parseInt(gathering.numOfParticipants) + 1}`))
+
+
+
+                let statusCode = document.createElement('li');
+                statusCode.className = "list-group-item";
+                statusCode.appendChild(document.createTextNode(`狀態 ${getgatheringDetails.data[0].status}`))
+
+
+
+                let host = document.createElement('li');
+                host.className = "list-group-item";
+                host.appendChild(document.createTextNode(`主揪 ${hostInfo.hostName}`))
+
+
+                let joinEventButton = document.createElement('a');
+                joinEventButton.className = "btn btn-primary";
+                joinEventButton.id = "joinEvent";
+                joinEventButton.setAttribute("data-bs-toggle", "button")
+                joinEventButton.setAttribute("autocomplete", "off")
+                joinEventButton.appendChild(document.createTextNode("我要加入"))
+
+
+                let quitEventButton = document.createElement('a');
+                quitEventButton.className = "btn btn-primary";
+                quitEventButton.id = "quitEvent";
+                quitEventButton.style = "display: none;"
+                quitEventButton.setAttribute("data-bs-toggle", "button")
+                quitEventButton.setAttribute("autocomplete", "off")
+                quitEventButton.appendChild(document.createTextNode("我要退出"))
+
+
+
+
+                let returnHome = document.createElement('a');
+                returnHome.className = "btn btn-primary btn-sm box4";
+
+
+                returnHome.setAttribute("onclick", 'location.href=" /index.html"')
+                returnHome.setAttribute("data-bs-toggle", "button")
+                returnHome.setAttribute("autocomplete", "off")
+                returnHome.appendChild(document.createTextNode("回首頁"))
+
+
+
+
+                listGroup.appendChild(listGroupItem)
+                listGroup.appendChild(time)
+                listGroup.appendChild(minParticipant)
+                listGroup.appendChild(maxParticipant)
+                listGroup.appendChild(currentParticipant)
+
+                listGroup.appendChild(statusCode)
+                listGroup.appendChild(host)
+                listGroup.appendChild(joinEventButton)
+                listGroup.appendChild(quitEventButton)
+                listGroup.appendChild(document.createElement('br'))
+                listGroup.appendChild(returnHome)
+
+                gatheringDetail.appendChild(listGroup)
+
+
+
+                statusCode
+
+
+
+
+
+                const initPoint = { lat: getgatheringDetails.data[0].lat, lng: getgatheringDetails.data[0].lng };
+                console.log('initPoint', initPoint)
+                map = new google.maps.Map(document.getElementById("left-map"), {
+                    center: initPoint,
+                    zoom: 18,
+                });
+
+                // let mapDiv = document.getElementById("left-map")
+                // mapDiv.style = 'height: 100%;width: 98%;'
+
+
+                let marker = new google.maps.Marker()
+
+                marker = new google.maps.Marker({
+                    position: initPoint, //marker的放置位置
+
+                    map: map
+                });
 
 
 
@@ -459,16 +744,83 @@
 
 
 
-                    // console.log(response);
-                    console.log('response', response)
-                    console.log('response.data[0].lat', response.data[0].lat)
-                    gathering.title = response.data[0].title
-                    // initMap(response.data[0].lat, response.data[0].lng)
-                    if (response.user) {
+                let participant;
+                url = location.href
+                // const gatheringId = url.split('?')[1].split('=')[1]
 
-                        hostInfo.hostName = response.data[0].name
-                        hostInfo.hostId = response.data[0].host_id
-                        // console.log('response.data.host_id', response.data[0].host_id)
+
+
+                const messages = document.getElementById('messages');
+                const form = document.getElementById('messagesForm');
+                const input = document.getElementById('messageInput');
+                const right = document.getElementById('right');
+                const joinEvent = document.getElementById('joinEvent');
+                const quitEvent = document.getElementById('quitEvent');
+
+
+
+
+
+                // ----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+                if (accessToken) {
+
+
+                    let profile = await fetchData('/api/1.0/user/getmemberprofile', accessToken)
+
+                    console.log('response getmemberprofile', profile)
+
+
+                    user = profile.data
+                    console.log('user', user)
+                    // messages.style = "display:block;"
+                    // form.style = "display:block;"
+                    // right.style = "display:block;"
+
+
+
+
+                    let participantsData = await fetchData(`/api/1.0/getgatherings/participants?id=${gatheringId}`, accessToken)
+
+
+                    console.log('participantsData', participantsData)
+
+                    const hostNameForChatRoom = document.createElement('li');
+
+                    hostNameForChatRoom.textContent = `主揪 ${hostInfo.hostName} `
+
+                    participants.appendChild(hostNameForChatRoom);
+
+                    joinEvent.style = "display:block;"
+                    quitEvent.style = "display:none;"
+
+                    for (let i in participantsData.data) {
+
+                        console.log('participantsData.data[i]', participantsData.data[i].id, user.id)
+
+                        if (user.id == participantsData.data[i].id) {
+                            console.log('in participant list')
+                            right.style = "display:block;"
+                            joinEvent.style = "display:none;"
+                            quitEvent.style = "display:block;"
+
+                        }
+
+                        participant = document.createElement('li');
+                        participant.textContent = participantsData.data[i].user_name;
+                        participant.setAttribute('onclick', `location.href = '/profile.html?id=${participantsData.data[i].id}'; `)
+                        participant.style = `cursor: pointer; `
+
+                        participants.appendChild(participant);
+
+
 
                     }
 
@@ -477,220 +829,157 @@
 
 
 
-                    // let mapDiv = document.getElementById("left-map")
-                    // mapDiv.style = 'height: 100%;width: 98%;'
 
+                    // ------------------------------------------------------------------------------------
 
 
-                    const gatheringDetail = document.getElementById('gatheringDetail')
 
-                    gatheringDetail.class = "card"
-                    gatheringDetail.style = "width: 28rem; height:80%;"
 
+                    let chatRecord
+                    socket.on('addRoom', message => {
+                        console.log(message)
 
-                    let eventPic = document.createElement('img')
-                    eventPic.src = response.data[0].picture
+                        // socket.on('initialRoom', chatList => {
+                        //     console.log('initialRoom', 'chatList.length', chatList.length)
 
-                    eventPic.className = "card-img-top"
-                    eventPic.alt = "..."
+                        //     for (let i in chatList) {
+                        //         chatRecord = document.createElement('li');
+                        //         // item.textContent = userName + ':' + msg;
+                        //         chatRecord.textContent = chatList[i].content;
+                        //         messages.appendChild(chatRecord);
+                        //     }
 
 
-                    eventPic.style = "height:28vh;object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
+                        //     document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
 
 
-                    gatheringDetail.appendChild(eventPic)
 
 
-                    let eventMap = document.createElement('div')
-                    eventMap.id = "left-map";
+                        // })
 
+                    })
 
 
-                    gatheringDetail.appendChild(eventMap)
 
 
-                    let cardBody = document.createElement('div')
-                    cardBody.className = "card-body";
 
-                    let cardTitle = document.createElement('h5')
-                    cardTitle.className = "card-title";
-                    cardTitle.appendChild(document.createTextNode(` ${response.data[0].title}`))
+                    // let room = 'room1'
+                    let room = location.href.split('?')[1].split('=')[1]
 
+                    // console.log('{ room: room, userId: user.id }', room, user.id)
+                    socket.emit('addRoom', { room: room, userId: user.id })
 
+                    socket.on(`${room}+${user.id}`, chatRecord => {
+                        // console.log('chatRecord', chatRecord)
 
-                    let cardDescriptiion = document.createElement('p')
-                    cardDescriptiion.className = "card-text";
-                    cardDescriptiion.style = "white-space: pre-line;"
-                    cardDescriptiion.appendChild(document.createTextNode(` ${response.data[0].description}`))
-                    console.log(response.data[0].description)
 
-                    cardBody.appendChild(cardTitle)
-                    cardBody.appendChild(cardDescriptiion)
 
+                        // item.textContent = userName + ':' + msg;
+                        // let messages = document.getElementById('messages')
 
+                        for (let i in chatRecord) {
+                            // console.log('current user.id', user.id)
+                            // console.log('chatRecord[i].user_id', chatRecord[i].user_id)
+                            const item = document.createElement('li');
 
+                            // console.log('comapre', 'chatRecord[i].user_id: ', chatRecord[i].user_id, 'user.id:', user.id)
 
-                    gatheringDetail.appendChild(cardBody)
+                            if (chatRecord[i].user_id == user.id) {
+                                item.style = 'text-align: right;'
+                                item.textContent = `我: ${chatRecord[i].content} `
+                            } else {
+                                item.textContent = `${chatRecord[i].user_name}: ${chatRecord[i].content} `;
+                            }
 
+                            messages.appendChild(item);
 
+                        }
 
 
+                        document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
 
 
-                    let listGroup = document.createElement('ul');
-                    listGroup.className = "list-group list-group-flush";
 
 
 
+                    })
 
-                    let listGroupItem = document.createElement('li');
-                    listGroupItem.className = "list-group-item";
-                    listGroupItem.appendChild(document.createTextNode(`地點 ${response.data[0].place}`))
 
 
-                    let time = document.createElement('li');
-                    time.className = "list-group-item";
-                    time.appendChild(document.createTextNode(`時間 ${response.data[0].start_at}`))
 
 
 
-                    let minParticipant = document.createElement('li');
-                    minParticipant.className = "list-group-item";
-                    minParticipant.appendChild(document.createTextNode(`幾人成團 ${response.data[0].min_participant}`))
-
-
-
-                    let maxParticipant = document.createElement('li');
-                    maxParticipant.className = "list-group-item";
-                    maxParticipant.appendChild(document.createTextNode(`人數上限 ${response.data[0].max_participant}`))
-
-
-                    let currentParticipant = document.createElement('li');
-                    currentParticipant.className = "list-group-item";
-                    currentParticipant.appendChild(document.createTextNode(`目前人數 ${parseInt(gathering.numOfParticipants) + 1}`))
-
-
-
-                    let statusCode = document.createElement('li');
-                    statusCode.className = "list-group-item";
-                    statusCode.appendChild(document.createTextNode(`狀態 ${response.data[0].status}`))
-
-
-
-                    let host = document.createElement('li');
-                    host.className = "list-group-item";
-                    host.appendChild(document.createTextNode(`主揪 ${hostInfo.hostName}`))
-
-
-                    let joinEventButton = document.createElement('a');
-                    joinEventButton.className = "btn btn-primary";
-                    joinEventButton.id = "joinEvent";
-                    joinEventButton.setAttribute("data-bs-toggle", "button")
-                    joinEventButton.setAttribute("autocomplete", "off")
-                    joinEventButton.appendChild(document.createTextNode("我要加入"))
-
-
-                    let quitEventButton = document.createElement('a');
-                    quitEventButton.className = "btn btn-primary";
-                    quitEventButton.id = "quitEvent";
-                    quitEventButton.style = "display: none;"
-                    quitEventButton.setAttribute("data-bs-toggle", "button")
-                    quitEventButton.setAttribute("autocomplete", "off")
-                    quitEventButton.appendChild(document.createTextNode("我要退出"))
-
-
-
-
-                    let returnHome = document.createElement('a');
-                    returnHome.className = "btn btn-primary btn-sm box4";
-
-
-                    returnHome.setAttribute("onclick", 'location.href=" /index.html"')
-                    returnHome.setAttribute("data-bs-toggle", "button")
-                    returnHome.setAttribute("autocomplete", "off")
-                    returnHome.appendChild(document.createTextNode("回首頁"))
-
-
-
-
-                    listGroup.appendChild(listGroupItem)
-                    listGroup.appendChild(time)
-                    listGroup.appendChild(minParticipant)
-                    listGroup.appendChild(maxParticipant)
-                    listGroup.appendChild(currentParticipant)
-
-                    listGroup.appendChild(statusCode)
-                    listGroup.appendChild(host)
-                    listGroup.appendChild(joinEventButton)
-                    listGroup.appendChild(quitEventButton)
-                    listGroup.appendChild(document.createElement('br'))
-                    listGroup.appendChild(returnHome)
-
-                    gatheringDetail.appendChild(listGroup)
-
-
-
-                    statusCode
-
-
-
-
-
-                    // let eventBlock = document.createElement('div')
-                    // eventBlock.setAttribute('class', 'gathering')
-                    // eventBlock.setAttribute('onclick', `location.href = 'http://localhost:3000/gathering.html?id=${response.data[i].id}'; `)
-
-                    // eventBlock.style = `border - style: solid; border - color: black; `
-                    // let eventPic = document.createElement('img')
-                    // eventPic.src = response.data[i].picture
-                    // eventPic.style = `height: 100px; `
-                    // eventPic.setAttribute('title', response.data[i].title)
-                    // // eventPic.title = response.data[i].title
-                    // eventBlock.appendChild(eventPic)
-                    // eventBlock.appendChild(document.createTextNode(` ${ response.data[i].title } `))
-                    // gatheringList.appendChild(eventBlock)
-                    // gatheringList.appendChild(document.createElement('br'))
-
-
-
-                    const initPoint = { lat: response.data[0].lat, lng: response.data[0].lng };
-                    console.log('initPoint', initPoint)
-                    map = new google.maps.Map(document.getElementById("left-map"), {
-                        center: initPoint,
-                        zoom: 18,
-                    });
-
-                    // let mapDiv = document.getElementById("left-map")
-                    // mapDiv.style = 'height: 100%;width: 98%;'
-
-
-                    let marker = new google.maps.Marker()
-
-                    marker = new google.maps.Marker({
-                        position: initPoint, //marker的放置位置
-
-                        map: map
-                    });
-
-
-
-
-
-
-
-
-                    let participant;
-                    url = location.href
-                    const gatheringId = url.split('?')[1].split('=')[1]
 
 
 
                     const messages = document.getElementById('messages');
                     const form = document.getElementById('messagesForm');
                     const input = document.getElementById('messageInput');
-                    const right = document.getElementById('right');
-                    const joinEvent = document.getElementById('joinEvent');
-                    const quitEvent = document.getElementById('quitEvent');
+
+                    let messagesList = []
+                    let chat
+                    form.addEventListener('submit', function (e) {
+                        console.log('submit')
+                        e.preventDefault();
+                        if (input.value) {
+                            console.log('input.value', input.value)
+                            console.log('user.id', user.id)
+                            chat = { speaker: user.name, content: input.value, roomId: room, userId: user.id }
+                            // chat.speaker = user.name
+                            // chat.content = input.value
+                            socket.emit('chat message', chat);
+
+                            messagesList.push(chat)
+                            input.value = '';
+                            console.log(messagesList)
+                        }
+                    })
+
+
+                    let item;
+                    socket.on('chat message', function (msg) {
+                        item = document.createElement('li');
+                        // item.textContent = userName + ':' + msg;
+
+                        // console.log('comapre', 'msg.speaker: ', msg.speaker, 'user.name:', user.name)
+
+                        if (msg.speaker == user.name) {
+                            item.style = 'text-align: right;'
+                            item.textContent = `我: ${msg.content} `;
+                        } else {
+                            item.textContent = `${msg.speaker}: ${msg.content} `;
+                        }
+
+                        messages.appendChild(item);
+
+                        document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
+
+
+                        // Swal.fire({
+                        //     position: 'top-end',
+                        //     icon: 'success',
+                        //     title: msg.content,
+                        //     showConfirmButton: false,
+                        //     timer: 500
+                        // })
+
+                        Swal.fire({
+                            title: `${msg.speaker} say: ${msg.content} `,
+                            position: 'bottom-end',
+                            showClass: {
+
+                                popup: 'animate__animated animate__fadeIn'
+                            },
+
+                            timer: 1500,
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            },
+                            backdrop: false,
+                            width: '18rem',
+                        })
+
+                    })
 
 
 
@@ -699,416 +988,193 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                } else {
+
+                    // messages.style = "display:none;"
+                    // form.style = "display:none;"
+                    right.style = "display:none;"
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                document.getElementById("joinEvent").addEventListener('click', async () => {
+
+                    // const gatheringId = url.split('?')[1].split('=')[1]
+
+                    // const accessToken = localStorage.getItem("token")
 
                     if (accessToken) {
 
+                        let joinGathering = fetchData(`/api/1.0/gatherings/attendGathering/join?id=${gatheringId}`, accessToken)
 
-                        ajax('/api/1.0/user/getmemberprofile', accessToken, function (response) {
-                            // console.log(response);
-                            console.log('response getmemberprofile', response)
 
 
-                            user = response.data
-                            console.log('user', user.id)
-                            // messages.style = "display:block;"
-                            // form.style = "display:block;"
-                            // right.style = "display:block;"
+                        console.log('joinGathering', joinGathering)
 
 
+                        let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: joinGathering.data.participant.participant_name }
 
 
+                        console.log('participantData', participantData)
 
+                        alert('成功加入')
+                        socket.emit('addParticipant', participantData)
 
 
+                        // socket.emit(`host_newparticipant_${ participantData.hostId } `, msg.content)
 
 
 
 
-
-
-
-                            ajax(`/api/1.0/getgatherings/participants?id=${gatheringId}`, accessToken, function (responseParticipants) {
-                                // console.log(response);
-                                console.log('response', responseParticipants)
-
-                                const hostNameForChatRoom = document.createElement('li');
-
-                                hostNameForChatRoom.textContent = `主揪 ${hostInfo.hostName} `
-
-                                participants.appendChild(hostNameForChatRoom);
-
-                                joinEvent.style = "display:block;"
-                                quitEvent.style = "display:none;"
-
-                                for (let i in responseParticipants.data) {
-
-                                    console.log('response.data[i]', responseParticipants.data[i].id, user.id)
-
-                                    if (user.id == responseParticipants.data[i].id) {
-                                        console.log('in participant list')
-                                        right.style = "display:block;"
-                                        joinEvent.style = "display:none;"
-                                        quitEvent.style = "display:block;"
-
-                                    }
-
-                                    participant = document.createElement('li');
-                                    participant.textContent = responseParticipants.data[i].user_name;
-                                    participant.setAttribute('onclick', `location.href = '/profile.html?id=${responseParticipants.data[i].id}'; `)
-                                    participant.style = `cursor: pointer; `
-
-                                    participants.appendChild(participant);
-
-
-
-                                }
-
-                            })
-
-
-
-
-
-
-
-
-
-                            let chatRecord
-                            socket.on('addRoom', message => {
-                                console.log(message)
-
-                                // socket.on('initialRoom', chatList => {
-                                //     console.log('initialRoom', 'chatList.length', chatList.length)
-
-                                //     for (let i in chatList) {
-                                //         chatRecord = document.createElement('li');
-                                //         // item.textContent = userName + ':' + msg;
-                                //         chatRecord.textContent = chatList[i].content;
-                                //         messages.appendChild(chatRecord);
-                                //     }
-
-
-                                //     document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
-
-
-
-
-                                // })
-
-                            })
-
-
-
-
-
-                            // let room = 'room1'
-                            let room = location.href.split('?')[1].split('=')[1]
-
-                            // console.log('{ room: room, userId: user.id }', room, user.id)
-                            socket.emit('addRoom', { room: room, userId: user.id })
-
-                            socket.on(`${room}+${user.id}`, chatRecord => {
-                                // console.log('chatRecord', chatRecord)
-
-
-
-                                // item.textContent = userName + ':' + msg;
-                                // let messages = document.getElementById('messages')
-
-                                for (let i in chatRecord) {
-                                    // console.log('current user.id', user.id)
-                                    // console.log('chatRecord[i].user_id', chatRecord[i].user_id)
-                                    const item = document.createElement('li');
-
-                                    // console.log('comapre', 'chatRecord[i].user_id: ', chatRecord[i].user_id, 'user.id:', user.id)
-
-                                    if (chatRecord[i].user_id == user.id) {
-                                        item.style = 'text-align: right;'
-                                        item.textContent = `我: ${chatRecord[i].content} `
-                                    } else {
-                                        item.textContent = `${chatRecord[i].user_name}: ${chatRecord[i].content} `;
-                                    }
-
-                                    messages.appendChild(item);
-
-                                }
-
-
-                                document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
-
-
-
-
-
-                            })
-
-
-
-
-
-
-
-
-
-                            const messages = document.getElementById('messages');
-                            const form = document.getElementById('messagesForm');
-                            const input = document.getElementById('messageInput');
-
-                            let messagesList = []
-                            let chat
-                            form.addEventListener('submit', function (e) {
-                                console.log('submit')
-                                e.preventDefault();
-                                if (input.value) {
-                                    console.log('input.value', input.value)
-                                    console.log('user.id', user.id)
-                                    chat = { speaker: user.name, content: input.value, roomId: room, userId: user.id }
-                                    // chat.speaker = user.name
-                                    // chat.content = input.value
-                                    socket.emit('chat message', chat);
-
-                                    messagesList.push(chat)
-                                    input.value = '';
-                                    console.log(messagesList)
-                                }
-                            })
-
-
-                            let item;
-                            socket.on('chat message', function (msg) {
-                                item = document.createElement('li');
-                                // item.textContent = userName + ':' + msg;
-
-                                // console.log('comapre', 'msg.speaker: ', msg.speaker, 'user.name:', user.name)
-
-                                if (msg.speaker == user.name) {
-                                    item.style = 'text-align: right;'
-                                    item.textContent = `我: ${msg.content} `;
-                                } else {
-                                    item.textContent = `${msg.speaker}: ${msg.content} `;
-                                }
-
-                                messages.appendChild(item);
-
-                                document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
-
-
-                                // Swal.fire({
-                                //     position: 'top-end',
-                                //     icon: 'success',
-                                //     title: msg.content,
-                                //     showConfirmButton: false,
-                                //     timer: 500
-                                // })
-
-                                Swal.fire({
-                                    title: `${msg.speaker} say: ${msg.content} `,
-                                    position: 'bottom-end',
-                                    showClass: {
-
-                                        popup: 'animate__animated animate__fadeIn'
-                                    },
-
-                                    timer: 1500,
-                                    hideClass: {
-                                        popup: 'animate__animated animate__fadeOutUp'
-                                    },
-                                    backdrop: false,
-                                    width: '18rem',
-                                })
-
-                            })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        })
-
-
-
-
-
-
-
-
-
+                        window.location.reload();
 
 
 
 
                     } else {
 
-                        // messages.style = "display:none;"
-                        // form.style = "display:none;"
-                        right.style = "display:none;"
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '請先登入',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = '/sign.html'
+                        })
 
                     }
 
+                })
 
 
 
+                document.getElementById("quitEvent").addEventListener('click', () => {
 
+                    // const gatheringId = url.split('?')[1].split('=')[1]
 
+                    // const accessToken = localStorage.getItem("token")
 
+                    if (accessToken) {
 
+                        let quitGathering = fetchData(`/api/1.0/gatherings/attendGathering/quit?id=${gatheringId}`, accessToken)
 
 
 
+                        console.log('quitGathering', quitGathering)
 
 
+                        let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: quitGathering.data.participant.participant_name }
 
-                    document.getElementById("joinEvent").addEventListener('click', () => {
 
-                        const gatheringId = url.split('?')[1].split('=')[1]
+                        console.log('participantData', participantData)
 
-                        // const accessToken = localStorage.getItem("token")
+                        alert('成功退出')
+                        socket.emit('removeParticipant', participantData)
 
-                        if (accessToken) {
 
-                            ajax(`/api/1.0/gatherings/attendGathering/join?id=${gatheringId}`, accessToken, function (response) {
-                                // console.log(response);
-                                console.log('response', response)
+                        // socket.emit(`host_newparticipant_${ participantData.hostId } `, msg.content)
 
 
-                                let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: response.data.participant.participant_name }
 
 
-                                console.log('participantData', participantData)
+                        window.location.reload();
 
-                                alert('成功加入')
-                                socket.emit('addParticipant', participantData)
 
 
-                                // socket.emit(`host_newparticipant_${ participantData.hostId } `, msg.content)
 
+                    } else {
 
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '請先登入',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = '/sign.html'
+                        })
 
-
-                                window.location.reload();
-
-                            })
-
-
-                        } else {
-
-                            Swal.fire({
-                                title: 'Error!',
-                                text: '請先登入',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            }).then(function () {
-                                window.location.href = '/sign.html'
-                            })
-
-                        }
-
-                    })
-
-
-
-                    document.getElementById("quitEvent").addEventListener('click', () => {
-
-                        const gatheringId = url.split('?')[1].split('=')[1]
-
-                        // const accessToken = localStorage.getItem("token")
-
-                        if (accessToken) {
-
-                            ajax(`/api/1.0/gatherings/attendGathering/quit?id=${gatheringId}`, accessToken, function (response) {
-                                // console.log(response);
-                                console.log('response', response)
-
-
-                                let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: response.data.participant.participant_name }
-
-
-                                console.log('participantData', participantData)
-
-                                alert('成功退出')
-                                socket.emit('removeParticipant', participantData)
-
-
-                                // socket.emit(`host_newparticipant_${ participantData.hostId } `, msg.content)
-
-
-
-
-                                window.location.reload();
-
-                            })
-
-
-                        } else {
-
-                            Swal.fire({
-                                title: 'Error!',
-                                text: '請先登入',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            }).then(function () {
-                                window.location.href = '/sign.html'
-                            })
-
-                        }
-
-                    })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    }
 
                 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             } else {
                 console.log('wrong parameter')
             }

@@ -12,6 +12,7 @@ const {
     // getGatheringDetail,
     hostGathering,
     attendGathering,
+    postFeedback
 
 } = require('../controllers/gathering_controller');
 
@@ -33,6 +34,10 @@ router.route('/gatherings/hostGathering')
 
 router.route('/gatherings/attendGathering/:action')
     .get(authentication(USER_ROLE.ALL), attendGathering);
+
+
+router.route('/gatherings/feedback')
+    .post(authentication(USER_ROLE.ALL), postFeedback);
 // router.route('/user/signin')
 //     .post(wrapAsync(signIn));
 

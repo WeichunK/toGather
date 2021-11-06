@@ -23,7 +23,7 @@ const authentication = (roleId) => {
                 return;
             }
 
-        }
+        }else {
 
         accessToken = accessToken.replace('Bearer ', '');
         if (accessToken == 'null') {
@@ -61,6 +61,10 @@ const authentication = (roleId) => {
             res.status(403).send({ error: 'Forbidden' });
             return;
         }
+
+
+    }
+
     };
 };
 

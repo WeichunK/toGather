@@ -22,7 +22,7 @@ const { pool } = require('./mysqlcon');
 //     }
 // });
 
-const { io } = require("../../app")
+// const { io } = require("../../app")
 
 
 const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
@@ -46,6 +46,8 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
 
 
     const gatheringQuery = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin FROM gathering g LEFT JOIN member m ON g.host_id = m.id ' + condition.sql + condition.order;
+    console.log('query')
+
 
     result = await pool.query(gatheringQuery, condition.binding);
 
@@ -184,10 +186,40 @@ const attendGathering = async (participant, action) => {
 
     }
 
+}
 
 
+
+
+const postFeedback = async (feedback) => {
+
+
+    const conn = await pool.getConnection();
+
+    try {
+        await conn.query('START TRANSACTION');
+
+        feedback.created_at = new Date();
+
+
+        const queryStr = 'INSERT INTO feedback SET ?';
+        const [result] = await conn.query(queryStr, feedback);
+
+        // gathering.id = result.insertId;
+        await conn.query('COMMIT');
+        return result;
+    } catch (error) {
+        console.log(error);
+        await conn.query('ROLLBACK');
+        return { error };
+    } finally {
+        // io.emit('updateGatheringList', 'DB updated');
+        await conn.release();
+
+    }
 
 }
+
 
 
 
@@ -197,6 +229,7 @@ module.exports = {
     getParticipants,
     hostGathering,
     attendGathering,
+    postFeedback,
     // getHotProducts,
     // getProductsVariants,
     // getProductsImages,

@@ -18,6 +18,8 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const { chat } = require('./server/controllers/socket_io')
 
+const { pool } = require('./server/models/mysqlcon');
+
 // API routes
 app.use('/api/' + API_VERSION,
     // rateLimiterRoute,
@@ -30,6 +32,7 @@ app.use('/api/' + API_VERSION,
         require('./server/routes/tracking_route'),
     ]
 );
+
 
 
 chat(io);

@@ -61,7 +61,7 @@ const getGatherings = async (req, res) => {
     const gatheringsList = await findGatherings(category);
 
 
-    // console.log('gatheringsList', gatheringsList)
+    // console.log('gatherin/gsList', gatheringsList)
 
     if (!gatheringsList) {
         res.status(400).send({ error: 'Wrong Request' });
@@ -189,6 +189,42 @@ const attendGathering = async (req, res) => {
 }
 
 
+const postFeedback = async (req, res) => {
+
+
+    const feedback = {
+        gathering_id: req.body.gatheringId,
+        host_id: req.body.hostId,
+        user_id: req.user.id,
+        rating: req.body.rating,
+        comment: req.body.comment,
+    }
+
+    console.log('feedback', feedback)
+
+    const result = await Gatherings.postFeedback(feedback)
+
+
+
+
+    if (result.error) {
+        res.status(403).send({ error: result.error });
+        return;
+    }
+
+    // req.app.io.emit('updateGatheringList', 'DB updated');
+
+    res.status(200).send({
+        data: {
+            feedback: feedback
+        }
+    })
+    return;
+
+}
+
+
+
 
 
 
@@ -197,6 +233,7 @@ module.exports = {
     // getGatheringDetail,
     hostGathering,
     attendGathering,
+    postFeedback,
 
 
 };

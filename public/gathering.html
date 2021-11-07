@@ -1064,7 +1064,7 @@
 
                     if (accessToken) {
 
-                        let joinGathering = fetchData(`/api/1.0/gatherings/attendGathering/join?id=${gatheringId}`, accessToken)
+                        let joinGathering = await fetchData(`/api/1.0/gatherings/attendGathering/join?id=${gatheringId}`, accessToken)
 
 
 
@@ -1107,7 +1107,7 @@
 
 
 
-                document.getElementById("quitEvent").addEventListener('click', () => {
+                document.getElementById("quitEvent").addEventListener('click', async () => {
 
                     // const gatheringId = url.split('?')[1].split('=')[1]
 
@@ -1115,7 +1115,7 @@
 
                     if (accessToken) {
 
-                        let quitGathering = fetchData(`/api/1.0/gatherings/attendGathering/quit?id=${gatheringId}`, accessToken)
+                        let quitGathering = await fetchData(`/api/1.0/gatherings/attendGathering/quit?id=${gatheringId}`, accessToken)
 
 
 

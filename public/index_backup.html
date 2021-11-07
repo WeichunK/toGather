@@ -185,7 +185,12 @@
 
 
 
+        <div id="right">
 
+            <div id="map"></div>
+
+
+        </div>
 
 
         <div id="left">
@@ -241,37 +246,9 @@
             </div> -->
 
 
-            <div id="gathering-list" style="height:90vh;"></div>
+            <div id="gathering-list"></div>
 
         </div>
-
-
-
-        <div id="right">
-
-            <div id="map" style="position: absolute; width: 45%;"></div>
-
-
-        </div>
-
-
-        <div id="message-block" aria-live="polite" aria-atomic="true" class="position-relative" style="max-height: 90%">
-            <!-- Position it: -->
-            <!-- - `.toast-container` for spacing between toasts -->
-            <!-- - `.position-absolute`, `top-0` & `end-0` to position the toasts in the upper right corner -->
-            <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
-            <div class="toast-container position-absolute bottom-0 end-0 p-3" id="toastPlaceholder"
-                style="width: 200px; max-width: 300px; position: relative; max-height: 90%">
-                <!-- Then put toasts within -->
-
-
-
-
-            </div>
-        </div>
-
-
-
 
     </div>
 
@@ -288,7 +265,7 @@
 
 
 
-    <!-- Modal block-->
+    <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -861,7 +838,7 @@
 
 
 
-    <link rel="stylesheet" type="text/css" href="./styles/home.css">
+    <link rel="stylesheet" type="text/css" href="./styles/home_backup.css">
 
 
 
@@ -880,80 +857,15 @@
 
 
 
-    <!-- ----------------------------Socket io block------------------------------ -->
+
 
 
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
 
-
-        const toastFunc = (id, message, type, verb) => {
-            let toastPlaceholder = document.getElementById("toastPlaceholder");
-
-            let toastDiv
-            let toastHeader
-            let toastSmall
-            let toastStrong
-            let toastButton
-            let toastBody
-
-
-            toastDiv = document.createElement('div')
-            toastDiv.className = "toast fade show";
-            toastDiv.id = id
-            toastDiv.setAttribute("role", "alert")
-            toastDiv.setAttribute("aria-live", "assertive")
-            toastDiv.setAttribute("aria-atomic", "true")
-
-
-            toastHeader = document.createElement('div')
-            toastHeader.className = "toast-header"
-
-            toastStrong = document.createElement('strong')
-            toastStrong.className = "me-auto"
-            toastStrong.appendChild(document.createTextNode(type))
-
-            toastSmall = document.createElement('small')
-            toastSmall.className = "text-muted"
-            // toastImg.setAttribute("src", "...")
-            toastSmall.appendChild(document.createTextNode("剛剛"))
-
-
-            toastButton = document.createElement('button')
-            toastButton.type = "button"
-            toastButton.className = "btn-close"
-            toastButton.setAttribute("data-bs-dismiss", "toast")
-            toastButton.setAttribute("aria-label", "Close")
-
-
-            toastHeader.appendChild(toastStrong)
-            toastHeader.appendChild(toastSmall)
-            toastHeader.appendChild(toastButton)
-
-
-            toastBody = document.createElement('div')
-            toastBody.className = "toast-body"
-            toastBody.appendChild(document.createTextNode(`${message.participantName} ${verb} ${message.gatheringTitle} 活動`))
-
-
-            toastDiv.appendChild(toastHeader)
-            toastDiv.appendChild(toastBody)
-
-
-            // toastPlaceholder.appendChild(toastDiv)
-
-            toastPlaceholder.insertBefore(toastDiv, toastPlaceholder.firstChild);
-
-            var toast = new bootstrap.Toast(toastDiv)
-
-            toast.show()
-        }
-
-
-
-
         let user = {}
+
         var socket = io();
 
 
@@ -984,23 +896,20 @@
                         console.log('message', message)
 
 
-                        toastFunc("1", message, '加團', '剛加入您的')
+                        Swal.fire({
+                            title: `${message.participantName} 剛加入您的 ${message.gatheringTitle} 活動`,
+                            position: 'bottom-end',
+                            showClass: {
 
+                                popup: 'animate__animated animate__fadeIn'
+                            },
 
-                        // Swal.fire({
-                        //     title: `${message.participantName} 剛加入您的 ${message.gatheringTitle} 活動`,
-                        //     position: 'bottom-end',
-                        //     showClass: {
-
-                        //         popup: 'animate__animated animate__fadeIn'
-                        //     },
-
-                        //     timer: 5500,
-                        //     hideClass: {
-                        //         popup: 'animate__animated animate__fadeOutUp'
-                        //     },
-                        //     backdrop: false,
-                        // })
+                            timer: 5500,
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            },
+                            backdrop: false,
+                        })
 
                     })
 
@@ -1010,23 +919,21 @@
                     socket.on(`host_removeParticipant_${user.id}`, message => {
                         console.log('message', message)
 
-                        toastFunc("2", message, '退團', '剛退出您的')
 
+                        Swal.fire({
+                            title: `${message.participantName} 剛加退出您的 ${message.gatheringTitle} 活動`,
+                            position: 'bottom-end',
+                            showClass: {
 
-                        // Swal.fire({
-                        //     title: `${message.participantName} 剛加退出您的 ${message.gatheringTitle} 活動`,
-                        //     position: 'bottom-end',
-                        //     showClass: {
+                                popup: 'animate__animated animate__fadeIn'
+                            },
 
-                        //         popup: 'animate__animated animate__fadeIn'
-                        //     },
-
-                        //     timer: 5500,
-                        //     hideClass: {
-                        //         popup: 'animate__animated animate__fadeOutUp'
-                        //     },
-                        //     backdrop: false,
-                        // })
+                            timer: 5500,
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            },
+                            backdrop: false,
+                        })
 
                     })
 

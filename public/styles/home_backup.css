@@ -2,15 +2,15 @@
 
 .wrap {
     display: grid;
-    grid-template-columns: 40% 30% auto;
+    grid-template-columns: auto 50%;
     grid-template-rows: 100px auto;
-    height: 95vh;
+    height: 100vh;
     width: 85vw;
     margin: 0 auto;
 
     grid-template-areas:
-    "header header messages"
-    "leftBlock rightBlock messages";
+    "header header"
+    "leftBlock rightBlock";
 
 
   }
@@ -24,7 +24,6 @@
     overflow: scroll;
     padding-left: 30px;
     margin-top: 8px;
-    height: 90vh;
 }
 
 
@@ -52,7 +51,7 @@
 }
 
 #map {
-    height: 80vh;
+    height: 100vh;
     width: 100%;
 }
 
@@ -60,11 +59,7 @@
     background-color: aqua;
 }
 
-#message-block {
-    grid-area: messages;
-    position: absolute;
-    
-}
+
 
 
   

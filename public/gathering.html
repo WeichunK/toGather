@@ -948,6 +948,23 @@
                             item.textContent = `我: ${msg.content} `;
                         } else {
                             item.textContent = `${msg.speaker}: ${msg.content} `;
+
+                            Swal.fire({
+                                title: `${msg.speaker} say: ${msg.content} `,
+                                position: 'bottom-end',
+                                showClass: {
+
+                                    popup: 'animate__animated animate__fadeIn'
+                                },
+
+                                timer: 1500,
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                },
+                                backdrop: false,
+                                width: '18rem',
+                            })
+
                         }
 
                         messages.appendChild(item);
@@ -963,21 +980,21 @@
                         //     timer: 500
                         // })
 
-                        Swal.fire({
-                            title: `${msg.speaker} say: ${msg.content} `,
-                            position: 'bottom-end',
-                            showClass: {
+                        // Swal.fire({
+                        //     title: `${msg.speaker} say: ${msg.content} `,
+                        //     position: 'bottom-end',
+                        //     showClass: {
 
-                                popup: 'animate__animated animate__fadeIn'
-                            },
+                        //         popup: 'animate__animated animate__fadeIn'
+                        //     },
 
-                            timer: 1500,
-                            hideClass: {
-                                popup: 'animate__animated animate__fadeOutUp'
-                            },
-                            backdrop: false,
-                            width: '18rem',
-                        })
+                        //     timer: 1500,
+                        //     hideClass: {
+                        //         popup: 'animate__animated animate__fadeOutUp'
+                        //     },
+                        //     backdrop: false,
+                        //     width: '18rem',
+                        // })
 
                     })
 

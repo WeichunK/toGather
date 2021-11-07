@@ -85,6 +85,8 @@ const signIn = async (req, res) => {
         return;
     }
 
+    console.log('user.bonus', user.bonus)
+
     res.status(200).send({
         data: {
             access_token: user.access_token,
@@ -95,7 +97,8 @@ const signIn = async (req, res) => {
                 provider: user.provider,
                 name: user.name,
                 email: user.email,
-                picture: user.picture
+                picture: user.picture,
+                bonus: user.bonus,
             }
         }
     });

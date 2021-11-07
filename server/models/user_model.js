@@ -74,8 +74,11 @@ const nativeSignIn = async (email, password) => {
             await conn.query('COMMIT');
             return { error: 'Wrong Password!' };
         }
-
+        console.log('parseInt(user.popularity) + 1', parseInt(user.popularity) + 1)
+        const loginAtOld = user.login_at
         const loginAt = new Date();
+        // console.log('loginAtOld.getSeconds() != loginAt.getSeconds()', loginAtOld.getSeconds(), loginAt.getSeconds())
+
         const accessToken = jwt.sign({
             provider: user.provider,
             name: user.name,
@@ -84,14 +87,42 @@ const nativeSignIn = async (email, password) => {
             expiresIn: TOKEN_EXPIRE
         }, TOKEN_SECRET);
 
-        const queryStr = 'UPDATE member SET access_token = ?, access_expired = ?, login_at = ? WHERE id = ?';
-        await conn.query(queryStr, [accessToken, TOKEN_EXPIRE, loginAt, user.id]);
+
+        if (loginAtOld.getDate() != loginAt.getDate()) {
+            user.bonus = true
+
+            const queryStr = 'UPDATE member SET access_token = ?, access_expired = ?, login_at = ?, popularity = ? WHERE id = ?';
+            await conn.query(queryStr, [accessToken, TOKEN_EXPIRE, loginAt, parseInt(user.popularity) + 1, user.id]);
+
+        } else {
+            user.bonus = false
+
+            const queryStr = 'UPDATE member SET access_token = ?, access_expired = ?, login_at = ? WHERE id = ?';
+            await conn.query(queryStr, [accessToken, TOKEN_EXPIRE, loginAt, user.id]);
+
+        }
+
 
         await conn.query('COMMIT');
+
 
         user.access_token = accessToken;
         user.login_at = loginAt;
         user.access_expired = TOKEN_EXPIRE;
+
+        // if (loginAtOld.getSeconds() != loginAt.Seconds()) {
+        //     user.bonus = true
+
+        //     console('update popularity', parseInt(user.popularity) + 1, user.email)
+        //     await conn.query('SET SQL_SAFE_UPDATES=0;')
+        //     await conn.query('UPDATE member SET popularity = ?  where email =?;', [parseInt(popularity) + 1, user.email])
+        //     await conn.query('SET SQL_SAFE_UPDATES=1;')
+        //     console('popularity+1')
+
+        // } else {
+        //     user.bonus = false
+        // }
+
 
         return { user };
     } catch (error) {

@@ -25,6 +25,9 @@
         crossorigin="anonymous"></script>
 
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 
 <body style="background-color: rgb(205, 242, 245);">
@@ -302,11 +305,32 @@
                         // } else {
                         //     alert('無權限操作此頁')
                         // }
-                        alert('登入成功')
+
+                        // alert('登入成功')
 
                         // console.log('xhr.responseText.data', JSON.parse(xhr.responseText).data)
                         localStorage.setItem("token", JSON.parse(xhr.responseText).data.access_token);
-                        window.location.href = '/index.html';
+                        let responseText
+                        console.log('JSON.parse(xhr.responseText).user', JSON.parse(xhr.responseText).data.user)
+                        if (JSON.parse(xhr.responseText).data.user.bonus) {
+                            responseText = '登入成功，獲得每日登入積分獎勵1分'
+                        } else {
+                            responseText = '登入成功'
+                        }
+
+                        Swal.fire({
+                            title: 'Success!',
+                            text: responseText,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = '/index.html'
+                        })
+
+
+
+
+                        // window.location.href = '/index.html';
                     }
                 };
                 xhr.send(dataToSent);

@@ -28,28 +28,35 @@ const { pool } = require('./mysqlcon');
 const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
     // const conn = await pool.getConnection();
     let result;
-    const condition = { sql: '', binding: [], order: '' };
+    const query = { sql: '', binding: [], condition: '' };
     if (requirement.keyword != null) {
-        condition.sql = 'WHERE title LIKE ?';
-        condition.binding = [`%${requirement.keyword}%`];
-        condition.order = 'ORDER BY created_at DESC;'
+        query.sql = 'select g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture as host_pic, m.popularity, m.coin, (case when r.avg_rating is null then 3 else r.avg_rating end)+log10(case when c.click_count is null then 1 else c.click_count+1 end) as rating from gathering g \
+        left join member m on g.host_id = m.id \
+        left join (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id \
+        left join (select gathering_id, count(*) as click_count from tracking_click_gathering group by gathering_id) c on c.gathering_id = g.id';
+        query.condition = 'WHERE g.title LIKE ? ORDER BY rating DESC;'
+        query.binding = [`%${requirement.keyword}%`];
     } else if (requirement.boundary != null) {
-        condition.sql = 'WHERE lng BETWEEN ? AND ? AND lat BETWEEN ? AND ?';
-        condition.binding = requirement.boundary;
-        condition.order = 'ORDER BY created_at DESC;'
+        query.sql = 'select g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture as host_pic, m.popularity, m.coin, (case when r.avg_rating is null then 3 else r.avg_rating end)+log10(case when c.click_count is null then 1 else c.click_count+1 end) as rating from gathering g \
+        left join member m on g.host_id = m.id \
+        left join (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id \
+        left join (select gathering_id, count(*) as click_count from tracking_click_gathering group by gathering_id) c on c.gathering_id = g.id ';
+        query.condition = 'WHERE g.lng BETWEEN ? AND ? AND g.lat BETWEEN ? AND ? ORDER BY rating DESC;'
+        query.binding = requirement.boundary;
+
 
     } else if (requirement.id != null) {
-        condition.sql = 'WHERE g.id = ?';
-        condition.binding = [requirement.id];
-        condition.order = ';'
+        query.sql = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin FROM gathering g LEFT JOIN member m ON g.host_id = m.id '
+        query.condition = 'WHERE g.id = ?;'
+        query.binding = [requirement.id];
+
     }
 
 
-    const gatheringQuery = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin FROM gathering g LEFT JOIN member m ON g.host_id = m.id ' + condition.sql + condition.order;
+    const gatheringQuery = query.sql + query.condition;
     console.log('query')
 
-
-    result = await pool.query(gatheringQuery, condition.binding);
+    result = await pool.query(gatheringQuery, query.binding);
 
     return result[0];
 

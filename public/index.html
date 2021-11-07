@@ -956,6 +956,8 @@
         let user = {}
         var socket = io();
 
+        let tempId = { 'id': 0 }
+
 
         if (localStorage.getItem("token")) {
 
@@ -984,8 +986,8 @@
                         console.log('message', message)
 
 
-                        toastFunc("1", message, '加團', '剛加入您的')
-
+                        toastFunc(`${tempId.id}`, message, '加團', '剛加入您的')
+                        tempId.id += 1;
 
                         // Swal.fire({
                         //     title: `${message.participantName} 剛加入您的 ${message.gatheringTitle} 活動`,
@@ -1010,9 +1012,9 @@
                     socket.on(`host_removeParticipant_${user.id}`, message => {
                         console.log('message', message)
 
-                        toastFunc("2", message, '退團', '剛退出您的')
+                        toastFunc(`${tempId.id}`, message, '退團', '剛退出您的')
 
-
+                        tempId.id += 1;
                         // Swal.fire({
                         //     title: `${message.participantName} 剛加退出您的 ${message.gatheringTitle} 活動`,
                         //     position: 'bottom-end',

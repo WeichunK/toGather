@@ -46,7 +46,7 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
 
 
     } else if (requirement.id != null) {
-        query.sql = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin FROM gathering g LEFT JOIN member m ON g.host_id = m.id '
+        query.sql = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin, (case when r.avg_rating is null then 0 else r.avg_rating end) AS avg_rating FROM gathering g LEFT JOIN member m ON g.host_id = m.id left join (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id '
         query.condition = 'WHERE g.id = ?;'
         query.binding = [requirement.id];
 

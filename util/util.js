@@ -23,47 +23,48 @@ const authentication = (roleId) => {
                 return;
             }
 
-        }else {
+        } else {
 
-        accessToken = accessToken.replace('Bearer ', '');
-        if (accessToken == 'null') {
-            res.status(401).send({ error: 'Unauthorized' });
-            return;
-        }
-
-        try {
-            const user = jwt.verify(accessToken, TOKEN_SECRET);
-            req.user = user;
-            if (roleId == null) {
-                next();
-            } else {
-                let userDetail;
-                if (roleId == 1 | roleId == 3) {
-                    userDetail = await User.getUserDetail(user.email);
-                } else {
-                    userDetail = await User.getUserDetail(user.email, roleId);
-                }
-                if (!userDetail) {
-                    res.status(403).send({ error: 'Forbidden' });
-                } else {
-                    req.user.id = userDetail.id;
-                    req.user.name = userDetail.name;
-                    req.user.role_id = userDetail.role;
-                    req.user.introduction = userDetail.introduction
-                    req.user.job = userDetail.job
-                    req.user.title = userDetail.title
-                    req.user.age = userDetail.age
-                    next();
-                }
+            accessToken = accessToken.replace('Bearer ', '');
+            if (accessToken == 'null') {
+                res.status(401).send({ error: 'Unauthorized' });
+                return;
             }
-            return;
-        } catch (err) {
-            res.status(403).send({ error: 'Forbidden' });
-            return;
+
+            try {
+                const user = jwt.verify(accessToken, TOKEN_SECRET);
+                req.user = user;
+                if (roleId == null) {
+                    next();
+                } else {
+                    let userDetail;
+                    if (roleId == 1 | roleId == 3) {
+                        userDetail = await User.getUserDetail(user.email);
+                    } else {
+                        userDetail = await User.getUserDetail(user.email, roleId);
+                    }
+                    if (!userDetail) {
+                        res.status(403).send({ error: 'Forbidden' });
+                    } else {
+                        req.user.id = userDetail.id;
+                        req.user.name = userDetail.name;
+                        req.user.role_id = userDetail.role;
+                        req.user.introduction = userDetail.introduction
+                        req.user.job = userDetail.job
+                        req.user.title = userDetail.title
+                        req.user.age = userDetail.age
+                        req.user.popularity = userDetail.popularity
+                        next();
+                    }
+                }
+                return;
+            } catch (err) {
+                res.status(403).send({ error: 'Forbidden' });
+                return;
+            }
+
+
         }
-
-
-    }
 
     };
 };

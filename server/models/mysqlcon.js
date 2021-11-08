@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV || 'production';
 const multipleStatements = (process.env.NODE_ENV === 'test');
 const { DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_DATABASE_TEST } = process.env;
 
-console.log('DB_USERNAME',DB_USERNAME)
+console.log('DB_USERNAME', DB_USERNAME)
 
 const mysqlConfig = {
     production: { // for EC2 machine
@@ -18,7 +18,7 @@ const mysqlConfig = {
         user: DB_USERNAME,
         password: DB_PASSWORD,
         database: DB_DATABASE,
-        
+
     },
     test: { // for automation testing (command: npm run test)
         host: DB_HOST,
@@ -32,7 +32,7 @@ let mysqlEnv = mysqlConfig[env];
 mysqlEnv.waitForConnections = true;
 mysqlEnv.connectionLimit = 20;
 
-console.log('mysqlEnv',mysqlEnv)
+
 
 const pool = mysql.createPool(mysqlEnv, { multipleStatements });
 

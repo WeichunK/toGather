@@ -239,7 +239,7 @@
                 <h4 id="rating-value">
                     </h1>
             </div> -->
-            <script src="./src/rating.js"></script>
+            <!-- <script src="./src/rating.js"></script> -->
 
 
         </div>
@@ -262,8 +262,142 @@
 
             <div id="gatheringDetail">
 
-            </div>
+                <div class="rating-box" style="position:relative; width: 100%;">
+                    <h5 class="rating-boxH1" style="text-align: center;">目前的評分</h5>
+                    <div class="ratingResult" style="text-align: center;">
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="1"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="2"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="3"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="4"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="5"></span>
+                    </div>
+                    <p class="text-muted" style="text-align: center;">目前尚未有人給評分</p>
+                    <h4 id="rating-value">
+                        </h1>
+                </div>
 
+
+                <br>
+                <!-- <form class="col"> -->
+
+
+                <div class="rating-box" style="position:relative; width: 100%;">
+                    <h5 class="rating-boxH1" style="text-align: center;">我要給評分和評論</h5>
+                    <div class="rating" style="text-align: center;">
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="1"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="2"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="3"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="4"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                            data-bs-target="#commentModal" data-bs-whatever="5"></span>
+                    </div>
+                    <h4 id="rating-value">
+                        </h1>
+                </div>
+
+
+                <!-- ---------------------- comment----------------------- -->
+
+
+                <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="commentModalLabel">New message</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+
+                                    <div class="mb-3">
+                                        <label for="message-text" class="col-form-label">Message:</label>
+                                        <textarea class="form-control" id="message-text"
+                                            placeholder="請在此留下評論（選填）"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" id="sendCommentButton">確定送出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <script>
+
+                var commentModal = document.getElementById('commentModal')
+                commentModal.addEventListener('show.bs.modal', function (event) {
+                    // Button that triggered the modal
+                    var button = event.relatedTarget
+                    // Extract info from data-bs-* attributes
+                    var ratingScore = button.getAttribute('data-bs-whatever')
+                    // If necessary, you could initiate an AJAX request here
+                    // and then do the updating in a callback.
+                    //
+                    // Update the modal's content.
+                    var modalTitle = commentModal.querySelector('.modal-title')
+                    // var modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+                    modalTitle.textContent = '您給的分數為 ' + ratingScore + ' 顆星'
+                    // modalBodyInput.value = recipient
+                })
+
+
+
+
+
+                const sendCommentButton = document.getElementById('sendCommentButton')
+                sendCommentButton.addEventListener('click', function (event) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: '您的評論已送出',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        window.location.reload();
+                    })
+
+                })
+
+
+
+
+
+
+
+
+            </script>
+
+
+
+            <!-- -------------------------------------------  -->
+
+
+
+            <!-- <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">留下評論</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            placeholder="請在此留言"></textarea>
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">送出</button>
+                    </div>
+                </form>
+            </div> -->
 
 
 
@@ -316,6 +450,10 @@
         </div>
 
     </div>
+
+    <script src="./src/rating.js"></script>
+
+
 
     <script>
 
@@ -440,6 +578,11 @@
 
         // }
 
+
+
+
+
+
         async function initMap() {
 
 
@@ -478,6 +621,9 @@
                 gathering.title = getgatheringDetails.data[0].title
 
 
+                console.log('getgatheringDetails', getgatheringDetails)
+
+
                 console.log('getgatheringDetails.user', getgatheringDetails.user)
 
                 // console.log('getgatheringDetails.data[0]', getgatheringDetails.data[0])
@@ -487,6 +633,8 @@
 
                 hostInfo.hostName = getgatheringDetails.data[0].name
                 hostInfo.hostId = getgatheringDetails.data[0].host_id
+                hostInfo.rating = getgatheringDetails.data[0].avg_rating
+                console.log('hostInfo', hostInfo)
                 // console.log('response.data.host_id', response.data[0].host_id)
 
 
@@ -510,7 +658,7 @@
                 eventPic.style = "height:30vh;object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
 
 
-                gatheringDetail.appendChild(eventPic)
+                // gatheringDetail.appendChild(eventPic)
 
 
                 let eventMap = document.createElement('div')
@@ -518,7 +666,7 @@
 
 
 
-                gatheringDetail.appendChild(eventMap)
+                // gatheringDetail.appendChild(eventMap)
 
 
                 let cardBody = document.createElement('div')
@@ -542,7 +690,7 @@
 
 
 
-                gatheringDetail.appendChild(cardBody)
+                // gatheringDetail.appendChild(cardBody)
 
 
 
@@ -597,6 +745,7 @@
                 let joinEventButton = document.createElement('a');
                 joinEventButton.className = "btn btn-primary";
                 joinEventButton.id = "joinEvent";
+                joinEventButton.style = "display: none;"
                 joinEventButton.setAttribute("data-bs-toggle", "button")
                 joinEventButton.setAttribute("autocomplete", "off")
                 joinEventButton.appendChild(document.createTextNode("我要加入"))
@@ -611,16 +760,32 @@
                 quitEventButton.appendChild(document.createTextNode("我要退出"))
 
 
+                let fullEventButton = document.createElement('a');
+                fullEventButton.className = "btn ";
+                fullEventButton.id = "fullEvent";
+                fullEventButton.style = "display: none; background-color: 'rebeccapurple';"
+                fullEventButton.setAttribute("data-bs-toggle", "button")
+                fullEventButton.setAttribute("autocomplete", "off")
+                fullEventButton.appendChild(document.createTextNode("名額已滿"))
 
 
-                let returnHome = document.createElement('a');
-                returnHome.className = "btn btn-primary btn-sm box4";
+                console.log('check', parseInt(gathering.numOfParticipants) + 1, getgatheringDetails.data[0].max_participant)
+                if ((parseInt(gathering.numOfParticipants) + 1) >= getgatheringDetails.data[0].max_participant) {
+                    joinEventButton.style = "display: none;"
+                    fullEventButton.style = "display: block;"
+                } else {
+                    joinEventButton.style = "display: block;"
+                    fullEventButton.style = "display: none;"
+                }
+
+                // let returnHome = document.createElement('a');
+                // returnHome.className = "btn btn-primary btn-sm box4";
 
 
-                returnHome.setAttribute("onclick", 'location.href=" /index.html"')
-                returnHome.setAttribute("data-bs-toggle", "button")
-                returnHome.setAttribute("autocomplete", "off")
-                returnHome.appendChild(document.createTextNode("回首頁"))
+                // returnHome.setAttribute("onclick", 'location.href=" /index.html"')
+                // returnHome.setAttribute("data-bs-toggle", "button")
+                // returnHome.setAttribute("autocomplete", "off")
+                // returnHome.appendChild(document.createTextNode("回首頁"))
 
 
 
@@ -635,11 +800,37 @@
                 listGroup.appendChild(host)
                 listGroup.appendChild(joinEventButton)
                 listGroup.appendChild(quitEventButton)
+                listGroup.appendChild(fullEventButton)
+
                 listGroup.appendChild(document.createElement('br'))
-                listGroup.appendChild(returnHome)
+                // listGroup.appendChild(returnHome)
 
-                gatheringDetail.appendChild(listGroup)
 
+
+                gatheringDetail.insertBefore(listGroup, gatheringDetail.firstChild)
+                // gatheringDetail.appendChild(listGroup)
+
+                gatheringDetail.insertBefore(cardBody, gatheringDetail.firstChild)
+
+                gatheringDetail.insertBefore(eventMap, gatheringDetail.firstChild)
+
+                gatheringDetail.insertBefore(eventPic, gatheringDetail.firstChild)
+
+
+
+
+                let returnHome = document.createElement('a');
+                returnHome.className = "btn btn-primary btn-sm box4";
+
+
+                returnHome.setAttribute("onclick", 'location.href=" /index.html"')
+                returnHome.setAttribute("data-bs-toggle", "button")
+                returnHome.setAttribute("autocomplete", "off")
+                returnHome.appendChild(document.createTextNode("回首頁"))
+
+                gatheringDetail.appendChild(document.createElement('br'))
+
+                gatheringDetail.appendChild(returnHome)
 
 
                 statusCode
@@ -728,8 +919,8 @@
 
                     participants.appendChild(hostNameForChatRoom);
 
-                    joinEvent.style = "display:block;"
-                    quitEvent.style = "display:none;"
+                    // joinEvent.style = "display:block;"
+                    // quitEvent.style = "display:none;"
 
                     for (let i in participantsData.data) {
 
@@ -739,6 +930,7 @@
                             console.log('in participant list')
                             right.style = "display:block;"
                             joinEvent.style = "display:none;"
+                            fullEvent.style = "display:none;"
                             quitEvent.style = "display:block;"
 
                         }
@@ -1009,31 +1201,59 @@
 
                     // const accessToken = localStorage.getItem("token")
 
+                    console.log('userjoinEvent', user)
+
                     if (accessToken) {
 
-                        let joinGathering = await fetchData(`/api/1.0/gatherings/attendGathering/join?id=${gatheringId}`, accessToken)
+                        if (parseInt(user.popularity) < 5) {
 
 
+                            Swal.fire({
+                                title: 'Error!',
+                                text: '積分點數不足',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            }).then(function () {
+                                window.location.href = '/index.html'
+                            })
 
-                        console.log('joinGathering', joinGathering)
-
-
-                        let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: joinGathering.data.participant.participant_name }
-
-
-                        console.log('participantData', participantData)
-
-                        alert('成功加入')
-                        socket.emit('addParticipant', participantData)
-
-
-                        // socket.emit(`host_newparticipant_${ participantData.hostId } `, msg.content)
+                        } else {
 
 
 
 
-                        window.location.reload();
+                            let joinGathering = await fetchData(`/api/1.0/gatherings/attendGathering/join?id=${gatheringId}`, accessToken)
 
+
+
+                            console.log('joinGathering', joinGathering)
+
+
+                            let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: joinGathering.data.participant.participant_name }
+
+
+                            console.log('participantData', participantData)
+
+
+                            socket.emit('addParticipant', participantData)
+
+
+                            // socket.emit(`host_newparticipant_${ participantData.hostId } `, msg.content)
+
+                            // alert('成功加入')
+
+                            Swal.fire({
+                                title: 'Success!',
+                                text: '成功加入，已為您扣除5點積分',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(function () {
+                                window.location.reload();
+                            })
+
+
+
+                        }
 
 
 

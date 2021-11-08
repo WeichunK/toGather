@@ -149,9 +149,29 @@ const getUserDetail = async (userEmail, roleId) => {
     }
 };
 
+
+const getUserGatheringList = async (userEmail, roleId) => {
+    try {
+        if (roleId) {
+            const [users] = await pool.query('SELECT * FROM member WHERE email = ? AND role = ?', [userEmail, roleId]);
+            return users[0];
+        } else {
+            const [users] = await pool.query('SELECT * FROM member WHERE email = ?', [userEmail]);
+            // console.log('users[0] ', users[0])
+            return users[0];
+        }
+    } catch (e) {
+        return null;
+    }
+};
+
+
+
+
 module.exports = {
     USER_ROLE,
     signUp,
     nativeSignIn,
     getUserDetail,
+    getUserGatheringList,
 }

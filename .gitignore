@@ -59,6 +59,7 @@ dump.rdb
 
 # dotenv environment variables file
 .env
+.env_cloud
 change_api_host.sh
 
 # next.js build output
@@ -92,3 +93,11 @@ linked_list.js
 public/test.html
 
 public/assets/gathering_pic/*
+
+app_simpletest.js
+
+public/index_2.html
+piblic/gathering_old.html
+public/styles/home_2.css
+public/styles/home_back_up.css
+public/styles/gathering_old.css

@@ -88,7 +88,7 @@ const nativeSignIn = async (email, password) => {
         }, TOKEN_SECRET);
 
 
-        if (loginAtOld.getDate() != loginAt.getDate()) {
+        if (loginAtOld.getMinutes() != loginAt.getMinutes()) {
             user.bonus = true
 
             const queryStr = 'UPDATE member SET access_token = ?, access_expired = ?, login_at = ?, popularity = ? WHERE id = ?';

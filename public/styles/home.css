@@ -25,6 +25,7 @@
     padding-left: 30px;
     margin-top: 8px;
     height: 90vh;
+    width: 600px;
 }
 
 
@@ -53,7 +54,8 @@
 
 #map {
     height: 80vh;
-    width: 60%;
+    width: 50%;
+    margin-left: 100px;
 }
 
 #gathering {

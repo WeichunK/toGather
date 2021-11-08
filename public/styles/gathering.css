@@ -35,12 +35,13 @@
 #left-map {
     /* grid-area: mapBlock; */
     /* overflow: scroll; */
-   height:28vh;
+   height:30vh;
 }
 
 #left-info {
     grid-area: infoBlock;
     /* overflow: scroll; */
+    
    
 }
 

@@ -215,11 +215,102 @@ function initMap() {
                     // }
 
                     // <img src="要插入的圖片 URL" alt="圖片替代文字" title="要顯示的文字" border="圖片邊框"></img>
+
+
+
+
+
+                    // <div class="card mb-3" style="max-width: 540px;">
+                    //     <div class="row g-0">
+                    //         <div class="col-md-4">
+                    //             <img src="..." class="img-fluid rounded-start" alt="...">
+                    //         </div>
+                    //         <div class="col-md-8">
+                    //             <div class="card-body">
+                    //                 <h5 class="card-title">Card title</h5>
+                    //                 <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    //                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    // </div>
+
+
+
+
                     let eventBlock = document.createElement('div')
-                    eventBlock.setAttribute('class', 'gathering')
+                    eventBlock.setAttribute('class', 'card mb-3')
                     // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
                     eventBlock.setAttribute('onclick', `location.href='/gathering.html?id=${response.data[i].id}';`)
                     eventBlock.setAttribute('id', response.data[i].id)
+                    eventBlock.style = "max-width: 540px;"
+
+
+                    let eventBlockRow = document.createElement('div')
+                    eventBlockRow.setAttribute('class', 'row g-0')
+
+                    let eventBlockRowPic = document.createElement('div')
+                    eventBlockRowPic.setAttribute('class', 'col-md-4')
+
+                    let eventPic = document.createElement('img')
+                    eventPic.setAttribute('class', 'img-fluid rounded')
+                    eventPic.setAttribute('src', response.data[i].picture)
+                    eventPic.style = "margin: 3px;"
+
+                    eventBlockRowPic.appendChild(eventPic)
+
+                    let eventBlockRowContent = document.createElement('div')
+                    eventBlockRowContent.setAttribute('class', 'col-md-8')
+
+                    let eventBlockRowCardBody = document.createElement('div')
+                    eventBlockRowCardBody.setAttribute('class', 'card-body')
+
+
+                    let eventBlockRowCardTitle = document.createElement('h5')
+                    eventBlockRowCardTitle.setAttribute('class', 'card-title')
+                    eventBlockRowCardTitle.appendChild(document.createTextNode(` ${response.data[i].title}`))
+
+                    let eventBlockRowCardText = document.createElement('p')
+                    eventBlockRowCardText.setAttribute('class', 'card-text')
+                    eventBlockRowCardText.appendChild(document.createTextNode(` ${response.data[i].description.substring(0, 30)}...`))
+
+
+                    let eventBlockRowCardHost = document.createElement('p')
+                    eventBlockRowCardHost.setAttribute('class', 'card-text')
+
+                    let eventBlockRowCardHostSmall = document.createElement('small')
+                    eventBlockRowCardHostSmall.setAttribute('class', 'text-muted')
+
+                    eventBlockRowCardHostSmall.appendChild(document.createTextNode(`發起人: ${response.data[i].name}`))
+                    eventBlockRowCardHost.appendChild(eventBlockRowCardHostSmall)
+
+
+                    eventBlockRowCardBody.appendChild(eventBlockRowCardTitle)
+                    eventBlockRowCardBody.appendChild(eventBlockRowCardText)
+                    eventBlockRowCardBody.appendChild(eventBlockRowCardHost)
+
+                    eventBlockRowContent.appendChild(eventBlockRowCardBody)
+
+
+                    eventBlockRow.appendChild(eventBlockRowPic)
+                    eventBlockRow.appendChild(eventBlockRowContent)
+
+
+                    eventBlock.appendChild(eventBlockRow)
+
+
+                    gatheringList.appendChild(eventBlock)
+                    // gatheringList.appendChild(document.createElement('br'))
+
+
+                    let divider = document.createElement('div')
+                    divider.style = `margin-top: 12px; margin-bottom: 12px; border-style: solid; border-bottom: solid; border-color: rgb(235, 235, 235); border-width: 1px;width:100%`
+
+                    gatheringList.appendChild(divider)
+
+
+
+                    {/* 
 
                     // eventBlock.style = `border-style: solid; border-color: grey; width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
                     eventBlock.style = `width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
@@ -240,9 +331,12 @@ function initMap() {
 
 
                     let divider = document.createElement('div')
-                    divider.style = `margin-top: 12px; margin-bottom: 12px; border-style: solid; border-bottom: grey; border-color: #66A8FF; width:100%`
+                    divider.style = `margin-top: 12px; margin-bottom: 12px; border-style: solid; border-bottom: solid; border-color: rgb(235, 235, 235); border-width: 1px;width:100%`
 
-                    gatheringList.appendChild(divider)
+                    gatheringList.appendChild(divider) */}
+
+
+
 
 
                     // gatheringList.appendChild(document.createElement('<br>'))

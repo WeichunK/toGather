@@ -2,41 +2,30 @@
 
 .wrap {
     display: grid;
-    grid-template-columns: 5% 90% 1%;
-    grid-template-rows: 100px 50px auto;
+    grid-template-columns: 40% 30% auto;
+    grid-template-rows: 100px auto;
     height: 95vh;
-    width: 95vw;
+    width: 85vw;
     margin: 0 auto;
 
     grid-template-areas:
-    "filling header messages"
-    "filling search messages"
-    "filling centerBlock messages";
+    "header header messages"
+    "leftBlock rightBlock messages";
 
 
   }
 
 #header {
     grid-area: header;
-    display: flex;
-}
-
-#search-box{
-    grid-area: search
-}
-
-#center{
-    grid-area: centerBlock;
 }
 
 #left {
-   
+    grid-area: leftBlock;
     overflow: scroll;
-    
+    padding-left: 30px;
     margin-top: 8px;
     height: 90vh;
-    width: 55%;
-    display: inline-block;
+    width: 600px;
 }
 
 
@@ -58,15 +47,15 @@
 }
 
 
-
+#right {
+    grid-area: rightBlock;
+    margin-top: 8px;
+}
 
 #map {
     height: 80vh;
-    width: 40%;
-    height: 80vh;
-    margin: 5px;
-    display: inline-block;
-    
+    width: 50%;
+    margin-left: 100px;
 }
 
 #gathering {
@@ -76,7 +65,6 @@
 #message-block {
     grid-area: messages;
     position: absolute;
-    z-index: 0;
     
 }
 

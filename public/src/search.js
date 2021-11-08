@@ -1,25 +1,48 @@
-const search = document.querySelector('.search')
-search.addEventListener('change', (event) => {
-    if (Boolean(event.target.value.trim())) {
+// const search = document.querySelector('.input-group-text')
+// search.addEventListener('change', (event) => {
+//     if (Boolean(event.target.value.trim())) {
+//         console.log('change')
+//         // window.location.replace(`http://localhost:3000/index.html?search=${event.target.value}`)
+//         window.location.href = `/index.html?search=${event.target.value}`
+
+//     } else {
+//         // window.location.replace(`http://localhost:3000/index.html`)
+//         window.location.href = '/index.html'
+//     }
+
+// });
+
+
+
+
+// const cancelSearch = document.querySelector('.sibling-B')
+// cancelSearch.addEventListener('click', (event) => {
+
+//     // window.location.replace(`http://localhost:3000/index.html`)
+//     window.location.href = '/index.html'
+
+
+// });
+
+
+
+const searchButton = document.getElementById('search-addon');
+const searchInput = document.getElementById('search-input');
+searchButton.addEventListener('click', () => {
+    const inputValue = searchInput.value;
+    // alert(inputValue);
+
+    if (Boolean(searchInput.value.trim())) {
         console.log('change')
         // window.location.replace(`http://localhost:3000/index.html?search=${event.target.value}`)
-        window.location.href = `/index.html?search=${event.target.value}`
+        window.location.href = `/index.html?search=${searchInput.value}`
 
     } else {
         // window.location.replace(`http://localhost:3000/index.html`)
         window.location.href = '/index.html'
     }
 
-});
 
-
-
-
-const cancelSearch = document.querySelector('.sibling-B')
-cancelSearch.addEventListener('click', (event) => {
-
-    // window.location.replace(`http://localhost:3000/index.html`)
-    window.location.href = '/index.html'
 
 
 });

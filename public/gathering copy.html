@@ -59,6 +59,52 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <style type="text/css">
+        body {
+            font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+
+        #left-info {
+            /* height: 100%; */
+            overflow: auto;
+        }
+
+        #left-info::-webkit-scrollbar {
+            width: 1px;
+            /* background-color: black; */
+        }
+
+
+
+        #right {
+            margin: 0;
+            padding-bottom: 0.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            height: 100%;
+            max-height: 90%;
+            display: flex;
+
+        }
+
+        /* #groupChatRoom {
+
+            border: 2px #55adff solid;
+        } */
+
+
+
+        /* #map {
+            height: 65%;
+            width: 50vw;
+        } */
+
+
+
+
+
+
+
+
         #groupChatRoom {
             display: flex;
             flex-direction: column;
@@ -83,12 +129,13 @@
             padding: 0.25rem;
             /* position: fixed; */
             bottom: 0;
-
+            /* left: 0;
+            right: 0; */
             display: flex;
-
+            /* height: 3rem; */
             box-sizing: border-box;
             backdrop-filter: blur(10px);
-
+            /* width: 20%; */
 
         }
 
@@ -156,21 +203,34 @@
 
     <div class='wrap'>
 
-
-
-        <!-- ---------------------- header --------------------------- -->
         <div id="header">
+
+
             <nav class="navbar navbar-light fixed-top navbar-expand-lg" style="background-color: #e3f2fd;">
                 <div class="container-md">
 
+
+
+
+
                     <a class="navbar-brand logo name" href="./index.html">
-                        <img src="./assets/logo5.png" alt="" width="230" height="60">
+                        <img src="./assets/logo3.png" alt="" width="230" height="60">
+                        <!-- <a class="" href="/index.html"> -->
                     </a>
+
                     <div id="main-header">
+                        <!-- 
+                        <button class="navbar-toggler host btn btn-primary" type="button" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" aria-controls="navbarNavDropdown" aria-expanded="false"
+                            aria-label="Toggle navigation" id="hostbutton">
+                            <span class="navbar-toggler-icon"></span>
+                            我要開團
+                        </button> -->
+
                         <div class="collapse navbar-collapse" id="navbarNavDropdown">
                             <ul class="navbar-nav">
 
-                                <!-- <li class="nav-item" style="margin: 3px 10px 0 0;">
+                                <li class="nav-item">
                                     <a class="nav-link" href="#">
                                         <div class="host">
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -180,17 +240,17 @@
 
                                         </div>
                                     </a>
-                                </li> -->
-                                <!-- <li class="nav-item" style="display: flex;">
-                            <a class="nav-link" id="caht" href="#"><svg xmlns=" http://www.w3.org/2000/svg"
-                                    width="47" height="47" fill="currentColor" class="bi bi-chat-left-text"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                                    <path
-                                        d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-                                </svg></a>
-                        </li> -->
+                                </li>
+                                <li class="nav-item" style="display: flex;">
+                                    <a class="nav-link" id="caht" href="#"><svg xmlns=" http://www.w3.org/2000/svg"
+                                            width="47" height="47" fill="currentColor" class="bi bi-chat-left-text"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                            <path
+                                                d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                                        </svg></a>
+                                </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -221,8 +281,6 @@
                 </div>
             </nav>
         </div>
-        <!-- -------------------------------------------------- -->
-
 
 
         <div id="left-block">
@@ -256,32 +314,70 @@
 
 
         <!-- <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw")</script> -->
-
-        <div id="center">
-
+        <div id=left-info>
 
             <div id="gatheringDetail">
 
             </div>
 
+            <!-- <div id=joinEvent style="width: fit-content;">
+            
+                <button type="button" class="btn btn-primary" data-bs-toggle="button" autocomplete="off">我要加入</button>
+            </div>
+
+            <div id=quitEvent style="width: fit-content; display: none;">
+            
+                <button type="button" class="btn btn-primary" data-bs-toggle="button" autocomplete="off">我要退出</button>
+            </div> -->
 
 
 
 
-            <div id=right style="display:none;">
-                <!-- <div id=participant-list>
+
+            <br>
+            <!-- <div onclick='location.href="/index.html"' class="box4">
+             
+                <button type="button" class="btn btn-primary btn-sm" disabled data-bs-toggle="button"
+                    autocomplete="off">回首頁</button>
+            </div> -->
+
+            <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+        <div id=right style="display:none;">
+            <!-- <div id=participant-list>
                 <h3 style=" text-align: center;">成員</h3>
                 <ul id="participants"></ul>
 
 
             </div> -->
-                <div id=groupChatRoom style="height: 95vh;">
+            <div id=groupChatRoom style="height: 95vh;">
 
-                    <h6 style=" text-align: center;">成員</h6>
-                    <ul id="participants"></ul>
+                <h6 style=" text-align: center;">成員</h6>
+                <ul id="participants"></ul>
 
-                    <h6 style=" text-align: center;">群組聊天室</h6>
-                    <!-- <div id="container">
+                <h6 style=" text-align: center;">群組聊天室</h6>
+                <!-- <div id="container">
                         <div id="status-box">Server: <span id="status">-</span> / <span id="online">0</span> online.
                         </div>
                         <div id="content">
@@ -304,15 +400,13 @@
                     </div> -->
 
 
-                    <ul id="messages"></ul>
-                    <div>
-                        <form id="messagesForm" action="">
-                            <input id="messageInput" autocomplete="off" /> <button>Send</button>
-                        </form>
-                    </div>
+                <ul id="messages"></ul>
+                <div>
+                    <form id="messagesForm" action="">
+                        <input id="messageInput" autocomplete="off" /> <button>Send</button>
+                    </form>
                 </div>
             </div>
-
         </div>
 
     </div>
@@ -497,14 +591,14 @@
                 const gatheringDetail = document.getElementById('gatheringDetail')
 
                 gatheringDetail.class = "card"
-                // gatheringDetail.style = "height:80%;"
+                gatheringDetail.style = "width: 35rem; height:80%;"
 
 
                 let eventPic = document.createElement('img')
                 eventPic.src = getgatheringDetails.data[0].picture
 
                 eventPic.className = "card-img-top"
-
+                eventPic.alt = "..."
 
 
                 eventPic.style = "height:30vh;object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
@@ -1418,30 +1512,30 @@
 
     <!-- -------------------js for header------------------ -->
 
-
+    <script src="src/search.js"> </script>
     <script>
 
 
 
-        // document.getElementById("hostbutton").addEventListener('click', () => {
-        //     if (!localStorage.getItem('token')) {
-        //         // alert('請先登入')
+        document.getElementById("hostbutton").addEventListener('click', () => {
+            if (!localStorage.getItem('token')) {
+                // alert('請先登入')
 
-        //         Swal.fire({
-        //             title: 'Error!',
-        //             text: '請先登入',
-        //             icon: 'error',
-        //             confirmButtonText: 'OK'
-        //         }).then(function () {
-        //             window.location.href = '/sign.html'
-        //         })
+                Swal.fire({
+                    title: 'Error!',
+                    text: '請先登入',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(function () {
+                    window.location.href = '/sign.html'
+                })
 
-        //         // Swal.fire('Any fool can use a computer')
+                // Swal.fire('Any fool can use a computer')
 
-        //         // window.location.href = '/sign.html'
+                // window.location.href = '/sign.html'
 
-        //     }
-        // })
+            }
+        })
 
 
 
@@ -1486,56 +1580,52 @@
 
 
 
-        // document.getElementById("gathering-list").addEventListener('click', async (event) => {
+        document.getElementById("gathering-list").addEventListener('click', async (event) => {
 
 
 
-        //     let targetClassName;
-        //     let targetId;
+            let targetClassName;
+            let targetId;
 
-        //     if (event.target.className === 'eventPic') {
-        //         targetClassName = event.target.parentElement.className
-        //         targetId = event.target.parentElement.id
+            if (event.target.className === 'eventPic') {
+                targetClassName = event.target.parentElement.className
+                targetId = event.target.parentElement.id
 
-        //         // alert('img')
-        //     } else {
-        //         targetClassName = event.target.className
-        //         targetId = event.target.id
-        //     }
-
-
-        //     if (targetClassName === 'gathering') {
-        //         // alert('click')
+                // alert('img')
+            } else {
+                targetClassName = event.target.className
+                targetId = event.target.id
+            }
 
 
-
-
-        //         let response
-        //         const xhr = new XMLHttpRequest()
-        //         xhr.onreadystatechange = function () {
-        //             if (xhr.readyState === 4 && xhr.status === 200) {
-        //                 response = JSON.parse(xhr.responseText)
-        //                 // response = xhr.responseText;
-        //                 console.log(response)
-        //             }
-        //         }
-
-        //         const accessToken = localStorage.getItem("token")
-
-        //         function sendAJAX(accessToken) {
-        //             xhr.open('GET', `/api/1.0/tracking/clickGatheringList?id=${targetId}`)
-        //             if (accessToken) {
-        //                 // console.log('accessToken: ', accessToken)
-        //                 xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-        //             }
-        //             xhr.send()
-        //         }
-
-        //         sendAJAX(accessToken)
+            if (targetClassName === 'gathering') {
+                // alert('click')
 
 
 
 
+                let response
+                const xhr = new XMLHttpRequest()
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        response = JSON.parse(xhr.responseText)
+                        // response = xhr.responseText;
+                        console.log(response)
+                    }
+                }
+
+                const accessToken = localStorage.getItem("token")
+
+                function sendAJAX(accessToken) {
+                    xhr.open('GET', `/api/1.0/tracking/clickGatheringList?id=${targetId}`)
+                    if (accessToken) {
+                        // console.log('accessToken: ', accessToken)
+                        xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+                    }
+                    xhr.send()
+                }
+
+                sendAJAX(accessToken)
 
 
 
@@ -1547,21 +1637,25 @@
 
 
 
-        //         // await fetch(`/tracking/clickGatheringList?id=${targetId}`)
-        //         //     .then((response) => {
-        //         //         // 這裡會得到一個 ReadableStream 的物件
-        //         //         console.log(response);
-        //         //         // 可以透過 blob(), json(), text() 轉成可用的資訊
-        //         //         return;
-        //         //     })
-        //         // alert('stop')
-
-        //     }
 
 
 
 
-        // })
+                // await fetch(`/tracking/clickGatheringList?id=${targetId}`)
+                //     .then((response) => {
+                //         // 這裡會得到一個 ReadableStream 的物件
+                //         console.log(response);
+                //         // 可以透過 blob(), json(), text() 轉成可用的資訊
+                //         return;
+                //     })
+                // alert('stop')
+
+            }
+
+
+
+
+        })
 
 
 
@@ -1569,7 +1663,7 @@
 
 
 
-        // const hostGathering = document.getElementById("hostGathering")
+        const hostGathering = document.getElementById("hostGathering")
 
         // document.getElementById("createEvent").addEventListener('click', () => {
         //     hostGathering.style.display = 'block'

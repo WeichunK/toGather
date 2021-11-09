@@ -243,7 +243,7 @@ function initMap() {
                     // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
                     eventBlock.setAttribute('onclick', `location.href='/gathering.html?id=${response.data[i].id}';`)
                     eventBlock.setAttribute('id', response.data[i].id)
-                    eventBlock.style = "max-width: 540px;"
+                    eventBlock.style = "max-width: 100%;"
 
 
                     let eventBlockRow = document.createElement('div')
@@ -251,11 +251,12 @@ function initMap() {
 
                     let eventBlockRowPic = document.createElement('div')
                     eventBlockRowPic.setAttribute('class', 'col-md-4')
+                    // eventBlockRowPic.style = "min-height:80%;"
 
                     let eventPic = document.createElement('img')
-                    eventPic.setAttribute('class', 'img-fluid rounded')
+                    eventPic.setAttribute('class', 'figure-img img-fluid rounded')
                     eventPic.setAttribute('src', response.data[i].picture)
-                    eventPic.style = "margin: 3px;"
+                    eventPic.style = "margin: 3px; object-fit: contain;"
 
                     eventBlockRowPic.appendChild(eventPic)
 

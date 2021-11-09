@@ -166,6 +166,21 @@ const getUserGatheringList = async (userEmail, roleId) => {
 };
 
 
+const getUserRating = async (userId) => {
+    console.log('user_id', userId)
+    try {
+        console.log('try')
+        const [users] = await pool.query('SELECT user_id, (case when AVG(rating) is null then 0 else AVG(rating) end) AS rating FROM feedback group by user_id having user_id = ?', [userId]);
+        console.log('users[0]', users[0])
+        return users[0];
+    } catch (e) {
+        console.log('catch')
+        return null;
+    }
+}
+
+
+
 
 
 module.exports = {
@@ -174,4 +189,5 @@ module.exports = {
     nativeSignIn,
     getUserDetail,
     getUserGatheringList,
+    getUserRating,
 }

@@ -265,16 +265,11 @@
                 <div class="rating-box" style="position:relative; width: 100%;">
                     <h5 class="rating-boxH1" style="text-align: center;">目前的評分</h5>
                     <div class="ratingResult" style="text-align: center;">
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="1"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="2"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="3"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="4"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="5"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
                     </div>
                     <p class="text-muted" style="text-align: center;">目前尚未有人給評分</p>
                     <h4 id="rating-value">
@@ -361,6 +356,8 @@
 
                 const sendCommentButton = document.getElementById('sendCommentButton')
                 sendCommentButton.addEventListener('click', function (event) {
+
+
                     Swal.fire({
                         title: 'Success!',
                         text: '您的評論已送出',
@@ -645,7 +642,7 @@
                 const gatheringDetail = document.getElementById('gatheringDetail')
 
                 gatheringDetail.class = "card"
-                // gatheringDetail.style = "height:80%;"
+                gatheringDetail.style = "width:60%;"
 
 
                 let eventPic = document.createElement('img')
@@ -926,12 +923,13 @@
 
                         console.log('participantsData.data[i]', participantsData.data[i].id, user.id)
 
-                        if (user.id == participantsData.data[i].id) {
+                        if (user.id == participantsData.data[i].id | user.id == hostInfo.hostId) {
                             console.log('in participant list')
                             right.style = "display:block;"
                             joinEvent.style = "display:none;"
                             fullEvent.style = "display:none;"
                             quitEvent.style = "display:block;"
+                            gatheringDetail.style = "width: 45%"
 
                         }
 
@@ -1179,6 +1177,7 @@
                     // messages.style = "display:none;"
                     // form.style = "display:none;"
                     right.style = "display:none;"
+                    gatheringDetail.style = "width:60%;"
 
                 }
 
@@ -1629,9 +1628,7 @@
     </script>
 
 
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXg0bmVrXJ6hF8Nq5voQG6TbA5UQFha7k&callback=initMap&v=weekly"
-        async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&v=weekly" async></script>
 
 
 

@@ -96,31 +96,3 @@
     box-shadow: 5px 5px 12px grey;
 }
 
-
-
-.sibling-main {
-    display:flex; 
-    justify-content:end; 
-    align-items:center;
-    
-}
-
-.sibling-main .sibling-A{
-    position:absolute;
-}
-.sibling-main .sibling-B{
-    position:absolute;
-}
-
-.sibling-A {
-    
-    margin-right: 3px;
-
-   
-}
-
-.sibling-B {
-    width: min-content;
-    margin-bottom: 3px;
-    margin-right: 10px;
-}

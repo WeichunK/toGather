@@ -135,4 +135,29 @@ const getMemberProfile = async (req, res) => {
 
 }
 
-module.exports = { signUp, signIn, getMemberProfile }
+
+
+
+const getUserRating = async (req, res) => {
+
+    console.log('req.user.id', req.user.id)
+    let result = await User.getUserRating(req.user.id);
+    console.log('result', result)
+
+    if (result.error) {
+        const status_code = result.status ? result.status : 403;
+        res.status(status_code).send({ error: result.error });
+        return;
+    }
+
+
+    res.status(200).send({ data: result });
+    return;
+}
+
+
+
+
+
+
+module.exports = { signUp, signIn, getMemberProfile, getUserRating }

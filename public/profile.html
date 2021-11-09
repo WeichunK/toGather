@@ -16,6 +16,15 @@
         crossorigin="anonymous"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        #profileList {
+            margin: 0 auto;
+        }
+    </style>
+
+
+
 </head>
 
 <body>
@@ -117,29 +126,108 @@
 
 
 
-        function ajax(src, callback) {
+        // function ajax(src, callback) {
 
-            if (localStorage.getItem("token")) {
-                const accessToken = localStorage.getItem("token");
-                let response
-                const xhr = new XMLHttpRequest()
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        response = JSON.parse(xhr.responseText)
-                        // response = xhr.responseText;
-                        callback(response)
-                    }
-                }
-                function sendAJAX(accessToken) {
-                    xhr.open('GET', src)
-                    if (accessToken) {
-                        // console.log('accessToken: ', accessToken)
-                        xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-                    }
+        //     if (localStorage.getItem("token")) {
+        //         const accessToken = localStorage.getItem("token");
+        //         let response
+        //         const xhr = new XMLHttpRequest()
+        //         xhr.onreadystatechange = function () {
+        //             if (xhr.readyState === 4 && xhr.status === 200) {
+        //                 response = JSON.parse(xhr.responseText)
+        //                 // response = xhr.responseText;
+        //                 callback(response)
+        //             }
+        //         }
+        //         function sendAJAX(accessToken) {
+        //             xhr.open('GET', src)
+        //             if (accessToken) {
+        //                 // console.log('accessToken: ', accessToken)
+        //                 xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+        //             }
 
-                    xhr.send()
+        //             xhr.send()
+        //         }
+        //         sendAJAX(accessToken)
+
+        //     } else {
+        //         Swal.fire({
+        //             title: 'Error!',
+        //             text: '請先登入',
+        //             icon: 'error',
+        //             confirmButtonText: 'OK'
+        //         })
+        //     }
+
+        // }
+
+
+
+
+
+
+
+        // ajax('/api/1.0/user/getmemberprofile', function (response) {
+        //     // console.log(response);
+        //     console.log('response', response)
+
+        //     let profileList = document.getElementById('profileList')
+
+
+        //     let name = document.createElement('li')
+        //     name.textContent = response.data.name;
+        //     // participant.textContent = response.data[i].user_name;
+        //     // participant.setAttribute('onclick', `location.href='http://localhost:3000/profile.html?id=${response.data[i].id}';`)
+        //     // participant.style = `cursor:pointer;`
+        //     profileList.appendChild(name);
+
+        //     let email = document.createElement('li')
+        //     console.log('response.data.email', response.data.email)
+        //     email.textContent = response.data.email;
+        //     profileList.appendChild(email);
+
+        //     let gender = document.createElement('li')
+        //     email.textContent = response.data.gender;
+        //     profileList.appendChild(gender);
+
+
+
+        // })
+
+
+
+
+
+
+
+
+
+
+
+        function fetchData(src, accessToken) {
+            // console.log('access', accessToken)
+
+            function processStatus(response) {
+                // 狀態 "0" 是處理本地檔案 (例如Cordova/Phonegap等等)
+                if (response.status === 200 || response.status === 0) {
+                    return Promise.resolve(response)
+                } else {
+                    return Promise.reject(new Error(response.statusText))
                 }
-                sendAJAX(accessToken)
+            }
+
+            if (accessToken) {
+                const headers = {
+                    // 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+
+                return fetch(src, { headers: headers })
+                    .then(processStatus)
+                    .then((response) => { return response.json(); })
+                    .catch((error) => {
+                        console.log(error);
+                    })
 
             } else {
                 Swal.fire({
@@ -158,31 +246,457 @@
 
 
 
-        ajax('/api/1.0/user/getmemberprofile', function (response) {
-            // console.log(response);
-            console.log('response', response)
+
+
+
+
+
+        async function initProfile() {
+
+
+            // var socket = io();
+
+            // var hostInfo = {};
+            // var user = {}
+            // var gathering = {}
+
+            const accessToken = localStorage.getItem("token")
+
+
+
+            let url = location.href
+
+
+
+            let profileData = await fetchData('/api/1.0/user/getmemberprofile', accessToken)
+
+            console.log('profileData', profileData)
 
             let profileList = document.getElementById('profileList')
+            profileList.class = "card"
+            profileList.style = "width:60%;"
 
 
-            let name = document.createElement('li')
-            name.textContent = response.data.name;
-            // participant.textContent = response.data[i].user_name;
-            // participant.setAttribute('onclick', `location.href='http://localhost:3000/profile.html?id=${response.data[i].id}';`)
-            // participant.style = `cursor:pointer;`
-            profileList.appendChild(name);
+            let profilePic = document.createElement('img')
+            profilePic.src = profileData.data.picture || '';
+            profilePic.className = "card-img-top"
 
-            let email = document.createElement('li')
-            email.textContent = response.data.email;
-            profileList.appendChild(email);
-
-            let gender = document.createElement('li')
-            email.textContent = response.data.gender;
-            profileList.appendChild(gender);
+            profilePic.style = "height:30vh;object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
 
 
 
-        })
+
+            let cardBody = document.createElement('div')
+            cardBody.className = "card-body";
+
+            let cardTitle = document.createElement('h5')
+            cardTitle.className = "card-title";
+            cardTitle.appendChild(document.createTextNode('Introduction'))
+
+
+            let cardIntroduction = document.createElement('p')
+            cardIntroduction.className = "card-text";
+            cardIntroduction.style = "white-space: pre-line;"
+            cardIntroduction.appendChild(document.createTextNode(`${profileData.data.introduction || '未提供'}`))
+            // console.log(getgatheringDetails.data[0].description)
+
+            cardBody.appendChild(cardTitle)
+            cardBody.appendChild(cardIntroduction)
+
+            let listGroupItem
+
+            let listGroup = document.createElement('ul');
+            listGroup.className = "list-group list-group-flush";
+
+            let email = document.createElement('li');
+            email.className = "list-group-item";
+            email.appendChild(document.createTextNode(`email ${profileData.data.email}`))
+
+
+            let age = document.createElement('li');
+            age.className = "list-group-item";
+            age.appendChild(document.createTextNode(`年齡 ${profileData.data.age || '未提供'}`))
+
+
+            let job = document.createElement('li');
+            job.className = "list-group-item";
+            job.appendChild(document.createTextNode(`職業 ${profileData.data.job || '未提供'}`))
+
+
+
+            let popularity = document.createElement('li');
+            popularity.className = "list-group-item";
+            popularity.appendChild(document.createTextNode(`聲望 ${profileData.data.popularity}`))
+
+
+
+
+
+            let changePicButton = document.createElement('a');
+            changePicButton.className = "btn btn-primary";
+            changePicButton.id = "changePic";
+            // changePicButton.style = "display: none;"
+            changePicButton.setAttribute("data-bs-toggle", "button")
+            changePicButton.setAttribute("autocomplete", "off")
+            changePicButton.appendChild(document.createTextNode("更換照片"))
+
+
+
+            listGroup.appendChild(email)
+            listGroup.appendChild(age)
+            listGroup.appendChild(job)
+            listGroup.appendChild(popularity)
+
+            listGroup.appendChild(changePicButton)
+
+            listGroup.appendChild(document.createElement('br'))
+            // listGroup.appendChild(returnHome)
+
+
+
+            profileList.insertBefore(listGroup, profileList.firstChild)
+            // gatheringDetail.appendChild(listGroup)
+
+            profileList.insertBefore(cardBody, profileList.firstChild)
+
+
+
+            profileList.insertBefore(profilePic, profileList.firstChild)
+
+
+
+
+            let returnHome = document.createElement('a');
+            returnHome.className = "btn btn-primary btn-sm box4";
+
+
+            returnHome.setAttribute("onclick", 'location.href="/index.html"')
+            returnHome.setAttribute("data-bs-toggle", "button")
+            returnHome.setAttribute("autocomplete", "off")
+            returnHome.appendChild(document.createTextNode("回首頁"))
+
+            profileList.appendChild(document.createElement('br'))
+
+            profileList.appendChild(returnHome)
+
+
+            let ratingData = await fetchData('/api/1.0/user/getuserrating', accessToken)
+
+            console.log('ratingData', ratingData)
+
+
+
+            // let profileListUl = document.createElement('ul')
+
+            // let pic = document.createElement('li')
+            // let img = document.createElement('img')
+
+
+
+            // let name = document.createElement('li')
+            // name.textContent = profileData.data.name;
+            // // participant.textContent = response.data[i].user_name;
+            // // participant.setAttribute('onclick', `location.href='http://localhost:3000/profile.html?id=${response.data[i].id}';`)
+            // // participant.style = `cursor:pointer;`
+            // profileListUl.appendChild(name);
+
+            // let email = document.createElement('li')
+            // // console.log('profileList.data.email', profileData.data.email)
+            // email.textContent = profileData.data.email;
+            // profileListUl.appendChild(email);
+
+            // let gender = document.createElement('li')
+            // // console.log('gender', profileData.data.gender)
+            // gender.textContent = profileData.data.gender || '未提供';
+            // profileListUl.appendChild(gender);
+
+            // profileList.appendChild(profileListUl)
+
+
+
+
+
+            // console.log('memberprofile', profileData)
+
+
+            // let profileList = document.getElementById('profileList')
+
+            // let listGroup = document.createElement('ul');
+            // listGroup.className = "list-group list-group-flush";
+
+
+
+
+            // let listGroupItem = document.createElement('li');
+            // listGroupItem.className = "list-group-item";
+            // listGroupItem.appendChild(document.createTextNode(`地點 ${getgatheringDetails.data[0].place}`))
+
+
+            // let time = document.createElement('li');
+            // time.className = "list-group-item";
+            // time.appendChild(document.createTextNode(`時間 ${getgatheringDetails.data[0].start_at}`))
+
+
+
+            // let minParticipant = document.createElement('li');
+            // minParticipant.className = "list-group-item";
+            // minParticipant.appendChild(document.createTextNode(`幾人成團 ${getgatheringDetails.data[0].min_participant}`))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+        // let getgatheringDetails = await fetchData(`/ api / 1.0 / getgatherings / details ? id = ${gatheringId}`, accessToken)
+
+        // // console.log('getgatheringDetails.data[0].lat', getgatheringDetails.data[0].lat)
+        // gathering.title = getgatheringDetails.data[0].title
+
+
+        // console.log('getgatheringDetails', getgatheringDetails)
+
+
+        // console.log('getgatheringDetails.user', getgatheringDetails.user)
+
+        // // console.log('getgatheringDetails.data[0]', getgatheringDetails.data[0])
+
+        // // initMap(response.data[0].lat, response.data[0].lng)
+
+
+        // hostInfo.hostName = getgatheringDetails.data[0].name
+        // hostInfo.hostId = getgatheringDetails.data[0].host_id
+        // hostInfo.rating = getgatheringDetails.data[0].avg_rating
+        // console.log('hostInfo', hostInfo)
+        // // console.log('response.data.host_id', response.data[0].host_id)
+
+
+
+        // // let mapDiv = document.getElementById("left-map")
+        // // mapDiv.style = 'height: 100%;width: 98%;'
+
+        // const gatheringDetail = document.getElementById('gatheringDetail')
+
+        // gatheringDetail.class = "card"
+        // gatheringDetail.style = "width:60%;"
+
+
+        // let eventPic = document.createElement('img')
+        // eventPic.src = getgatheringDetails.data[0].picture
+
+        // eventPic.className = "card-img-top"
+
+
+
+        // eventPic.style = "height:30vh;object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
+
+
+        // // gatheringDetail.appendChild(eventPic)
+
+
+        // let eventMap = document.createElement('div')
+        // eventMap.id = "left-map";
+
+
+
+        // // gatheringDetail.appendChild(eventMap)
+
+
+        // let cardBody = document.createElement('div')
+        // cardBody.className = "card-body";
+
+        // let cardTitle = document.createElement('h5')
+        // cardTitle.className = "card-title";
+        // cardTitle.appendChild(document.createTextNode(` ${getgatheringDetails.data[0].title}`))
+
+
+
+        // let cardDescriptiion = document.createElement('p')
+        // cardDescriptiion.className = "card-text";
+        // cardDescriptiion.style = "white-space: pre-line;"
+        // cardDescriptiion.appendChild(document.createTextNode(` ${getgatheringDetails.data[0].description}`))
+        // // console.log(getgatheringDetails.data[0].description)
+
+        // cardBody.appendChild(cardTitle)
+        // cardBody.appendChild(cardDescriptiion)
+
+
+
+
+        // // gatheringDetail.appendChild(cardBody)
+
+
+
+
+
+
+        // let listGroup = document.createElement('ul');
+        // listGroup.className = "list-group list-group-flush";
+
+
+
+
+        // let listGroupItem = document.createElement('li');
+        // listGroupItem.className = "list-group-item";
+        // listGroupItem.appendChild(document.createTextNode(`地點 ${getgatheringDetails.data[0].place}`))
+
+
+        // let time = document.createElement('li');
+        // time.className = "list-group-item";
+        // time.appendChild(document.createTextNode(`時間 ${getgatheringDetails.data[0].start_at}`))
+
+
+
+        // let minParticipant = document.createElement('li');
+        // minParticipant.className = "list-group-item";
+        // minParticipant.appendChild(document.createTextNode(`幾人成團 ${getgatheringDetails.data[0].min_participant}`))
+
+
+
+        // let maxParticipant = document.createElement('li');
+        // maxParticipant.className = "list-group-item";
+        // maxParticipant.appendChild(document.createTextNode(`人數上限 ${getgatheringDetails.data[0].max_participant}`))
+
+
+        // let currentParticipant = document.createElement('li');
+        // currentParticipant.className = "list-group-item";
+        // currentParticipant.appendChild(document.createTextNode(`目前人數 ${parseInt(gathering.numOfParticipants) + 1
+        //     } `))
+
+
+
+        // let statusCode = document.createElement('li');
+        // statusCode.className = "list-group-item";
+        // statusCode.appendChild(document.createTextNode(`狀態 ${getgatheringDetails.data[0].status} `))
+
+
+
+        // let host = document.createElement('li');
+        // host.className = "list-group-item";
+        // host.appendChild(document.createTextNode(`主揪 ${hostInfo.hostName}`))
+
+
+        // let joinEventButton = document.createElement('a');
+        // joinEventButton.className = "btn btn-primary";
+        // joinEventButton.id = "joinEvent";
+        // joinEventButton.style = "display: none;"
+        // joinEventButton.setAttribute("data-bs-toggle", "button")
+        // joinEventButton.setAttribute("autocomplete", "off")
+        // joinEventButton.appendChild(document.createTextNode("我要加入"))
+
+
+        // let quitEventButton = document.createElement('a');
+        // quitEventButton.className = "btn btn-primary";
+        // quitEventButton.id = "quitEvent";
+        // quitEventButton.style = "display: none;"
+        // quitEventButton.setAttribute("data-bs-toggle", "button")
+        // quitEventButton.setAttribute("autocomplete", "off")
+        // quitEventButton.appendChild(document.createTextNode("我要退出"))
+
+
+        // let fullEventButton = document.createElement('a');
+        // fullEventButton.className = "btn ";
+        // fullEventButton.id = "fullEvent";
+        // fullEventButton.style = "display: none; background-color: 'rebeccapurple';"
+        // fullEventButton.setAttribute("data-bs-toggle", "button")
+        // fullEventButton.setAttribute("autocomplete", "off")
+        // fullEventButton.appendChild(document.createTextNode("名額已滿"))
+
+
+        // console.log('check', parseInt(gathering.numOfParticipants) + 1, getgatheringDetails.data[0].max_participant)
+        // if ((parseInt(gathering.numOfParticipants) + 1) >= getgatheringDetails.data[0].max_participant) {
+        //     joinEventButton.style = "display: none;"
+        //     fullEventButton.style = "display: block;"
+        // } else {
+        //     joinEventButton.style = "display: block;"
+        //     fullEventButton.style = "display: none;"
+        // }
+
+        // // let returnHome = document.createElement('a');
+        // // returnHome.className = "btn btn-primary btn-sm box4";
+
+
+        // // returnHome.setAttribute("onclick", 'location.href=" /index.html"')
+        // // returnHome.setAttribute("data-bs-toggle", "button")
+        // // returnHome.setAttribute("autocomplete", "off")
+        // // returnHome.appendChild(document.createTextNode("回首頁"))
+
+
+
+
+        // listGroup.appendChild(listGroupItem)
+        // listGroup.appendChild(time)
+        // listGroup.appendChild(minParticipant)
+        // listGroup.appendChild(maxParticipant)
+        // listGroup.appendChild(currentParticipant)
+
+        // listGroup.appendChild(statusCode)
+        // listGroup.appendChild(host)
+        // listGroup.appendChild(joinEventButton)
+        // listGroup.appendChild(quitEventButton)
+        // listGroup.appendChild(fullEventButton)
+
+        // listGroup.appendChild(document.createElement('br'))
+        // // listGroup.appendChild(returnHome)
+
+
+
+        // gatheringDetail.insertBefore(listGroup, gatheringDetail.firstChild)
+        // // gatheringDetail.appendChild(listGroup)
+
+        // gatheringDetail.insertBefore(cardBody, gatheringDetail.firstChild)
+
+        // gatheringDetail.insertBefore(eventMap, gatheringDetail.firstChild)
+
+        // gatheringDetail.insertBefore(eventPic, gatheringDetail.firstChild)
+
+
+
+
+        // let returnHome = document.createElement('a');
+        // returnHome.className = "btn btn-primary btn-sm box4";
+
+
+        // returnHome.setAttribute("onclick", 'location.href=" /index.html"')
+        // returnHome.setAttribute("data-bs-toggle", "button")
+        // returnHome.setAttribute("autocomplete", "off")
+        // returnHome.appendChild(document.createTextNode("回首頁"))
+
+        // gatheringDetail.appendChild(document.createElement('br'))
+
+        // gatheringDetail.appendChild(returnHome)
+
+
+        // statusCode
+
+
+
+
+
+
+        initProfile()
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -191,171 +705,6 @@
 
 
 
-    <link rel="stylesheet" type="text/css" href="styles/map.css">
-
-
-    <!-- Modal block-->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title" id="staticBackdropLabel">請在地圖上點選位置並輸入資料</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-
-
-                    <div id="mapForHost" style="height:15rem; width:22rem;"></div>
-
-                    <h6>請輸入活動資訊</h6>
-                    <form method="post" action="/api/1.0/gatherings/hostGathering" enctype="multipart/form-data">
-
-
-                        <div class="mb-3">
-                            <label for="category" class="form-label">Category</label>
-                            <select id="category" class="form-select" name="category">
-                                <option value="food">美食美酒</option>
-                                <option value="sport">運動健身</option>
-                                <option value="travel">旅行出遊</option>
-                                <option value="learning">體驗學習</option>
-                                <option value="media">影音展演</option>
-                                <option value="business">商業投資</option>
-                                <option value="party">唱歌派對</option>
-                                <option value="gmae">遊戲卡牌</option>
-                                <option value="beauty">美容時尚</option>
-                                <option value="astrology">命理諮商</option>
-                                <option value="others">其他</option>
-                            </select>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input class="form-control" type="text" placeholder="請輸入活動名稱"
-                                aria-label="default input example" name="title" id="title">
-                            <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="description" class="form-label">活動敘述</label>
-                            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="start_at" class="form-label">活動時間</label>
-                            <input type="datetime-local" name="start_at" id="start_at">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="min_participant" class="form-label">最少人數</label>
-                            <input class="min_participant" type="text" placeholder="請輸入數字"
-                                aria-label="default input example" name="min_participant" id="min_participant">
-                            <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="max_participant" class="form-label">人數上限</label>
-                            <input class="max_participant" type="text" placeholder="請輸入數字，需大於或等於最少人數"
-                                aria-label="default input example" name="max_participant" id="max_participant">
-                            <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="place" class="form-label">活動地點</label>
-                            <input class="place" type="text" placeholder="" aria-label="default input example"
-                                name="place" id="place">
-                            <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="main_image" class="form-label">活動圖片</label>
-                            <input class="form-control" type="file" name="main_image" id="main_image">
-                        </div>
-
-
-
-
-
-                        <!-- 
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="textInput" class="form-label">Title</label>
-                            <input class="form-control" type="text" placeholder="Default input"
-                                aria-label="default input example" id="textInput">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="start_at" class="form-label">Default file input example</label>
-                            <input type="datetime-local" name="start_at" id="start_on">
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1">
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="disabledSelect" class="form-label">Disabled select menu</label>
-                            <select id="disabledSelect" class="form-select">
-                                <option>Disabled select 1</option>
-                                <option>Disabled select 2</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="formFile" class="form-label">Default file input example</label>
-                            <input class="form-control" type="file" id="formFile">
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="bdaytime" class="form-label">Default file input example</label>
-                            <input type="datetime-local" name="bdaytime" id="bdaytime">
-                        </div> -->
-
-
-
-                        <button type="submit" class="btn btn-primary" id="gathering_submit"
-                            onclick="return onClick(this.form)">確定開團</button>
-                    </form>
-
-
-
-
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <!-- <button type="button" class="btn btn-primary">Understood</button> -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- -------------------------------------------- -->
 
 
 
@@ -363,25 +712,6 @@
     <script>
 
 
-        document.getElementById("hostbutton").addEventListener('click', () => {
-            if (!localStorage.getItem('token')) {
-                // alert('請先登入')
-
-                Swal.fire({
-                    title: 'Error!',
-                    text: '請先登入',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                }).then(function () {
-                    window.location.href = '/sign.html'
-                })
-
-                // Swal.fire('Any fool can use a computer')
-
-                // window.location.href = '/sign.html'
-
-            }
-        })
 
 
 
@@ -425,7 +755,15 @@
 
 
 
+    </script>
 
+
+
+
+
+
+
+    <script>
 
 
 
@@ -435,11 +773,10 @@
 
     </script>
 
-    <script src="src/init_map.js"></script>
 
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXg0bmVrXJ6hF8Nq5voQG6TbA5UQFha7k&callback=initMap&v=weekly"
-        async></script>
+
+
+
 
 
 

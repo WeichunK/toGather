@@ -30,6 +30,7 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
     let result;
     const query = { sql: '', binding: [], condition: '' };
     if (requirement.keyword != null) {
+        console.log('keyword')
         query.sql = 'select g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture as host_pic, m.popularity, m.coin, (case when r.avg_rating is null then 3 else r.avg_rating end)+log10(case when c.click_count is null then 1 else c.click_count+1 end) as rating from gathering g \
         left join member m on g.host_id = m.id \
         left join (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id \
@@ -37,6 +38,7 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
         query.condition = 'WHERE g.title LIKE ? ORDER BY rating DESC;'
         query.binding = [`%${requirement.keyword}%`];
     } else if (requirement.boundary != null) {
+        console.log('boundary')
         query.sql = 'select g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture as host_pic, m.popularity, m.coin, (case when r.avg_rating is null then 3 else r.avg_rating end)+log10(case when c.click_count is null then 1 else c.click_count+1 end) as rating from gathering g \
         left join member m on g.host_id = m.id \
         left join (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id \
@@ -46,15 +48,33 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
 
 
     } else if (requirement.id != null) {
+        console.log('id')
         query.sql = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin, (case when r.avg_rating is null then 0 else r.avg_rating end) AS avg_rating FROM gathering g LEFT JOIN member m ON g.host_id = m.id left join (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id '
         query.condition = 'WHERE g.id = ?;'
         query.binding = [requirement.id];
 
+    } else if (requirement.userId != null) {
+        console.log('userId')
+        query.sql = 'select p.*, g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture as host_pic, m.popularity, m.coin, r.avg_rating as rating, c.click_count as click_count from participant p \
+        left join gathering g on p.gathering_id = g.id \
+        left join member m on g.host_id = m.id \
+        left join (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id \
+        left join (select gathering_id, count(*) as click_count from tracking_click_gathering group by gathering_id) c on c.gathering_id = g.id '
+        query.condition = 'WHERE participant_id = ? ORDER BY start_at;'
+        query.binding = [requirement.userId];
+
+    } else if (requirement.hostId != null) {
+        console.log('hostId')
+        query.sql = 'select g.*, (case when p.participant_count is null then 0 else p.participant_count end) AS participant_count, (case when c.click_count is null then 0 else c.click_count end) AS click_count from gathering g \
+        left join (select gathering_id, count(participant_id) as participant_count from participant group by gathering_id) p on p.gathering_id = g.id \
+        left join (select gathering_id, count(*) as click_count from tracking_click_gathering group by gathering_id) c on c.gathering_id = g.id '
+        query.condition = 'WHERE host_id = ? ORDER BY start_at;'
+        query.binding = [requirement.hostId];
+
     }
 
-
     const gatheringQuery = query.sql + query.condition;
-    console.log('query')
+    console.log('query', gatheringQuery)
 
     result = await pool.query(gatheringQuery, query.binding);
 

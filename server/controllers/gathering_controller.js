@@ -44,9 +44,28 @@ const getGatherings = async (req, res) => {
             }
 
             case 'participants': {
+                console.log('participants')
                 const id = parseInt(req.query.id);
                 if (Number.isInteger(id)) {
                     return await Gatherings.getParticipants(pageSize, paging, { id });
+                }
+            }
+
+            case 'mygatheringlist': {
+
+                const userId = parseInt(req.query.id);
+                if (Number.isInteger(userId)) {
+                    console.log('mygatheringlist')
+                    return await Gatherings.getGatherings(pageSize, paging, { userId });
+                }
+            }
+
+            case 'myhostlist': {
+
+                const hostId = parseInt(req.query.id);
+                if (Number.isInteger(hostId)) {
+                    console.log('myhostlist')
+                    return await Gatherings.getGatherings(pageSize, paging, { hostId });
                 }
             }
 

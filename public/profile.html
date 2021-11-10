@@ -17,6 +17,8 @@
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
         #profileList {
             margin: 0 auto;
@@ -103,7 +105,38 @@
 
         <div id="left">
 
-            <div id=profileList></div>
+            <div id=profileList>
+
+
+
+
+
+
+
+
+
+                <div class="rating-box" style="position:relative; width: 100%;">
+                    <h5 class="rating-boxH1" style="text-align: center;">評分</h5>
+                    <div class="ratingResult" style="text-align: center;">
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                    </div>
+                    <p id="rating-description" class="text-muted" style="text-align: center;">目前尚未有人給評分</p>
+                    <h4 id="rating-value">
+                        </h1>
+                </div>
+
+
+
+
+
+
+
+
+            </div>
 
 
 
@@ -112,6 +145,86 @@
 
 
         <div id="right">
+
+
+
+
+
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+                            即將到來的活動
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                        aria-labelledby="panelsStayOpen-headingOne">
+                        <div id="comingEvent" class="card" style="width: 100%;cursor:pointer;">
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseTwo">
+                            已完成的活動
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                        aria-labelledby="panelsStayOpen-headingTwo">
+                        <div id="pastEvent" class="card" style="width: 100%; cursor:pointer;">
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseThree">
+                            你發起的活動
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                        aria-labelledby="panelsStayOpen-headingThree">
+                        <div id="ownEvent" class="card" style="width: 100%; cursor:pointer;">
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
         </div>
 
 
@@ -444,6 +557,340 @@
 
 
 
+            let ratingScore = parseFloat(ratingData.data.rating).toFixed(2)
+            // let ratingScore = parseFloat('3.512334').toFixed(2)
+
+
+
+            if (ratingScore == 0) {
+                document.getElementById('rating-description').textContent = '目前尚未有人給評分'
+            } else {
+                document.getElementById('rating-description').textContent = `${ratingScore} / 5`
+            }
+
+
+
+            const stars = document.querySelector(".ratingResult").children;
+            // let ratingValue
+            let index //目前選到的星星
+
+            for (let j = 0; j < stars.length; j++) {
+                stars[j].classList.remove("fa-star")//reset 所有星星
+                stars[j].classList.add("fa-star-o")
+            }
+            for (let j = 0; j < ratingScore - 0.5; j++) {
+                stars[j].classList.remove("fa-star-o")
+                stars[j].classList.add("fa-star")
+            }
+
+
+
+
+
+            // ------------------------------ Event List -------------------------------------
+
+
+
+
+            let gatheringList = await fetchData(`/api/1.0/getgatherings/mygatheringlist?id=${profileData.data.id}`, accessToken)
+
+
+            let comingEvent = document.getElementById("comingEvent")
+            let pastEvent = document.getElementById("pastEvent")
+
+            let currentTime = new Date();
+            console.log('currentTime', currentTime)
+
+            for (let i in gatheringList.data) {
+
+
+
+
+                let eventBlock = document.createElement('div')
+                eventBlock.setAttribute('class', 'card mb-3')
+                // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
+                eventBlock.setAttribute('onclick', `location.href='/gathering.html?id=${gatheringList.data[i].id}';`)
+                eventBlock.setAttribute('id', gatheringList.data[i].id)
+                eventBlock.style = "max-width: 100%;"
+
+
+                let eventBlockRow = document.createElement('div')
+                eventBlockRow.setAttribute('class', 'row g-0')
+
+                let eventBlockRowPic = document.createElement('div')
+                eventBlockRowPic.setAttribute('class', 'col-md-4')
+                // eventBlockRowPic.style = "min-height:80%;"
+
+                let eventPic = document.createElement('img')
+                eventPic.setAttribute('class', 'figure-img img-fluid rounded')
+                eventPic.setAttribute('src', gatheringList.data[i].picture)
+                eventPic.style = "margin: 3px; object-fit: contain;"
+
+                eventBlockRowPic.appendChild(eventPic)
+
+                let eventBlockRowContent = document.createElement('div')
+                eventBlockRowContent.setAttribute('class', 'col-md-8')
+
+                let eventBlockRowCardBody = document.createElement('div')
+                eventBlockRowCardBody.setAttribute('class', 'card-body')
+
+
+                let eventBlockRowCardTitle = document.createElement('h5')
+                eventBlockRowCardTitle.setAttribute('class', 'card-title')
+                eventBlockRowCardTitle.appendChild(document.createTextNode(` ${gatheringList.data[i].title}`))
+
+                let eventBlockRowCardText = document.createElement('p')
+                eventBlockRowCardText.setAttribute('class', 'card-text')
+                eventBlockRowCardText.style = "font-size: 0.8rem;"
+                eventBlockRowCardText.appendChild(document.createTextNode(` ${gatheringList.data[i].description.substring(0, 30)}...`))
+
+
+                let eventBlockRowCardTime = document.createElement('p')
+                eventBlockRowCardTime.setAttribute('class', 'card-text')
+
+                let eventBlockRowCardTimeSmall = document.createElement('small')
+                eventBlockRowCardTimeSmall.setAttribute('class', 'text-muted')
+
+                eventBlockRowCardTimeSmall.setAttribute('id', 'start-time')
+
+                // let startTime = new Date(Date.parse(new Date(gatheringList.data[i].start_at).toUTCString()))
+                console.log('gatheringList.data[i].start_at', gatheringList.data[i].start_at)
+                let startTime = new Date(gatheringList.data[i].start_at)
+                console.log('startTime', startTime)
+
+                // console.log('UTC', startTime.getUTCMonth(), startTime.getUTCDate(), startTime.getUTCHours(), startTime.getUTCMinutes())
+                // console.log(startTime.getMonth(), startTime.getDate(), startTime.getHours(), startTime.getMinutes())
+
+
+                eventBlockRowCardTimeSmall.appendChild(document.createTextNode(`時間 ${startTime.getUTCFullYear()}-${((parseInt(startTime.getUTCMonth()) + 1) < 10 ? '0' : '') + (parseInt(startTime.getUTCMonth()) + 1)}-${(startTime.getUTCDate() < 10 ? '0' : '') + startTime.getUTCDate()}  ${(startTime.getUTCHours() < 10 ? '0' : '') + startTime.getUTCHours()}:${(startTime.getUTCMinutes() < 10 ? '0' : '') + startTime.getUTCMinutes()}`))
+                eventBlockRowCardTime.appendChild(eventBlockRowCardTimeSmall)
+
+
+
+
+
+
+
+                eventBlockRowCardBody.appendChild(eventBlockRowCardTitle)
+                eventBlockRowCardBody.appendChild(eventBlockRowCardText)
+                eventBlockRowCardBody.appendChild(eventBlockRowCardTime)
+
+                eventBlockRowContent.appendChild(eventBlockRowCardBody)
+
+
+                eventBlockRow.appendChild(eventBlockRowPic)
+                eventBlockRow.appendChild(eventBlockRowContent)
+
+
+                eventBlock.appendChild(eventBlockRow)
+
+
+                if (startTime > currentTime) {
+                    comingEvent.appendChild(eventBlock)
+
+                    let startTimeDiv = document.getElementById('start-time')
+
+                    let waiting
+
+                    if (String((startTime - currentTime) / (1000 * 60 * 60 * 24)).split('.')[1] > 0) {
+
+                        waiting = parseInt(String((startTime - currentTime) / (1000 * 60 * 60 * 24)).split('.')[0]) + 1
+                    } else {
+                        waiting = parseInt(String((startTime - currentTime) / (1000 * 60 * 60 * 24)).split('.')[0])
+                    }
+
+                    startTimeDiv.innerText += `，再等 ${waiting} 天`
+
+
+
+
+
+
+
+                } else {
+                    pastEvent.appendChild(eventBlock)
+                }
+
+
+                // gatheringList.appendChild(document.createElement('br'))
+
+
+
+
+
+            }
+
+
+
+
+
+            // status , num participant, click, time
+
+
+
+
+
+            let hostList = await fetchData(`/api/1.0/getgatherings/myhostlist?id=${profileData.data.id}`, accessToken)
+
+
+            let hostEvent = document.getElementById("ownEvent")
+
+            let currentTimeforHost = new Date();
+            console.log('currentTime', currentTimeforHost)
+
+            for (let i in hostList.data) {
+
+
+
+
+                let eventBlockforHost = document.createElement('div')
+                eventBlockforHost.setAttribute('class', 'card mb-3')
+                // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
+                eventBlockforHost.setAttribute('onclick', `location.href='/gathering.html?id=${hostList.data[i].id}';`)
+                eventBlockforHost.setAttribute('id', hostList.data[i].id)
+                eventBlockforHost.style = "max-width: 100%;"
+
+
+                let eventBlockRowforHost = document.createElement('div')
+                eventBlockRowforHost.setAttribute('class', 'row g-0')
+
+                let eventBlockRowPicforHost = document.createElement('div')
+                eventBlockRowPicforHost.setAttribute('class', 'col-md-4')
+                // eventBlockRowPic.style = "min-height:80%;"
+
+                let eventPicforHost = document.createElement('img')
+                eventPicforHost.setAttribute('class', 'figure-img img-fluid rounded')
+                eventPicforHost.setAttribute('src', hostList.data[i].picture)
+                eventPicforHost.style = "margin: 3px; object-fit: contain;"
+
+                eventBlockRowPicforHost.appendChild(eventPicforHost)
+
+                let eventBlockRowContentforHost = document.createElement('div')
+                eventBlockRowContentforHost.setAttribute('class', 'col-md-8')
+
+                let eventBlockRowCardBodyforHost = document.createElement('div')
+                eventBlockRowCardBodyforHost.setAttribute('class', 'card-body')
+
+
+                let eventBlockRowCardTitleforHost = document.createElement('h5')
+                eventBlockRowCardTitleforHost.setAttribute('class', 'card-title')
+                eventBlockRowCardTitleforHost.appendChild(document.createTextNode(` ${hostList.data[i].title}`))
+
+                // let eventBlockRowCardTextforHost = document.createElement('p')
+                // eventBlockRowCardTextforHost.setAttribute('class', 'card-text')
+                // eventBlockRowCardTextforHost.appendChild(document.createTextNode(` ${hostList.data[i].description.substring(0, 30)}...`))
+
+
+                let eventBlockRowCardTimeforHost = document.createElement('p')
+                eventBlockRowCardTimeforHost.setAttribute('class', 'card-text')
+
+                let eventBlockRowCardTimeSmallforHost = document.createElement('small')
+                eventBlockRowCardTimeSmallforHost.setAttribute('class', 'text-muted')
+
+
+                console.log('hostList.data[i].start_at', hostList.data[i].start_at)
+                let startTimeforHost = new Date(hostList.data[i].start_at)
+                console.log('startTime', startTimeforHost)
+
+                eventBlockRowCardTimeSmallforHost.appendChild(document.createTextNode(`時間 ${startTimeforHost.getUTCFullYear()}-${((parseInt(startTimeforHost.getUTCMonth()) + 1) < 10 ? '0' : '') + (parseInt(startTimeforHost.getUTCMonth()) + 1)}-${(startTimeforHost.getUTCDate() < 10 ? '0' : '') + startTimeforHost.getUTCDate()}  ${(startTimeforHost.getUTCHours() < 10 ? '0' : '') + startTimeforHost.getUTCHours()}:${(startTimeforHost.getUTCMinutes() < 10 ? '0' : '') + startTimeforHost.getUTCMinutes()}`))
+                eventBlockRowCardTimeforHost.appendChild(eventBlockRowCardTimeSmallforHost)
+
+
+
+
+
+                let eventBlockRowCardParticipantforHost = document.createElement('p')
+                eventBlockRowCardParticipantforHost.setAttribute('class', 'card-text')
+
+                let eventBlockRowCardParticipantSmallforHost = document.createElement('small')
+                eventBlockRowCardParticipantSmallforHost.setAttribute('class', 'text-muted')
+
+
+                eventBlockRowCardParticipantSmallforHost.appendChild(document.createTextNode(`目前人數 ${hostList.data[i].participant_count}，點閱次數 ${hostList.data[i].click_count}`))
+                eventBlockRowCardParticipantforHost.appendChild(eventBlockRowCardParticipantSmallforHost)
+
+
+
+                // let eventBlockRowCardClickforHost = document.createElement('p')
+                // eventBlockRowCardClickforHost.setAttribute('class', 'card-text')
+
+                // let eventBlockRowCardClickSmallforHost = document.createElement('small')
+                // eventBlockRowCardClickSmallforHost.setAttribute('class', 'text-muted')
+
+
+                // eventBlockRowCardClickSmallforHost.appendChild(document.createTextNode(`點閱次數 ${hostList.data[i].click_count}`))
+                // eventBlockRowCardClickforHost.appendChild(eventBlockRowCardClickSmallforHost)
+
+
+
+                let eventBlockRowCardStatusforHost = document.createElement('p')
+                eventBlockRowCardStatusforHost.setAttribute('class', 'card-text')
+
+                let eventBlockRowCardStatusSmallforHost = document.createElement('small')
+                eventBlockRowCardStatusSmallforHost.setAttribute('class', 'text-muted')
+
+
+                eventBlockRowCardStatusSmallforHost.appendChild(document.createTextNode(`狀態 ${hostList.data[i].status}`))
+                eventBlockRowCardStatusforHost.appendChild(eventBlockRowCardStatusSmallforHost)
+
+
+
+
+
+
+
+
+
+                eventBlockRowCardBodyforHost.appendChild(eventBlockRowCardTitleforHost)
+                // eventBlockRowCardBodyforHost.appendChild(eventBlockRowCardTextforHost)
+                eventBlockRowCardBodyforHost.appendChild(eventBlockRowCardTimeforHost)
+                eventBlockRowCardBodyforHost.appendChild(eventBlockRowCardParticipantforHost)
+                // eventBlockRowCardBodyforHost.appendChild(eventBlockRowCardClickforHost)
+                eventBlockRowCardBodyforHost.appendChild(eventBlockRowCardStatusforHost)
+
+
+
+                eventBlockRowContentforHost.appendChild(eventBlockRowCardBodyforHost)
+
+
+                eventBlockRowforHost.appendChild(eventBlockRowPicforHost)
+                eventBlockRowforHost.appendChild(eventBlockRowContentforHost)
+
+
+                eventBlockforHost.appendChild(eventBlockRowforHost)
+
+
+
+                hostEvent.appendChild(eventBlockforHost)
+
+
+
+
+
+                // gatheringList.appendChild(document.createElement('br'))
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // ---------------------------------------------------------------------------------
 
 
 
@@ -687,6 +1134,18 @@
 
 
         initProfile()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

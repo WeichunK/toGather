@@ -121,7 +121,7 @@ const getParticipants = async (pageSize, paging = 0, requirement = {}) => {
     }
 
 
-    const gatheringQuery = 'SELECT p.participant_id as id, p.gathering_id, m.name as user_name FROM participant p left join member m on p.participant_id = m.id ' + condition.sql + condition.order;
+    const gatheringQuery = 'SELECT p.participant_id as id, p.gathering_id, m.name as user_name, m.picture FROM participant p left join member m on p.participant_id = m.id ' + condition.sql + condition.order;
 
     result = await pool.query(gatheringQuery, condition.binding);
 
@@ -200,7 +200,7 @@ const attendGathering = async (participant, action) => {
 
         let [result] = await conn.query(queryStr, binding);
 
-        let secondQuery = "select g.id, g.max_participant, g.min_participant, p.num_participant from gathering g \
+        let secondQuery = "select g.id, g.max_participant, g.min_participant, (case when p.num_participant is null then 0 else p.num_participant end) AS num_participant from gathering g \
         left join (select gathering_id, count(participant_id) as num_participant from participant group by gathering_id) p on g.id = p.gathering_id where g.id = ?;"
 
         let gathering = await conn.query(secondQuery, [participant.gathering_id]);
@@ -212,9 +212,11 @@ const attendGathering = async (participant, action) => {
         let statusCode = {}
 
         if (gathering[0][0].num_participant == gathering[0][0].max_participant) {
-            statusCode.status = 2;
-        } else {
+            statusCode.status = 3;
+        } else if (gathering[0][0].num_participant == 0) {
             statusCode.status = 1;
+        } else {
+            statusCode.status = 2;
         }
 
         let updateStatus = await conn.query('UPDATE gathering set ?  where id = ?', [statusCode, participant.gathering_id])

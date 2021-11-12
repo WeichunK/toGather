@@ -776,15 +776,15 @@
 
                 // ---------------------status-----------------------
 
-                let statusObject = { 1: "招募中", 2: "已額滿", 3: "已結束" }
-                let statusBarValue = { 1: "33%", 2: "66%", 3: "100%" }
+                let statusObject = { 1: "已開團", 2: "招募中", 3: "已額滿", 4: "已結束" }
+                let statusBarValue = { 1: "3%", 2: "33%", 3: "66%", 4: "100%" }
 
 
                 document.getElementById('progressbar').style = `width: ${statusBarValue[getgatheringDetails.data[0].status]};`
 
-                let statusCode = document.createElement('li');
-                statusCode.className = "list-group-item";
-                statusCode.appendChild(document.createTextNode(`狀態 ${statusObject[getgatheringDetails.data[0].status]}`))
+                // let statusCode = document.createElement('li');
+                // statusCode.className = "list-group-item";
+                // statusCode.appendChild(document.createTextNode(`狀態 ${statusObject[getgatheringDetails.data[0].status]}`))
 
 
 
@@ -847,7 +847,7 @@
                 listGroup.appendChild(maxParticipant)
                 listGroup.appendChild(currentParticipant)
 
-                listGroup.appendChild(statusCode)
+                // listGroup.appendChild(statusCode)
                 listGroup.appendChild(host)
                 listGroup.appendChild(joinEventButton)
                 listGroup.appendChild(quitEventButton)
@@ -874,7 +874,7 @@
                 returnHome.className = "btn btn-primary btn-sm box4";
 
 
-                returnHome.setAttribute("onclick", 'location.href=" /index.html"')
+                returnHome.setAttribute("onclick", 'location.href="/index.html"')
                 returnHome.setAttribute("data-bs-toggle", "button")
                 returnHome.setAttribute("autocomplete", "off")
                 returnHome.appendChild(document.createTextNode("回首頁"))
@@ -884,7 +884,7 @@
                 gatheringDetail.appendChild(returnHome)
 
 
-                statusCode
+
 
 
 
@@ -1036,12 +1036,116 @@
 
                         }
 
-                        participant = document.createElement('li');
-                        participant.textContent = participantsData.data[i].user_name;
-                        participant.setAttribute('onclick', `location.href = '/profile.html?id=${participantsData.data[i].id}'; `)
-                        participant.style = `cursor: pointer; `
+
+
+
+
+
+
+
+
+                        console.log('participantsData.data[i].id', participantsData.data[i].id)
+
+                        let participant = document.createElement('div')
+                        participant.setAttribute('class', 'card mb-3')
+                        // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
+                        participant.setAttribute('onclick', `location.href = '/profile.html?id=${participantsData.data[i].id}';`)
+                        // participant.setAttribute('id', gatheringList.data[i].id)
+                        participant.style = "max-width: 40%; cursor:pointer; height:20%"
+
+
+                        let participantRow = document.createElement('div')
+                        participantRow.setAttribute('class', 'row g-0')
+
+                        let participantRowPic = document.createElement('div')
+                        participantRowPic.setAttribute('class', 'col-md-4')
+                        // eventBlockRowPic.style = "min-height:80%;"
+
+                        console.log('participantsData.data[i].picture', participantsData.data[i])
+
+                        let participantPic = document.createElement('img')
+                        participantPic.setAttribute('class', 'figure-img img-fluid rounded')
+                        participantPic.setAttribute('src', participantsData.data[i].picture)
+                        participantPic.style = "margin: 3px; object-fit: contain; height:30%;"
+
+                        participantRowPic.appendChild(participantPic)
+
+                        let participantRowContent = document.createElement('div')
+                        participantRowContent.setAttribute('class', 'col-md-8')
+
+                        let participantRowCardBody = document.createElement('div')
+                        participantRowCardBody.setAttribute('class', 'card-body')
+
+
+                        let participantRowCardTitle = document.createElement('p')
+                        participantRowCardTitle.setAttribute('class', 'card-title')
+                        participantRowCardTitle.appendChild(document.createTextNode(` ${participantsData.data[i].user_name} `));
+                        participantRowCardTitle.style = "font-size:12px;"
+                        // let eventBlockRowCardText = document.createElement('p')
+                        // eventBlockRowCardText.setAttribute('class', 'card-text')
+                        // eventBlockRowCardText.style = "font-size: 0.8rem;"
+                        // eventBlockRowCardText.appendChild(document.createTextNode(` ${ gatheringList.data[i].description.substring(0, 30) }...`))
+
+
+                        // let eventBlockRowCardTime = document.createElement('p')
+                        // eventBlockRowCardTime.setAttribute('class', 'card-text')
+
+                        // let eventBlockRowCardTimeSmall = document.createElement('small')
+                        // eventBlockRowCardTimeSmall.setAttribute('class', 'text-muted')
+
+                        // eventBlockRowCardTimeSmall.setAttribute('id', 'start-time')
+
+                        // // let startTime = new Date(Date.parse(new Date(gatheringList.data[i].start_at).toUTCString()))
+                        // console.log('gatheringList.data[i].start_at', gatheringList.data[i].start_at)
+                        // let startTime = new Date(gatheringList.data[i].start_at)
+                        // console.log('startTime', startTime)
+
+                        // // console.log('UTC', startTime.getUTCMonth(), startTime.getUTCDate(), startTime.getUTCHours(), startTime.getUTCMinutes())
+                        // // console.log(startTime.getMonth(), startTime.getDate(), startTime.getHours(), startTime.getMinutes())
+
+
+                        // eventBlockRowCardTimeSmall.appendChild(document.createTextNode(`時間 ${ startTime.getUTCFullYear() } -${ ((parseInt(startTime.getUTCMonth()) + 1) < 10 ? '0' : '') + (parseInt(startTime.getUTCMonth()) + 1) } -${ (startTime.getUTCDate() < 10 ? '0' : '') + startTime.getUTCDate() }  ${ (startTime.getUTCHours() < 10 ? '0' : '') + startTime.getUTCHours() }:${ (startTime.getUTCMinutes() < 10 ? '0' : '') + startTime.getUTCMinutes() } `))
+                        // eventBlockRowCardTime.appendChild(eventBlockRowCardTimeSmall)
+
+
+                        participantRowCardBody.appendChild(participantRowCardTitle)
+                        // eventBlockRowCardBody.appendChild(eventBlockRowCardText)
+                        // eventBlockRowCardBody.appendChild(eventBlockRowCardTime)
+
+                        participantRowContent.appendChild(participantRowCardBody)
+
+
+                        participantRow.appendChild(participantRowPic)
+                        participantRow.appendChild(participantRowContent)
+
+
+                        participant.appendChild(participantRow)
+
+
 
                         participants.appendChild(participant);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        // participant = document.createElement('li');
+                        // participant.textContent = participantsData.data[i].user_name;
+                        // participant.setAttribute('onclick', `location.href = '/profile.html?id=${participantsData.data[i].id}'; `)
+                        // participant.style = `cursor: pointer; `
+
+                        // participants.appendChild(participant);
 
 
 
@@ -1092,7 +1196,7 @@
                     // console.log('{ room: room, userId: user.id }', room, user.id)
                     socket.emit('addRoom', { room: room, userId: user.id })
 
-                    socket.on(`${room}+${user.id}`, chatRecord => {
+                    socket.on(`${room} +${user.id} `, chatRecord => {
                         // console.log('chatRecord', chatRecord)
 
 
@@ -1204,7 +1308,7 @@
                         // })
 
                         // Swal.fire({
-                        //     title: `${msg.speaker} say: ${msg.content} `,
+                        //     title: `${ msg.speaker } say: ${ msg.content } `,
                         //     position: 'bottom-end',
                         //     showClass: {
 

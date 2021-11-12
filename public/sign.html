@@ -253,6 +253,57 @@
         <script>
 
 
+
+            function fetchData(src, bodyContent, accessToken) {
+                // console.log('access', accessToken)
+
+                function processStatus(response) {
+                    // 狀態 "0" 是處理本地檔案 (例如Cordova/Phonegap等等)
+                    if (response.status === 200 || response.status === 0) {
+                        return Promise.resolve(response)
+                    } else {
+                        return Promise.reject(new Error(response.statusText))
+                    }
+                }
+
+                if (accessToken) {
+                    const headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+
+                    return fetch(src, { body: JSON.stringify(bodyContent), method: 'POST', headers: headers })
+                        .then(processStatus)
+                        .then((response) => { return response.json(); })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+
+                } else {
+                    const headers = {}
+                    return fetch(src)
+                        .then(processStatus)
+                        .then((response) => { return response.json(); })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                }
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
             function onClick(form) {
                 console.log('type of form', typeof (form))
                 // console.log('form.title.value', form.title.value)
@@ -300,7 +351,7 @@
                 // xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
                 xhr.setRequestHeader('Content-Type', 'application/json');
 
-                xhr.onreadystatechange = function () {
+                xhr.onreadystatechange = async function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         console.log('apiResponse.data', xhr.responseText)
                         // if (xhr.responseText == 'admin') {
@@ -313,11 +364,25 @@
                         // alert('登入成功')
 
                         // console.log('xhr.responseText.data', JSON.parse(xhr.responseText).data)
-                        localStorage.setItem("token", JSON.parse(xhr.responseText).data.access_token);
+
+                        let accessToken = JSON.parse(xhr.responseText).data.access_token;
+
+
+
+                        localStorage.setItem("token", accessToken);
                         let responseText
                         console.log('JSON.parse(xhr.responseText).user', JSON.parse(xhr.responseText).data.user)
                         if (JSON.parse(xhr.responseText).data.user.bonus) {
                             responseText = '登入成功，獲得每日登入積分獎勵1分'
+
+
+                            let systemMessageRecord = await fetchData(`/api/1.0/chat/writesystemrecord`, { content: responseText }, accessToken)
+
+
+
+
+
+
                         } else {
                             responseText = '登入成功'
                         }

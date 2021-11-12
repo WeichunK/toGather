@@ -5,20 +5,22 @@ const multipleStatements = true;
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
+const bcrypt = require('bcrypt');
+const salt = parseInt(process.env.BCRYPT_SALT);
+
+require('dotenv').config();
+const { DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE, TEST_USER_PWD } = process.env;
 
 const mysqlConfig = { // for EC2 machine
-    // host: "database-1.cmaisvh7jcso.ap-northeast-1.rds.amazonaws.com",
-    // user: "user2",
-    // password: "From0825*",
-    host: "localhost",
-    user: "testuser",
-    password: "test1234",
+    host: DB_HOST,
+    user: DB_USERNAME,
+    password: DB_PASSWORD,
     port: "3306",
     multipleStatements: true,
     waitForConnections: true,
     connectionLimit: 20,
     queueLimit: 0,
-    database: 'personal_project',
+    database: DB_DATABASE,
 }
 
 
@@ -31,20 +33,92 @@ const pool = mysql.createPool(mysqlConfig, { multipleStatements });
 const get_data = async () => {
     const conn = await pool.getConnection();
 
-    let result = await conn.query('select id, place from gathering where id > 335;');
 
-    console.log('id', result[0][0].id)
-    console.log('place', result[0][0].place)
+    // console.log('result[1][0]', result[1][0])
+    // console.log('result[0][1]', result[0][1])
+    // console.log('result[1][1]', result[1][1])
 
     // conn.release()
 
     let binding;
 
+    const user_password = TEST_USER_PWD
 
+    let encryptedPWD = bcrypt.hashSync(user_password, salt)
 
     function timeout(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+
+
+    let resultM = await conn.query('select id, member_id from member_temp_2 where id > 628;');
+
+    console.log('resultM[0][0]', resultM[0][0])
+
+
+
+    const config = {
+        headers: { 'authorization': 'BEARER eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhMDk2NTY0ZS00OTBkLTQ5OTEtOTI3Yy0yOGUyOGUyNGIxMWEiLCJleHAiOjE5NTE3MTI3NTUsImlhdCI6MTYzNjM1Mjc1NSwiaXNzIjoiaHR0cHM6Ly9lYXRnZXRoZXIuaW8iLCJuYmYiOjE2MzYzNTI3NTUsInN1YiI6ImFwLXNvdXRoZWFzdC0xOmY0YWY4N2Y4LWIyYmItNDIwYy1hYWUzLTEwMjc2MzJlMTNhNCJ9.hVHnlcJG0XXVHwVLIsKNM16i-tScvjZqlDxQ4bC0O-_9WHg2-c9guDfox2jO8ncHshmzfmRdnlk6d-3ncCwBeA' }
+    }
+
+    for (let j = 0; j < resultM[0].length; j++) {
+        console.log('j', j)
+        await timeout(600);
+        try {
+            let member = await axios.get(`https://api.eatgether.io/v4.0/member/profile/${resultM[0][j].member_id}?language=zh-TW`, config)
+
+
+            let avatar = await axios.get(`https://api.eatgether.io/v4.0/member/avatar/${resultM[0][j].member_id}`, config)
+
+
+
+            binding = {
+                id: resultM[0][j].id,
+                name: member.data.member.profile.nickname,
+                email: 'test' + resultM[0][j].id + '@test.com',
+                job: member.data.member.profile.job,
+                title: member.data.member.profile.jobTitle,
+                gender: member.data.member.profile.gender,
+                age: member.data.member.profile.age,
+                introduction: member.data.member.profile.introduction,
+                picture: `https://cdn.eatgether.com/member/${resultM[0][j].member_id}/avatar/${avatar.data.avatars[0]}`,
+                role: 1,
+                provider: 'native',
+                popularity: 0,
+                coin: 0,
+                password: encryptedPWD,
+                origin_id: resultM[0][j].member_id,
+
+            }
+
+
+            output = await conn.query('INSERT INTO member set ?', binding);
+
+        } catch (err) {
+            console.log('err', err.message)
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    let result = await conn.query('select g.id, g.temp_id as event_id, host_id, m.id as user_id, cover from gathering_temp_2 g left join member_temp_2 m on g.host_id=m.member_id where g.temp_id >335;');
+
+    console.log('id', result[0][0].id)
+    console.log('result[0][1]', result[0][1])
+    console.log('result[0][1].id', result[0][1].id)
+    console.log('result.length', result.length)
+    console.log('result[0].length', result[0].length)
+
+
 
 
 
@@ -52,29 +126,53 @@ const get_data = async () => {
         console.log('i', i)
         // console.log('result[0][i]', result[0][i])
 
-        // await timeout(500);
+        await timeout(600);
 
         try {
-            let geo = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(result[0][i].place)}&key=AIzaSyBbmXJHj0WUd8Zy-neXlew88hmIkB4bnwI`)
+            let event = await axios.get(`https://api.eatgether.io/v4.0/meetup/view/${result[0][i].id}?language=zh-TW`)
 
-            binding = [geo.data.results[0].geometry.location.lat,
-            geo.data.results[0].geometry.location.lng,
-            result[0][i].id
-            ]
+            // console.log('event', event)
+            binding = {
+                id: result[0][i].event_id,
+                title: event.data.meetup.title,
+                category: event.data.meetup.categoryName,
+                description: event.data.meetup.content,
+                picture: `https://cdn.eatgether.com/meetup/${result[0][i].id}/cover/${result[0][i].cover}`,
+                host_id: result[0][i].user_id,
+                start_at: new Date(+new Date(event.data.meetup.startOn) + 8 * 3600 * 1000).toLocaleDateString('zh-TW').slice(0, 19).replace('T', ' '),
 
-
-            let output = await conn.query('UPDATE gathering SET lat = ?, lng = ? where id = ?', binding);
+                created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                max_participant: event.data.meetup.numberOfPeople,
+                min_participant: 2,
+                place: event.data.meetup.place.address,
+                lng: 0,
+                lat: 0,
+                status: 1,
+            }
+            let output = await conn.query('INSERT INTO gathering set ?', binding);
 
         } catch (err) {
             console.log('err', err.message)
         }
 
 
+
+
     }
 
 
+    // conn = await pool.getConnection();
 
-    console.log('update finish')
+    result = await conn.query('select id, member_id from member_temp_2 where id > 628;');
+
+    console.log('id', result[0][0].id)
+
+    // conn.release()
+
+
+
+
+    console.log('write finish')
 
 }
 

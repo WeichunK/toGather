@@ -74,7 +74,7 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
     }
 
     const gatheringQuery = query.sql + query.condition;
-    console.log('query', gatheringQuery)
+    // console.log('query', gatheringQuery)
 
     result = await pool.query(gatheringQuery, query.binding);
 
@@ -199,9 +199,29 @@ const attendGathering = async (participant, action) => {
         }
 
         let [result] = await conn.query(queryStr, binding);
-        // gathering.id = result.insertId;
+
+        let secondQuery = "select g.id, g.max_participant, g.min_participant, p.num_participant from gathering g \
+        left join (select gathering_id, count(participant_id) as num_participant from participant group by gathering_id) p on g.id = p.gathering_id where g.id = ?;"
+
+        let gathering = await conn.query(secondQuery, [participant.gathering_id]);
+
+        console.log('gathering[0]_max', gathering[0][0].max_participant)
+        console.log('gathering[0]_min', gathering[0][0].min_participant)
+        console.log('gathering[0]_num', gathering[0][0].num_participant)
+
+        let statusCode = {}
+
+        if (gathering[0][0].num_participant == gathering[0][0].max_participant) {
+            statusCode.status = 2;
+        } else {
+            statusCode.status = 1;
+        }
+
+        let updateStatus = await conn.query('UPDATE gathering set ?  where id = ?', [statusCode, participant.gathering_id])
+
+
         await conn.query('COMMIT');
-        return result;
+        return result; m
     } catch (error) {
         console.log(error);
         await conn.query('ROLLBACK');
@@ -249,6 +269,16 @@ const postFeedback = async (feedback) => {
 
 
 
+const checkExpiredGathering = async () => {
+
+    let currentDate = new Date();
+
+
+}
+
+
+
+
 
 module.exports = {
     getGatherings,
@@ -257,6 +287,7 @@ module.exports = {
     hostGathering,
     attendGathering,
     postFeedback,
+    checkExpiredGathering,
     // getHotProducts,
     // getProductsVariants,
     // getProductsImages,

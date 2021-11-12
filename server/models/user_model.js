@@ -171,7 +171,7 @@ const getUserRating = async (userId) => {
     let result;
     try {
         console.log('try')
-        const [users] = await pool.query('SELECT user_id, AVG(rating) AS rating FROM feedback group by user_id having user_id = ?', [userId]);
+        const [users] = await pool.query('SELECT host_id, AVG(rating) AS rating FROM feedback group by host_id having host_id = ?', [userId]);
         if (users[0]) {
             result = users[0]
         } else {
@@ -187,6 +187,37 @@ const getUserRating = async (userId) => {
 
 
 
+const updatePhoto = async (photo, user_id) => {
+
+    const conn = await pool.getConnection();
+
+    try {
+        await conn.query('START TRANSACTION');
+
+
+
+        const queryStr = 'UPDATE member SET ? WHERE id = ?';
+        const [result] = await conn.query(queryStr, [photo, user_id]);
+
+        // gathering.id = result.insertId;
+        await conn.query('COMMIT');
+        return result;
+    } catch (error) {
+        console.log(error);
+        await conn.query('ROLLBACK');
+        return { error };
+    } finally {
+        // io.emit('updateGatheringList', 'DB updated');
+        await conn.release();
+
+    }
+
+}
+
+
+
+
+
 
 
 module.exports = {
@@ -196,4 +227,5 @@ module.exports = {
     getUserDetail,
     getUserGatheringList,
     getUserRating,
+    updatePhoto,
 }

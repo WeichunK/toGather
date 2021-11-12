@@ -39,4 +39,48 @@ const getChatRecord = async (req, res) => {
 
 
 
-module.exports = { writeChatRecord, getChatRecord }
+
+const writeSystemRecord = async (req, res) => {
+
+
+    let sysMessage = { id: req.user.id, content: req.body.content }
+
+    console.log('sysMessage', sysMessage)
+    const result = await Chat.writeSystemRecord(sysMessage)
+    if (result.error) {
+        res.status(403).send({ error: result.error });
+        return;
+    }
+
+    res.status(200).send({
+        message: 'inserted successfully'
+    })
+    return;
+}
+
+
+const getSystemRecord = async (req, res) => {
+
+    const userId = req.user.id;
+
+    console.log('userId', userId)
+    let result = await Chat.getSystemRecord(userId);
+
+    if (result.error) {
+        const status_code = result.status ? result.status : 403;
+        res.status(status_code).send({ error: result.error });
+        return;
+    }
+
+
+    res.status(200).send({ data: result });
+    return;
+}
+
+
+
+
+
+
+
+module.exports = { writeChatRecord, getChatRecord, writeSystemRecord, getSystemRecord }

@@ -115,7 +115,7 @@ const getGatherings = async (req, res) => {
 
 
 
-const hostGathering = async (req, res, next) => {
+const hostGathering = async (req, res) => {
     console.log('req.files', req.files)
     const gathering = {
         host_id: req.user.id,
@@ -174,6 +174,8 @@ const attendGathering = async (req, res) => {
     if (action == 'join') {
         console.log('join')
         result = await Gatherings.attendGathering(participant, 'join')
+
+        // Gatherings.getParticipants(pageSize, paging, { id })
 
         // return await Gatherings.getGatherings(pageSize, paging);
     } else if (action == 'quit') {
@@ -246,14 +248,12 @@ const postFeedback = async (req, res) => {
 
 
 
-
 module.exports = {
     getGatherings,
     // getGatheringDetail,
     hostGathering,
     attendGathering,
     postFeedback,
-
 
 };
 

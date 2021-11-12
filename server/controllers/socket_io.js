@@ -84,6 +84,20 @@ const chat = function (io) {
 
             console.log('host_newparticipant_${participantData.hostId}', `host_newparticipant_${participantData.hostId}`)
 
+
+
+            let sysMessageContent = `${participantData.participantName} 剛加入您的 ${participantData.gatheringTitle} 活動`
+            let sysMessage = { id: participantData.hostId, content: sysMessageContent }
+
+
+            //         let sysMessage = {id: participantData.hostId, content:sysMessageContent, created_at: sysMessageDate}
+            // Chat.writeSystemRecord(sysMessage)
+
+            Chat.writeSystemRecord(sysMessage)
+
+
+
+
             io.emit(`host_addParticipant_${participantData.hostId}`, participantData);
         });
 
@@ -98,6 +112,21 @@ const chat = function (io) {
             console.log('participantData.hostId', participantData.hostId)
 
             console.log('host_quitParticipant_${participantData.hostId}', `host_quitParticipant_${participantData.hostId}`)
+
+
+
+
+            let sysMessageContent = `${participantData.participantName} 剛退出您的 ${participantData.gatheringTitle} 活動`
+            let sysMessage = { id: participantData.hostId, content: sysMessageContent }
+
+
+            //         let sysMessage = {id: participantData.hostId, content:sysMessageContent, created_at: sysMessageDate}
+            // Chat.writeSystemRecord(sysMessage)
+
+            Chat.writeSystemRecord(sysMessage)
+
+
+
 
             io.emit(`host_removeParticipant_${participantData.hostId}`, participantData);
         });

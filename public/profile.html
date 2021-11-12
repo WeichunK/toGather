@@ -233,6 +233,71 @@
     </div>
 
 
+
+
+
+
+
+
+    <!-- Modal block-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="staticBackdropLabel">請上傳您的個人照</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form method="post" action="/api/1.0/gatherings/hostGathering" enctype="multipart/form-data">
+
+
+                        <div class="mb-3">
+                            <label for="main_image" class="form-label">圖片</label>
+                            <input class="form-control" type="file" name="main_image" id="main_image">
+                        </div>
+
+
+
+
+
+                        <button type="submit" class="btn btn-primary" id="gathering_submit"
+                            onclick="return onClick(this.form)">確定上傳</button>
+                    </form>
+
+
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script>
 
 
@@ -388,7 +453,7 @@
             let profileList = document.getElementById('profileList')
             profileList.class = "card"
             profileList.style = "width:60%;"
-
+            console.log('profileData.data.picture', profileData.data.picture)
 
             let profilePic = document.createElement('img')
             profilePic.src = profileData.data.picture || '';
@@ -402,7 +467,13 @@
             let cardBody = document.createElement('div')
             cardBody.className = "card-body";
 
-            let cardTitle = document.createElement('h5')
+            let cardName = document.createElement('h5')
+            cardName.className = "card-title";
+            cardName.appendChild(document.createTextNode(profileData.data.name))
+
+            cardBody.appendChild(cardName)
+
+            let cardTitle = document.createElement('h6')
             cardTitle.className = "card-title";
             cardTitle.appendChild(document.createTextNode('Introduction'))
 
@@ -445,11 +516,19 @@
 
 
 
+
+
+
+
+
+
+
             let changePicButton = document.createElement('a');
             changePicButton.className = "btn btn-primary";
             changePicButton.id = "changePic";
             // changePicButton.style = "display: none;"
-            changePicButton.setAttribute("data-bs-toggle", "button")
+            changePicButton.setAttribute("data-bs-toggle", "modal")
+            changePicButton.setAttribute("data-bs-target", "#staticBackdrop")
             changePicButton.setAttribute("autocomplete", "off")
             changePicButton.appendChild(document.createTextNode("更換照片"))
 
@@ -906,6 +985,86 @@
 
 
         }
+
+
+
+
+
+
+
+
+
+        function onClick(form) {
+            console.log('type of form', typeof (form))
+
+            let dataToSent = new FormData(form)
+
+
+
+            if (localStorage.getItem('token')) {
+                var jwt = localStorage.getItem('token')
+                console.log('JWT', jwt)
+                alert("資料格式正確，即將為您建檔！");
+            } else {
+                alert('請先登入')
+                window.location.href = '/admin/signIn.html'
+            }
+            console.log("dataToSent", dataToSent)
+            const accessToken = localStorage.getItem("token");
+            // fetch("/api/1.0/getgatherings/hostGathering", {
+
+            //     body: dataToSent,
+            //     headers: new Headers({
+            //         "Content-Type": "multipart/form-data",
+            //         "Authorization": `Bearer ${accessToken}`
+            //     }),
+            //     method: "POST"
+            // }).then((e => e.json())).then((e => {
+            //     console.log(e)
+            //     alert('error')
+            // }
+            // )).then(window.alert("註冊成功！")).catch((e => {
+            //     console.log(e)
+            // }
+            // ))
+
+
+            let xhr = new XMLHttpRequest();
+            let url = '/api/1.0//user/updatephoto';
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+            // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('apiResponse.data', xhr.responseText)
+                    // if (xhr.responseText == 'admin') {
+                    //     alert('已成功輸入一筆資料')
+                    //     window.location.href = '/admin/product.html'
+                    // } else {
+                    //     alert('無權限操作此頁')
+                    // }
+                    window.location.reload();
+                }
+            };
+            xhr.send(dataToSent);
+
+
+
+            // .finally(location.reload())
+
+
+
+            return false
+        }
+
+
+
+
+
+
+
+
 
         // let getgatheringDetails = await fetchData(`/ api / 1.0 / getgatherings / details ? id = ${gatheringId}`, accessToken)
 

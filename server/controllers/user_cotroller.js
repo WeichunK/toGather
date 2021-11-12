@@ -1,5 +1,6 @@
 const validator = require('validator');
 const User = require('../models/user_model');
+const { s3UploadFile } = require('../../util/util');
 
 const signUp = async (req, res) => {
 
@@ -157,7 +158,40 @@ const getUserRating = async (req, res) => {
 
 
 
+const updatePhoto = async (req, res) => {
+
+
+    console.log('req.files', req.files)
+    const photo = {
+        picture: req.files.main_image[0].path,
+    }
+
+    console.log('photo', photo)
+
+    let uploadResult = await s3UploadFile(req.files.main_image[0], '/member')
+    console.log('uploadResult', uploadResult)
+    photo.picture = uploadResult.Location
+
+    const result = await User.updatePhoto(photo, req.user.id)
+
+
+    if (result.error) {
+        res.status(403).send({ error: result.error });
+        return;
+    }
+
+    // req.app.io.emit('updateGatheringList', 'DB updated');
+
+    res.status(200).send({
+        data: {
+            photo: photo
+        }
+    })
+    return;
+
+}
 
 
 
-module.exports = { signUp, signIn, getMemberProfile, getUserRating }
+
+module.exports = { signUp, signIn, getMemberProfile, getUserRating, updatePhoto }

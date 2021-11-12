@@ -153,6 +153,9 @@
             </span>
         </div>
 
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop"
+            aria-controls="offcanvasWithBackdrop">Enable backdrop (default)</button>
+
 
         <div id="center">
 
@@ -251,12 +254,39 @@
 
 
 
+    <!-- ------------------------offcanvas block------------------------------------ -->
 
 
 
 
 
 
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasWithBackdrop"
+        aria-labelledby="offcanvasWithBackdropLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">系統訊息</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="card" style="width: 100%;">
+                <ul class="list-group list-group-flush" id=sys-message-list>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- ------------------------------------------------------------------------------- -->
 
 
 
@@ -764,6 +794,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link rel="stylesheet" type="text/css" href="./styles/home.css">
 
 
@@ -791,7 +834,7 @@
     <script>
 
 
-        const toastFunc = (id, message, type, verb) => {
+        const toastFunc = async (id, message, type, verb) => {
             let toastPlaceholder = document.getElementById("toastPlaceholder");
 
             let toastDiv
@@ -853,6 +896,53 @@
             toast.show()
 
 
+
+
+        }
+
+
+
+
+        function fetchData(src, accessToken) {
+            // console.log('access', accessToken)
+
+            function processStatus(response) {
+                // 狀態 "0" 是處理本地檔案 (例如Cordova/Phonegap等等)
+                if (response.status === 200 || response.status === 0) {
+                    return Promise.resolve(response)
+                } else {
+                    return Promise.reject(new Error(response.statusText))
+                }
+            }
+
+            if (accessToken) {
+                const headers = {
+                    // 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+
+                return fetch(src, { headers: headers })
+                    .then(processStatus)
+                    .then((response) => { return response.json(); })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+
+            } else {
+                const headers = {}
+                return fetch(src)
+                    .then(processStatus)
+                    .then((response) => { return response.json(); })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }
+
+
+
+
+
+
         }
 
 
@@ -885,17 +975,20 @@
 
 
 
+
+
                     console.log('host_newParticipant_${user.id}', `host_newParticipant_${user.id}`)
 
-                    socket.on(`host_addParticipant_${user.id}`, message => {
+                    socket.on(`host_addParticipant_${user.id}`, async (message) => {
                         console.log('message', message)
 
 
-                        toastFunc(`${tempId.id}`, message, '加團', '剛加入您的')
+                        await toastFunc(`${tempId.id
+                            }`, message, '加團', '剛加入您的')
                         tempId.id += 1;
 
                         // Swal.fire({
-                        //     title: `${message.participantName} 剛加入您的 ${message.gatheringTitle} 活動`,
+                        //     title: `${ message.participantName } 剛加入您的 ${ message.gatheringTitle } 活動`,
                         //     position: 'bottom-end',
                         //     showClass: {
 
@@ -908,20 +1001,21 @@
                         //     },
                         //     backdrop: false,
                         // })
+                        renderSystemMessage(accessToken)
 
                     })
 
 
 
 
-                    socket.on(`host_removeParticipant_${user.id}`, message => {
+                    socket.on(`host_removeParticipant_${user.id}`, async (message) => {
                         console.log('message', message)
 
-                        toastFunc(`${tempId.id}`, message, '退團', '剛退出您的')
+                        await toastFunc(`${tempId.id}`, message, '退團', '剛退出您的')
 
                         tempId.id += 1;
                         // Swal.fire({
-                        //     title: `${message.participantName} 剛加退出您的 ${message.gatheringTitle} 活動`,
+                        //     title: `${ message.participantName } 剛加退出您的 ${ message.gatheringTitle } 活動`,
                         //     position: 'bottom-end',
                         //     showClass: {
 
@@ -934,6 +1028,8 @@
                         //     },
                         //     backdrop: false,
                         // })
+
+                        renderSystemMessage(accessToken)
 
                     })
 
@@ -952,6 +1048,112 @@
 
 
             // var socket = io();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //    --------------------------------------system messages block---------------------------- -->
+
+
+
+            const renderSystemMessage = async function (accessToken) {
+
+
+
+                let systemMessageRecord = await fetchData(`/api/1.0/chat/getsystemrecord`, accessToken)
+
+
+
+                // console.log('systemMessageRecord.data[0].content', systemMessageRecord.data[0].content)
+
+
+                let sysMessageList = document.getElementById('sys-message-list')
+
+
+                for (let i in systemMessageRecord.data) {
+                    // console.log('current user.id', user.id)
+                    // console.log('chatRecord[i].user_id', chatRecord[i].user_id)
+                    let sysMessageItem = document.createElement('li');
+
+                    // console.log('comapre', 'chatRecord[i].user_id: ', chatRecord[i].user_id, 'user.id:', user.id)
+                    sysMessageItem.className = "list-group-item"
+                    sysMessageItem.innerText = systemMessageRecord.data[i].content
+                    let sysMessageItemSmall = document.createElement('small');
+                    sysMessageItemSmall.className = "text-muted";
+                    let startTime = new Date(systemMessageRecord.data[i].created_at);
+                    sysMessageItemSmall.innerText = `${startTime.getUTCFullYear()}-${((parseInt(startTime.getUTCMonth()) + 1) < 10 ? '0' : '') + (parseInt(startTime.getUTCMonth()) + 1)}-${(startTime.getUTCDate() < 10 ? '0' : '') + startTime.getUTCDate()}  ${(startTime.getUTCHours() < 10 ? '0' : '') + startTime.getUTCHours()}:${(startTime.getUTCMinutes() < 10 ? '0' : '') + startTime.getUTCMinutes()}`
+
+
+
+
+
+
+
+
+
+                    sysMessageItem.appendChild(sysMessageItemSmall)
+
+
+                    sysMessageList.appendChild(sysMessageItem);
+
+                }
+
+
+                sysMessageList.scrollBy(0, sysMessageList.scrollHeight)
+
+
+
+
+            }
+
+
+
+
+
+
+
+            renderSystemMessage(accessToken)
+
+
+            // ---------------------------------------------------------------------------------------------- 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

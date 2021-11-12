@@ -1,11 +1,16 @@
 const router = require('express').Router();
-const { authentication } = require('../../util/util');
+const { authentication, upload } = require('../../util/util');
+const cpUpload = upload.fields([
+    { name: 'main_image', maxCount: 1 },
+]);
+
 
 const {
     signUp,
     signIn,
     getMemberProfile,
     getUserRating,
+    updatePhoto,
 } = require('../controllers/user_cotroller')
 
 const {
@@ -20,7 +25,8 @@ router.route('/user/getmemberprofile').get(authentication(USER_ROLE.ALL), getMem
 
 router.route('/user/getuserrating').get(authentication(USER_ROLE.ALL), getUserRating);
 
-
+router.route('/user/updatephoto')
+    .post(authentication(USER_ROLE.ALL), cpUpload, updatePhoto);
 
 
 module.exports = router;

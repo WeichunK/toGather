@@ -243,7 +243,7 @@ function initMap() {
                     // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
                     eventBlock.setAttribute('onclick', `location.href='/gathering.html?id=${response.data[i].id}';`)
                     eventBlock.setAttribute('id', response.data[i].id)
-                    eventBlock.style = "max-width: 100%;"
+                    eventBlock.style = "max-width: 100%; cursor:pointer;"
 
 
                     let eventBlockRow = document.createElement('div')

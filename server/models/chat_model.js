@@ -61,7 +61,61 @@ const getChatRecord = async (roomId) => {
 
 
 
+
+
+const writeSystemRecord = async (sysMessage) => {
+
+
+    sysMessage.created_at = new Date();
+
+    const conn = await pool.getConnection();
+
+    try {
+        await conn.query('START TRANSACTION');
+
+        const queryStr = 'INSERT INTO system_message_record SET ?';
+        const [result] = await conn.query(queryStr, sysMessage);
+
+        await conn.query('COMMIT');
+        return result;
+    } catch (error) {
+        console.log(error);
+        await conn.query('ROLLBACK');
+        return { error };
+    } finally {
+
+        await conn.release();
+
+    }
+
+
+
+
+}
+
+
+const getSystemRecord = async (userId) => {
+    // const conn = await pool.getConnection();
+    let result;
+
+
+
+    const gatheringQuery = 'SELECT * FROM system_message_record where id =? order by created_at';
+
+    result = await pool.query(gatheringQuery, userId);
+
+    return result[0];
+
+
+};
+
+
+
+
+
 module.exports = {
     writeChatRecord,
     getChatRecord,
+    writeSystemRecord,
+    getSystemRecord,
 };

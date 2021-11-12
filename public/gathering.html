@@ -25,6 +25,10 @@
     </script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
     <!-- <link rel="stylesheet" href="sweetalert2.min.css"> -->
     <!-- <script src="src/init_map.js"></script> -->
 
@@ -262,6 +266,31 @@
 
             <div id="gatheringDetail">
 
+
+
+                <!-- -----------------------------status bar------------------------------------ -->
+
+                <div class="container-status">
+                    <!-- <h5>狀態</h5> -->
+                    <div class="skillbox">
+                        <div class="html">
+                            <div style="display: flex; justify-content: space-between;">
+                                <h3 style="display: inline;">已開團</h3>
+                                <h3 style="display: inline;">招募中</h3>
+                                <h3 style="display: inline;">已額滿</h3>
+                                <h3 style="display: inline;">已結束</h3>
+                            </div>
+                            <!-- <span class="percentage">90%</span> -->
+                            <div class="cover">
+                                <div class="progressbar" id="progressbar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ------------------------------------------------------------ -->
+
                 <div class="rating-box" style="position:relative; width: 100%;">
                     <h5 class="rating-boxH1" style="text-align: center;">目前的評分</h5>
                     <div class="ratingResult" style="text-align: center;">
@@ -279,6 +308,16 @@
 
                 <br>
                 <!-- <form class="col"> -->
+
+
+
+
+
+
+
+
+
+
 
 
                 <div class="rating-box" style="position:relative; width: 100%;">
@@ -301,6 +340,10 @@
 
 
                 <!-- ---------------------- comment----------------------- -->
+
+
+
+
 
 
                 <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel"
@@ -707,15 +750,18 @@
                 listGroupItem.appendChild(document.createTextNode(`地點 ${getgatheringDetails.data[0].place}`))
 
 
+                let startTime = new Date(getgatheringDetails.data[0].start_at)
+
+
                 let time = document.createElement('li');
                 time.className = "list-group-item";
-                time.appendChild(document.createTextNode(`時間 ${getgatheringDetails.data[0].start_at}`))
+                time.appendChild(document.createTextNode(`時間 ${startTime.getUTCFullYear()}-${((parseInt(startTime.getUTCMonth()) + 1) < 10 ? '0' : '') + (parseInt(startTime.getUTCMonth()) + 1)}-${(startTime.getUTCDate() < 10 ? '0' : '') + startTime.getUTCDate()}  ${(startTime.getUTCHours() < 10 ? '0' : '') + startTime.getUTCHours()}:${(startTime.getUTCMinutes() < 10 ? '0' : '') + startTime.getUTCMinutes()}`))
 
 
 
-                let minParticipant = document.createElement('li');
-                minParticipant.className = "list-group-item";
-                minParticipant.appendChild(document.createTextNode(`幾人成團 ${getgatheringDetails.data[0].min_participant}`))
+                // let minParticipant = document.createElement('li');
+                // minParticipant.className = "list-group-item";
+                // minParticipant.appendChild(document.createTextNode(`幾人成團 ${getgatheringDetails.data[0].min_participant}`))
 
 
 
@@ -726,13 +772,19 @@
 
                 let currentParticipant = document.createElement('li');
                 currentParticipant.className = "list-group-item";
-                currentParticipant.appendChild(document.createTextNode(`目前人數 ${parseInt(gathering.numOfParticipants) + 1}`))
+                currentParticipant.appendChild(document.createTextNode(`目前人數 ${parseInt(gathering.numOfParticipants)}`))
+
+                // ---------------------status-----------------------
+
+                let statusObject = { 1: "招募中", 2: "已額滿", 3: "已結束" }
+                let statusBarValue = { 1: "33%", 2: "66%", 3: "100%" }
 
 
+                document.getElementById('progressbar').style = `width: ${statusBarValue[getgatheringDetails.data[0].status]};`
 
                 let statusCode = document.createElement('li');
                 statusCode.className = "list-group-item";
-                statusCode.appendChild(document.createTextNode(`狀態 ${getgatheringDetails.data[0].status}`))
+                statusCode.appendChild(document.createTextNode(`狀態 ${statusObject[getgatheringDetails.data[0].status]}`))
 
 
 
@@ -768,8 +820,8 @@
                 fullEventButton.appendChild(document.createTextNode("名額已滿"))
 
 
-                console.log('check', parseInt(gathering.numOfParticipants) + 1, getgatheringDetails.data[0].max_participant)
-                if ((parseInt(gathering.numOfParticipants) + 1) >= getgatheringDetails.data[0].max_participant) {
+                console.log('check', parseInt(gathering.numOfParticipants), getgatheringDetails.data[0].max_participant)
+                if ((parseInt(gathering.numOfParticipants)) >= getgatheringDetails.data[0].max_participant) {
                     joinEventButton.style = "display: none;"
                     fullEventButton.style = "display: block;"
                 } else {
@@ -791,7 +843,7 @@
 
                 listGroup.appendChild(listGroupItem)
                 listGroup.appendChild(time)
-                listGroup.appendChild(minParticipant)
+                // listGroup.appendChild(minParticipant)
                 listGroup.appendChild(maxParticipant)
                 listGroup.appendChild(currentParticipant)
 
@@ -1405,8 +1457,12 @@
 
 
 
+            if (user.id == hostInfo.hostId) {
 
-
+                joinEvent.style = "display:none;"
+                fullEvent.style = "display:none;"
+                quitEvent.style = "display:none;"
+            }
 
 
 

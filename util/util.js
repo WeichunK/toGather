@@ -1,6 +1,6 @@
 require('dotenv').config();
 const User = require('../server/models/user_model');
-const { TOKEN_SECRET, AWS_BUCKET_NAME, AWS_BUCKET_REGION, AWS_ACCESS_KEY, AWS_SECRET_KEY } = process.env; // 30 days by seconds
+const { TOKEN_SECRET, AWS_BUCKET_NAME, AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = process.env; // 30 days by seconds
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const crypto = require('crypto');
@@ -48,6 +48,7 @@ const authentication = (roleId) => {
                     } else {
                         req.user.id = userDetail.id;
                         req.user.name = userDetail.name;
+                        req.user.picture = userDetail.picture;
                         req.user.role_id = userDetail.role;
                         req.user.introduction = userDetail.introduction
                         req.user.job = userDetail.job
@@ -99,9 +100,9 @@ const getImagePath = (protocol, hostname, gatheringId) => {
 
 
 const s3 = new S3({
-    AWS_BUCKET_REGION,
-    AWS_ACCESS_KEY,
-    AWS_SECRET_KEY
+    AWS_REGION,
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY
 
 })
 

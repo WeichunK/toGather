@@ -28,12 +28,13 @@ const signUp = async (name, email, password, provider, role) => {
         const loginAt = new Date();
 
         const user = {
-            provider: 'native',
+            provider: provider,
             role: role,
             email: email,
             password: bcrypt.hashSync(password, salt),
             name: name,
-            picture: null,
+            picture: 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png',
+            popularity: 30,
             access_expired: TOKEN_EXPIRE,
             login_at: loginAt
         };
@@ -67,8 +68,9 @@ const nativeSignIn = async (email, password) => {
     const conn = await pool.getConnection();
     try {
         await conn.query('START TRANSACTION');
-
+        console.log('query email', email)
         const [users] = await conn.query('SELECT * FROM member WHERE email = ?', [email]);
+        console.log('query result', users[0])
         const user = users[0];
         if (!bcrypt.compareSync(password, user.password)) {
             await conn.query('COMMIT');

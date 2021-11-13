@@ -210,6 +210,56 @@ const attendGathering = async (req, res) => {
 }
 
 
+
+
+const removeParticipantAdmin = async (req, res) => {
+
+
+    if (req.user.id != req.query.host_id) {
+        res.status(403).send({ error: 'No Permission' });
+        return;
+    }
+
+    let participant = {
+        gathering_id: req.query.gathering_id,
+        participant_id: req.query.participant_id,
+    }
+
+
+
+    let result;
+
+
+    console.log('quit')
+    result = await Gatherings.attendGathering(participant, 'quit')
+
+
+    if (result.error) {
+        res.status(403).send({ error: result.error });
+        return;
+    }
+
+
+    // let memberData = await User.getUserDetail(req.user.email)
+
+    // console.log('memberData', memberData)
+
+
+    res.status(200).send({
+        data: {
+            participant: participant
+        },
+        action: 'remove',
+        hostId: req.user.id
+    })
+    return;
+
+
+}
+
+
+
+
 const postFeedback = async (req, res) => {
 
 
@@ -253,6 +303,7 @@ module.exports = {
     // getGatheringDetail,
     hostGathering,
     attendGathering,
+    removeParticipantAdmin,
     postFeedback,
 
 };

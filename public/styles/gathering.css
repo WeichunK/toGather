@@ -81,9 +81,61 @@ body {
 }
 
 
+
 #commentArea {
     grid-area: header;
 }
+
+#participants {
+    overflow: scroll;
+    height: inherit;
+    padding: 1rem;
+    width: 100%;
+}
+
+#participants::-webkit-scrollbar {
+    width: 1px;
+    /* background-color: black; */
+}
+
+.host-header {
+    padding: 0 !important;
+}
+
+
+.participant {
+    width: 100%;
+    background-color: transparent;
+    border: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.participant-pic {
+border-radius: 100%;
+
+}
+
+
+
+
+.figure-img {
+    overflow: hidden;
+    width: 20vw;
+    height: 20vw;
+    border-radius: 50%;
+    position: relative;
+  }
+  
+.figure-img>img {
+    width: 200%;
+    position: absolute;
+    left: -50%;
+  }
+
 
 
 

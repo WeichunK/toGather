@@ -497,6 +497,79 @@
 
 
 
+
+
+    <!-- --------------------------remove participant---------------------------------------- -->
+
+    <div class="modal fade" id="removeParticipantModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">注意</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="removeParticipantModalBody">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="removeParticipantModalConfirm"
+                        data-bs-dismiss="modal">確定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    <div class="modal fade" id="removeParticipantModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Recipient:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ -->
+
+
+
+    <!-- --------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script>
 
 
@@ -550,6 +623,9 @@
             function processStatus(response) {
                 // 狀態 "0" 是處理本地檔案 (例如Cordova/Phonegap等等)
                 if (response.status === 200 || response.status === 0) {
+                    return Promise.resolve(response)
+                } else if (response.status === 403) {
+
                     return Promise.resolve(response)
                 } else {
                     return Promise.reject(new Error(response.statusText))
@@ -622,6 +698,27 @@
 
 
 
+        // function removeParticipant(gatheringId, participantId) {
+        //     var exampleModal = document.getElementById('removeParticipantModal')
+        //     exampleModal.addEventListener('show.bs.modal', function (event) {
+        //         // Button that triggered the modal
+        //         var button = event.relatedTarget
+        //         // Extract info from data-bs-* attributes
+        //         var recipient = button.getAttribute('data-bs-whatever')
+        //         // If necessary, you could initiate an AJAX request here
+        //         // and then do the updating in a callback.
+        //         //
+        //         // Update the modal's content.
+        //         var modalTitle = exampleModal.querySelector('.modal-title')
+        //         var modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+        //         modalTitle.textContent = 'New message to ' + recipient
+        //         modalBodyInput.value = recipient
+        //     })
+        // }
+
+
+
 
 
 
@@ -676,6 +773,7 @@
                 hostInfo.hostName = getgatheringDetails.data[0].name
                 hostInfo.hostId = getgatheringDetails.data[0].host_id
                 hostInfo.rating = getgatheringDetails.data[0].avg_rating
+                hostInfo.picture = getgatheringDetails.data[0].host_pic
                 console.log('hostInfo', hostInfo)
                 // console.log('response.data.host_id', response.data[0].host_id)
 
@@ -1005,6 +1103,16 @@
                     // form.style = "display:block;"
                     // right.style = "display:block;"
 
+                    if (user.id == hostInfo.hostId) {
+                        console.log('is host')
+                        right.style = "display:block;"
+                        joinEvent.style = "display:none;"
+                        fullEvent.style = "display:none;"
+                        quitEvent.style = "display:none;"
+                        gatheringDetail.style = "width: 45%"
+
+                    }
+
 
 
 
@@ -1013,11 +1121,84 @@
 
                     console.log('participantsData', participantsData)
 
-                    const hostNameForChatRoom = document.createElement('li');
 
-                    hostNameForChatRoom.textContent = `主揪 ${hostInfo.hostName} `
+                    // ---------------Host Block-------------
 
-                    participants.appendChild(hostNameForChatRoom);
+                    // const hostNameForChatRoom = document.createElement('li');
+
+                    // hostNameForChatRoom.textContent = `主揪 ${hostInfo.hostName} `
+
+                    // participants.appendChild(hostNameForChatRoom);
+
+                    const hostForChatRoom = document.createElement('div');
+
+                    hostForChatRoom.setAttribute('class', 'card-header host-header')
+
+                    hostForChatRoom.setAttribute('onclick', `location.href='/profile.html?id=${hostInfo.hostId}';`)
+
+                    hostForChatRoom.style = " cursor:pointer;"
+
+
+
+
+
+                    let hostRow = document.createElement('div')
+                    hostRow.setAttribute('class', 'row g-0')
+                    hostRow.style = "align-items: center;"
+
+                    let hostRowPic = document.createElement('div')
+                    hostRowPic.setAttribute('class', 'col-md-4')
+                    hostRowPic.style = "display: flex; flex-direction:column; justify-content:center;width:min-content;"
+
+                    let hostPic = document.createElement('img')
+                    hostPic.setAttribute('class', 'figure-img img-fluid rounded participant-pic')
+                    hostPic.setAttribute('src', hostInfo.picture)
+                    hostPic.style = "margin: 3px; object-fit: contain; height: 50%; max-width:45px;"
+
+                    hostRowPic.appendChild(hostPic)
+
+                    let hostRowContent = document.createElement('div')
+                    hostRowContent.setAttribute('class', 'col-md-8')
+
+                    let hostRowCardBody = document.createElement('div')
+                    hostRowCardBody.setAttribute('class', 'card-body')
+
+
+
+                    let hostRowCardText = document.createElement('p')
+                    hostRowCardText.setAttribute('class', 'card-text')
+                    hostRowCardText.appendChild(document.createTextNode(` ${hostInfo.hostName}`))
+
+
+
+
+
+                    hostRowCardBody.appendChild(hostRowCardText)
+
+
+                    hostRowContent.appendChild(hostRowCardBody)
+
+
+                    hostRow.appendChild(hostRowPic)
+                    hostRow.appendChild(hostRowContent)
+
+
+                    hostForChatRoom.appendChild(hostRow)
+
+
+
+
+
+
+
+
+
+
+
+                    participants.appendChild(hostForChatRoom);
+
+                    // ----------------------------------------------
+
 
                     // joinEvent.style = "display:block;"
                     // quitEvent.style = "display:none;"
@@ -1039,34 +1220,29 @@
 
 
 
-
-
-
-
-
-                        console.log('participantsData.data[i].id', participantsData.data[i].id)
-
                         let participant = document.createElement('div')
-                        participant.setAttribute('class', 'card mb-3')
+                        participant.setAttribute('class', 'card mb-3 participant')
                         // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
-                        participant.setAttribute('onclick', `location.href = '/profile.html?id=${participantsData.data[i].id}';`)
-                        // participant.setAttribute('id', gatheringList.data[i].id)
-                        participant.style = "max-width: 40%; cursor:pointer; height:20%"
+                        // participant.setAttribute('onclick', `location.href='/profile.html?id=${participantsData.data[i].id}';`)
+                        participant.setAttribute('id', participantsData.data[i].id)
+                        participant.style = "max-width: 100%; cursor:pointer; margin:0!important;"
+
 
 
                         let participantRow = document.createElement('div')
                         participantRow.setAttribute('class', 'row g-0')
+                        participantRow.style = "align-items: center; width:10rem;"
+                        participantRow.setAttribute('onclick', `location.href='/profile.html?id=${participantsData.data[i].id}';`)
+
 
                         let participantRowPic = document.createElement('div')
                         participantRowPic.setAttribute('class', 'col-md-4')
-                        // eventBlockRowPic.style = "min-height:80%;"
-
-                        console.log('participantsData.data[i].picture', participantsData.data[i])
+                        participantRowPic.style = "display: flex; flex-direction:column; justify-content:center;width:min-content;"
 
                         let participantPic = document.createElement('img')
-                        participantPic.setAttribute('class', 'figure-img img-fluid rounded')
+                        participantPic.setAttribute('class', 'figure-img img-fluid rounded participant-pic')
                         participantPic.setAttribute('src', participantsData.data[i].picture)
-                        participantPic.style = "margin: 3px; object-fit: contain; height:30%;"
+                        participantPic.style = "margin: 3px; object-fit: contain; height: 50%; max-width:45px;"
 
                         participantRowPic.appendChild(participantPic)
 
@@ -1077,53 +1253,77 @@
                         participantRowCardBody.setAttribute('class', 'card-body')
 
 
-                        let participantRowCardTitle = document.createElement('p')
-                        participantRowCardTitle.setAttribute('class', 'card-title')
-                        participantRowCardTitle.appendChild(document.createTextNode(` ${participantsData.data[i].user_name} `));
-                        participantRowCardTitle.style = "font-size:12px;"
-                        // let eventBlockRowCardText = document.createElement('p')
-                        // eventBlockRowCardText.setAttribute('class', 'card-text')
-                        // eventBlockRowCardText.style = "font-size: 0.8rem;"
-                        // eventBlockRowCardText.appendChild(document.createTextNode(` ${ gatheringList.data[i].description.substring(0, 30) }...`))
+
+                        let participantRowCardText = document.createElement('p')
+                        participantRowCardText.setAttribute('class', 'card-text')
+                        participantRowCardText.style = "width:10rem;"
+                        participantRowCardText.appendChild(document.createTextNode(` ${participantsData.data[i].user_name}`))
 
 
-                        // let eventBlockRowCardTime = document.createElement('p')
-                        // eventBlockRowCardTime.setAttribute('class', 'card-text')
-
-                        // let eventBlockRowCardTimeSmall = document.createElement('small')
-                        // eventBlockRowCardTimeSmall.setAttribute('class', 'text-muted')
-
-                        // eventBlockRowCardTimeSmall.setAttribute('id', 'start-time')
-
-                        // // let startTime = new Date(Date.parse(new Date(gatheringList.data[i].start_at).toUTCString()))
-                        // console.log('gatheringList.data[i].start_at', gatheringList.data[i].start_at)
-                        // let startTime = new Date(gatheringList.data[i].start_at)
-                        // console.log('startTime', startTime)
-
-                        // // console.log('UTC', startTime.getUTCMonth(), startTime.getUTCDate(), startTime.getUTCHours(), startTime.getUTCMinutes())
-                        // // console.log(startTime.getMonth(), startTime.getDate(), startTime.getHours(), startTime.getMinutes())
 
 
-                        // eventBlockRowCardTimeSmall.appendChild(document.createTextNode(`時間 ${ startTime.getUTCFullYear() } -${ ((parseInt(startTime.getUTCMonth()) + 1) < 10 ? '0' : '') + (parseInt(startTime.getUTCMonth()) + 1) } -${ (startTime.getUTCDate() < 10 ? '0' : '') + startTime.getUTCDate() }  ${ (startTime.getUTCHours() < 10 ? '0' : '') + startTime.getUTCHours() }:${ (startTime.getUTCMinutes() < 10 ? '0' : '') + startTime.getUTCMinutes() } `))
-                        // eventBlockRowCardTime.appendChild(eventBlockRowCardTimeSmall)
 
 
-                        participantRowCardBody.appendChild(participantRowCardTitle)
-                        // eventBlockRowCardBody.appendChild(eventBlockRowCardText)
-                        // eventBlockRowCardBody.appendChild(eventBlockRowCardTime)
+                        participantRowCardBody.appendChild(participantRowCardText)
 
                         participantRowContent.appendChild(participantRowCardBody)
-
 
                         participantRow.appendChild(participantRowPic)
                         participantRow.appendChild(participantRowContent)
 
 
+
+                        // let removeIcon = document.createElement('svg');
+                        // removeIcon.setAttribute('xmlns', "http://www.w3.org/2000/svg")
+                        // removeIcon.setAttribute('width', "16")
+                        // removeIcon.setAttribute('height', "16")
+                        // removeIcon.setAttribute('fill', "currentColor")
+                        // removeIcon.setAttribute('class', "bi bi-person-x-fill")
+                        // removeIcon.setAttribute("viewBox", "0 0 16 16")
+
+                        // let removeIcoPath = document.createElement('path')
+                        // removeIcoPath.setAttribute('fill-rule', "evenodd")
+                        // removeIcoPath.setAttribute('d', "M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z")
+
+                        // removeIcon.appendChild(removeIcoPath)
+
+
+
+
+                        let removeIcon = document.createElement('img');
+                        removeIcon.setAttribute('src', "https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/103763_close_user_remove_icon.png")
+                        // removeIcon.setAttribute('onclick', `removeParticipant(${gatheringId}, ${participantsData.data[i].id})`)
+                        // removeIcon.setAttribute('class', "btn btn-primary")
+                        removeIcon.setAttribute('data-bs-toggle', "modal")
+                        removeIcon.setAttribute('data-bs-target', "#removeParticipantModal")
+
+                        removeIcon.setAttribute('data-bs-participantId', participantsData.data[i].id)
+                        removeIcon.setAttribute('data-bs-participantName', participantsData.data[i].user_name)
+                        removeIcon.setAttribute('data-bs-GatheringId', gatheringId)
+                        removeIcon.setAttribute('data-bs-HostId', hostInfo.hostId)
+                        removeIcon.setAttribute('type', "button")
+                        removeIcon.setAttribute('data-bs-whatever', "@mdo")
+
+
+
+                        removeIcon.style = "width:1.3rem;height:1.3rem;"
+
+
+
+
+
+
+
+
                         participant.appendChild(participantRow)
+                        participant.appendChild(removeIcon)
+
+                        participants.appendChild(participant)
+                        // gatheringList.appendChild(document.createElement('br'))
 
 
 
-                        participants.appendChild(participant);
+
 
 
 
@@ -1150,6 +1350,95 @@
 
 
                     }
+
+
+
+
+
+
+
+                    let removeParticipantModal = document.getElementById('removeParticipantModal')
+                    removeParticipantModal.addEventListener('show.bs.modal', function (event) {
+                        // Button that triggered the modal
+                        let button = event.relatedTarget
+                        // Extract info from data-bs-* attributes
+                        let participantId = button.getAttribute('data-bs-participantId')
+                        let gatheringId = button.getAttribute('data-bs-gatheringId')
+                        let participantName = button.getAttribute('data-bs-participantName')
+                        let hostId = button.getAttribute('data-bs-hostId')
+                        // If necessary, you could initiate an AJAX request here
+                        // and then do the updating in a callback.
+                        //
+                        // Update the modal's content.
+
+                        let modalBody = removeParticipantModal.querySelector('#removeParticipantModalBody')
+
+                        modalBody.textContent = `確定要將 ${participantName} 移出活動嗎？`
+
+
+
+                        let removeParticipantModalConfirm = document.getElementById('removeParticipantModalConfirm')
+
+
+                        removeParticipantModalConfirm.addEventListener('click', async function (event) {
+
+                            // alert(`${hostId} 將 ${participantName} 移出活動`)
+
+
+                            let removeParticipantAdmin = await fetchData(`/api/1.0/gatherings/removeparticipantadmin?gathering_id=${gatheringId}&participant_id=${participantId}&host_id=${hostId}`, accessToken)
+
+
+                            // console.log('removeParticipantAdmin.status', removeParticipantAdmin)
+
+                            if (removeParticipantAdmin.error == 'No Permission') {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: '您無權限進行此操作',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                })
+
+                            } else {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: '已將用戶移出',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then(function () {
+                                    window.location.reload();
+                                })
+
+
+
+
+
+                            }
+
+
+
+
+
+                            // socket.emit('removeParticipant', participantData)
+
+
+                            // socket.emit(`host_newparticipant_${ participantData.hostId } `, msg.content)
+
+
+
+
+
+
+                        })
+
+
+
+
+
+
+
+
+
+                    })
 
 
 

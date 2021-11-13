@@ -12,6 +12,7 @@ const {
     // getGatheringDetail,
     hostGathering,
     attendGathering,
+    removeParticipantAdmin,
     postFeedback
 
 } = require('../controllers/gathering_controller');
@@ -34,6 +35,10 @@ router.route('/gatherings/hostGathering')
 
 router.route('/gatherings/attendGathering/:action')
     .get(authentication(USER_ROLE.ALL), attendGathering);
+
+
+router.route('/gatherings/removeparticipantadmin')
+    .get(authentication(USER_ROLE.ALL), removeParticipantAdmin);
 
 
 router.route('/gatherings/feedback')

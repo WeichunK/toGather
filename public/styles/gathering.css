@@ -88,7 +88,7 @@ body {
 
 #participants {
     overflow: scroll;
-    height: inherit;
+    height: 40%;
     padding: 1rem;
     width: 100%;
 }

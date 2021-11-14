@@ -29,7 +29,7 @@ router.route('/getgatherings/:category')
 // router.route('/getgatheringDetail')
 //     .get(getGatheringDetail);
 
-router.route('/gatherings/hostGathering')
+router.route('/gatherings/hostgathering')
     .post(authentication(USER_ROLE.ALL), cpUpload, hostGathering);
 
 

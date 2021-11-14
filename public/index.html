@@ -306,7 +306,7 @@
                     <div id="mapForHost" style="height:15rem; width:22rem;"></div>
 
                     <h6>請輸入活動資訊</h6>
-                    <form method="post" action="/api/1.0/gatherings/hostGathering" enctype="multipart/form-data">
+                    <form method="post" action="/api/1.0/gatherings/hostgathering" enctype="multipart/form-data">
 
 
                         <div class="mb-3">
@@ -633,7 +633,7 @@
 
 
 
-        const hostGathering = document.getElementById("hostGathering")
+        // const hostGathering = document.getElementById("hostGathering")
 
         // document.getElementById("createEvent").addEventListener('click', () => {
         //     hostGathering.style.display = 'block'
@@ -711,7 +711,7 @@
 
 
             let xhr = new XMLHttpRequest();
-            let url = '/api/1.0/gatherings/hostGathering';
+            let url = '/api/1.0/gatherings/hostgathering';
             xhr.open('POST', url);
             xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
             // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
@@ -725,7 +725,16 @@
                     // } else {
                     //     alert('無權限操作此頁')
                     // }
-                    window.location.reload();
+
+                    Swal.fire({
+                        title: 'Success!',
+                        text: '活動創建成功',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        window.location.reload();
+                    })
+
                 }
             };
             xhr.send(dataToSent);

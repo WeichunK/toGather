@@ -227,7 +227,6 @@
                                 onclick="return onClickSignUp(this.form)">確定註冊</button>
 
 
-
                         </form>
 
 
@@ -483,9 +482,40 @@
                         // } else {
                         //     alert('無權限操作此頁')
                         // }
-                        alert('註冊成功')
+
                         localStorage.setItem("token", JSON.parse(xhr.responseText).data.access_token);
-                        window.location.href = '/index.html';
+
+                        Swal.fire({
+                            title: 'Success!',
+                            text: '註冊成功，獲得獎勵 30點 popularity點數',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+
+                            window.location.href = '/index.html';
+                        })
+
+
+                    } else if (xhr.status === 400) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '資料格式錯誤',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+
+                            window.location.href = '/sign.html';
+                        })
+                    } else if (xhr.status === 403) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '此email已被註冊',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+
+                            window.location.href = '/sign.html';
+                        })
                     }
                 };
 

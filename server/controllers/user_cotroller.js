@@ -9,10 +9,12 @@ const signUp = async (req, res) => {
 
     if (!name || !email || !password) {
         res.status(400).send({ error: 'lack of name or email or password' })
+        return;
     }
 
     if (!validator.isEmail(email)) {
         res.status(400).send({ error: 'invalid email format' })
+        return;
     }
     const role = 1;
     const provider = 'native'

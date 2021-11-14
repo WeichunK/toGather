@@ -159,6 +159,17 @@ const hostGathering = async (gathering) => {
         const queryStr = 'INSERT INTO gathering SET ?';
         const [result] = await conn.query(queryStr, gathering);
 
+        // --------- 30 點獎勵-----------
+
+        // const [users] = await conn.query('SELECT * FROM member WHERE id = ?', [gathering.host_id]);
+        // const user = users[0];
+        // let popularity = parseInt(user.popularity)
+        // console.log('parseInt(user.popularity)', popularity)
+        // const queryStr = 'UPDATE member SET popularity = ? WHERE id = ?';
+        // await conn.query(queryStr, [popularity + 30, gathering.host_id]);
+
+
+
         // gathering.id = result.insertId;
         await conn.query('COMMIT');
         return result;
@@ -183,11 +194,29 @@ const attendGathering = async (participant, action) => {
     try {
         await conn.query('START TRANSACTION');
         let binding;
+        let popularity
         if (action == 'join') {
+
+
+
+            const [users] = await conn.query('SELECT * FROM member WHERE id = ?', [participant.participant_id]);
+            const user = users[0];
+            popularity = parseInt(user.popularity)
+            console.log('parseInt(user.popularity)', popularity)
+
+            if (popularity < 5) {
+                return { error: 'Not Enough Popularity!' };
+            }
+
+
+
+
             participant.created_at = new Date();
             queryStr = 'INSERT INTO participant SET ?';
             binding = participant;
             console.log('binding', binding)
+
+
 
 
         } else if (action == 'quit') {
@@ -199,6 +228,16 @@ const attendGathering = async (participant, action) => {
         }
 
         let [result] = await conn.query(queryStr, binding);
+
+        if (action == 'join') {
+            console.log('popularity', popularity)
+            const queryStr = 'UPDATE member SET popularity = ? WHERE id = ?';
+            await conn.query(queryStr, [popularity - 5, participant.participant_id]);
+
+        }
+
+
+
 
         let secondQuery = "select g.id, g.max_participant, g.min_participant, (case when p.num_participant is null then 0 else p.num_participant end) AS num_participant from gathering g \
         left join (select gathering_id, count(participant_id) as num_participant from participant group by gathering_id) p on g.id = p.gathering_id where g.id = ?;"

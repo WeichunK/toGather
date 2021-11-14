@@ -1485,7 +1485,7 @@
                     // console.log('{ room: room, userId: user.id }', room, user.id)
                     socket.emit('addRoom', { room: room, userId: user.id })
 
-                    socket.on(`${room} +${user.id} `, chatRecord => {
+                    socket.on(`${room}+${user.id}`, chatRecord => {
                         // console.log('chatRecord', chatRecord)
 
 

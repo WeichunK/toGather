@@ -42,6 +42,7 @@ const chat = function (io) {
 
             let result = await Chat.getChatRecord(room);
             // console.log('socket io result[0]', result)
+            // console.log('socket Info', `${room}+${roomInfo.userId}`)
             io.emit(`${room}+${roomInfo.userId}`, result)
 
             // if (chatLists[room]) {

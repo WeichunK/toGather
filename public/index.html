@@ -83,14 +83,14 @@
         <!-- ---------------------- header --------------------------- -->
         <div id="header">
             <nav class="navbar navbar-light fixed-top navbar-expand-lg" style="background-color: #e3f2fd;">
-                <div class="container-md">
+                <div class="container-md" style="width: 83%; max-width: 90%;">
 
                     <a class="navbar-brand logo name" href="./index.html">
                         <img src="./assets/logo5.png" alt="" width="230" height="60">
                     </a>
                     <div id="main-header">
                         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                            <ul class="navbar-nav">
+                            <ul class="navbar-nav" style="align-items: center;">
 
                                 <li class="nav-item" style="margin: 3px 10px 0 0;">
                                     <a class="nav-link" href="#">
@@ -101,6 +101,17 @@
                                             </button>
 
                                         </div>
+                                    </a>
+                                </li>
+
+
+
+
+                                <li class="nav-item" style="margin: 3px 10px 0 0;" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
+                                    <a class="nav-link" href="#">
+                                        <img src="./assets/6590582_box_email_mail_mailbox_icon.png"
+                                            style="width: 36px;">
                                     </a>
                                 </li>
                                 <!-- <li class="nav-item" style="display: flex;">
@@ -117,12 +128,14 @@
                                     <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false">
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="47" height="47"
+                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="47" height="47"
                                             fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                                             <path fill-rule="evenodd"
                                                 d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                                        </svg>
+                                        </svg> -->
+                                        <img src="./assets/3018530_buyer_customer_figure_person_portrait_icon.png"
+                                            style="width: 36px;">
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <li><a class="dropdown-item dropdown-sign" href="/sign.html"
@@ -153,8 +166,8 @@
             </span>
         </div>
 
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop"
-            aria-controls="offcanvasWithBackdrop">Enable backdrop (default)</button>
+        <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop"
+            aria-controls="offcanvasWithBackdrop">Enable backdrop (default)</button> -->
 
 
         <div id="center">
@@ -236,7 +249,7 @@
             <!-- - `.position-absolute`, `top-0` & `end-0` to position the toasts in the upper right corner -->
             <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
             <div class="toast-container position-absolute bottom-0 end-0 p-3" id="toastPlaceholder"
-                style="width: 200px; max-width: 300px; position: relative; max-height: 90%">
+                style="width: 300px; max-width: 300px; position: relative; max-height: 90%;">
                 <!-- Then put toasts within -->
 
 
@@ -890,7 +903,7 @@
             toastBody = document.createElement('div')
             toastBody.className = "toast-body"
             toastBody.appendChild(document.createTextNode(`${message.participantName} ${verb} ${message.gatheringTitle} 活動`))
-
+            toastBody.style = "width:max-content;"
 
             toastDiv.appendChild(toastHeader)
             toastDiv.appendChild(toastBody)

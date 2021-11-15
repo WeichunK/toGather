@@ -98,8 +98,14 @@ const chat = function (io) {
 
 
 
-
+            // 通知host
             io.emit(`host_addParticipant_${participantData.hostId}`, participantData);
+
+            // 通知聊天室user更新頁面
+
+            io.emit(`all_changeParticipant_${participantData.gatheringId}`, 'participant change');
+
+
         });
 
 
@@ -127,9 +133,14 @@ const chat = function (io) {
             Chat.writeSystemRecord(sysMessage)
 
 
-
+            // 通知host
 
             io.emit(`host_removeParticipant_${participantData.hostId}`, participantData);
+
+            // 通知聊天室user更新頁面
+
+            io.emit(`all_changeParticipant_${participantData.gatheringId}`, 'participant change');
+
         });
 
 

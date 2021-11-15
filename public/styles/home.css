@@ -2,6 +2,11 @@
     height: 40vh;
 } */
 
+
+*{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 .wrap {
     display: grid;
     grid-template-columns: 5% 90% 1%;

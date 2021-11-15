@@ -20,6 +20,8 @@ const { chat } = require('./server/controllers/socket_io')
 
 const { pool } = require('./server/models/mysqlcon');
 
+// const { checkGatheringStatus } = require('./server/models/gathering_model')
+
 // API routes
 app.use('/api/' + API_VERSION,
     // rateLimiterRoute,
@@ -114,7 +116,10 @@ chat(io);
 
 
 // app.listen(port, () => { console.log(`Listening on port: ${port}`); });
-server.listen(port, () => { console.log(`Listening on port: ${port}`); });
+server.listen(port, () => {
+    console.log(`Listening on port: ${port}`);
+    // checkGatheringStatus()
+});
 
 // app.io = io;
 

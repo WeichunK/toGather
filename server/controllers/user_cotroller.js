@@ -139,6 +139,46 @@ const getMemberProfile = async (req, res) => {
 }
 
 
+const getProfile = async (req, res) => {
+
+    let userId = req.query.id
+
+    let result = await User.getProfile(userId)
+    console.log('result ', result)
+    res.status(200).send({
+        data: {
+            id: result.id,
+            provider: result.provider,
+            name: result.name,
+            email: result.email,
+            picture: result.picture,
+            introduction: result.introduction,
+            job: result.job,
+            title: result.title,
+            age: result.age,
+            popularity: result.popularity,
+
+        }
+        //     id: req.user.id,
+        //     provider: req.user.provider,
+        //     name: req.user.name,
+        //     email: req.user.email,
+        //     picture: req.user.picture,
+        //     introduction: req.user.introduction,
+        //     job: req.user.job,
+        //     title: req.user.title,
+        //     age: req.user.age,
+        //     popularity: req.user.popularity,
+        //     coin: req.user.coin,
+        // }
+
+    });
+
+    return;
+
+
+}
+
 
 
 const getUserRating = async (req, res) => {
@@ -163,32 +203,40 @@ const getUserRating = async (req, res) => {
 const updatePhoto = async (req, res) => {
 
 
-    console.log('req.files', req.files)
-    const photo = {
-        picture: req.files.main_image[0].path,
-    }
 
-    console.log('photo', photo)
+    try {
 
-    let uploadResult = await s3UploadFile(req.files.main_image[0], '/member')
-    console.log('uploadResult', uploadResult)
-    photo.picture = uploadResult.Location
-
-    const result = await User.updatePhoto(photo, req.user.id)
-
-
-    if (result.error) {
-        res.status(403).send({ error: result.error });
-        return;
-    }
-
-    // req.app.io.emit('updateGatheringList', 'DB updated');
-
-    res.status(200).send({
-        data: {
-            photo: photo
+        console.log('req.files', req.files)
+        const photo = {
+            picture: req.files.main_image[0].path,
         }
-    })
+
+        console.log('photo', photo)
+
+        let uploadResult = await s3UploadFile(req.files.main_image[0], '/member')
+        console.log('uploadResult', uploadResult)
+        photo.picture = uploadResult.Location
+
+        const result = await User.updatePhoto(photo, req.user.id)
+
+
+        if (result.error) {
+            res.status(403).send({ error: result.error });
+            return;
+        }
+
+        // req.app.io.emit('updateGatheringList', 'DB updated');
+
+        res.status(200).send({
+            data: {
+                photo: photo
+            }
+        })
+
+    } catch (error) {
+        res.status(404).send(error)
+    }
+
     return;
 
 }
@@ -196,4 +244,4 @@ const updatePhoto = async (req, res) => {
 
 
 
-module.exports = { signUp, signIn, getMemberProfile, getUserRating, updatePhoto }
+module.exports = { signUp, signIn, getMemberProfile, getProfile, getUserRating, updatePhoto }

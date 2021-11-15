@@ -49,7 +49,9 @@ const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
 
     } else if (requirement.id != null) {
         console.log('id')
-        query.sql = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin, (case when r.avg_rating is null then 0 else r.avg_rating end) AS avg_rating FROM gathering g LEFT JOIN member m ON g.host_id = m.id left join (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id '
+        query.sql = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin, (case when r.avg_rating is null then 0 else r.avg_rating end) AS avg_rating FROM gathering g \
+        LEFT JOIN member m ON g.host_id = m.id \
+        left join (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id '
         query.condition = 'WHERE g.id = ?;'
         query.binding = [requirement.id];
 
@@ -165,8 +167,8 @@ const hostGathering = async (gathering) => {
         // const user = users[0];
         // let popularity = parseInt(user.popularity)
         // console.log('parseInt(user.popularity)', popularity)
-        // const queryStr = 'UPDATE member SET popularity = ? WHERE id = ?';
-        // await conn.query(queryStr, [popularity + 30, gathering.host_id]);
+
+        // await conn.query('UPDATE member SET popularity = ? WHERE id = ?', [popularity + 30, gathering.host_id]);
 
 
 
@@ -318,6 +320,67 @@ const checkExpiredGathering = async () => {
 }
 
 
+const getComment = async (gatheringId) => {
+    let result;
+
+    const Query = 'SELECT user_id, m.name, f.created_at, comment from feedback f \
+    left join member m on f.user_id = m.id \
+    where gathering_id = ? and comment !="";'
+
+    result = await pool.query(Query, [gatheringId]);
+    // console.log('result', result)
+
+    return result[0];
+
+}
+
+
+
+const checkGatheringStatus = async () => {
+    // let result;
+
+    // const Query = 'SELECT user_id, m.name, f.created_at, comment from feedback f \
+    // left join member m on f.user_id = m.id \
+    // where gathering_id = ? and comment !="";'
+
+    // result = await pool.query(Query, [gatheringId]);
+
+
+
+
+    async function myfunc() {
+        // console.log("myfunc ", Interval);
+
+        // let result;
+
+        // let currentDate = new Date()
+
+        // const Query = 'SELECT id, start_at from gathering where start_at < ? and status!=4;'
+
+        // result = await pool.query(Query, [currentDate]);
+
+        // for (let i in result[0]) {
+        //     console.log(result[0][i].id, ': ', result[0][i].start_at, '    ', currentDate)
+        // }
+
+        // let obj1 = [{ popularity: 31 }, { popularity: 32 }, { popularity: 33 }]
+
+        // let idList = [1, 2, 3]
+
+        // for (let i in )
+
+        // const Query = 'update member set popularity ? where id = ?;'
+        // await pool.query(Query, [obj1.map(x => Object.values(x)), idList]);
+
+    }
+
+    const myInterval = setInterval(myfunc, 3000);
+
+
+    return;
+    // return result[0];
+
+}
 
 
 
@@ -329,6 +392,8 @@ module.exports = {
     attendGathering,
     postFeedback,
     checkExpiredGathering,
+    getComment,
+    checkGatheringStatus,
     // getHotProducts,
     // getProductsVariants,
     // getProductsImages,

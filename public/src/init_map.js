@@ -393,47 +393,56 @@ function initMap() {
 
 
                     let eventBlock = document.createElement('div')
-                    eventBlock.setAttribute('class', 'card mb-3')
+                    eventBlock.setAttribute('class', 'card mb-3 gathering')
+                    // eventBlock.setAttribute('value', 'gathering')
                     // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
                     eventBlock.setAttribute('onclick', `location.href='/gathering.html?id=${response.data[i].id}';`)
                     eventBlock.setAttribute('id', response.data[i].id)
+                    eventBlock.setAttribute('idvalue', response.data[i].id)
                     eventBlock.style = "max-width: 100%; cursor:pointer;"
 
 
                     let eventBlockRow = document.createElement('div')
                     eventBlockRow.setAttribute('class', 'row g-0')
-
+                    eventBlockRow.setAttribute('idvalue', response.data[i].id)
                     let eventBlockRowPic = document.createElement('div')
                     eventBlockRowPic.setAttribute('class', 'col-md-4')
+                    eventBlockRowPic.setAttribute('idvalue', response.data[i].id)
                     // eventBlockRowPic.style = "min-height:80%;"
 
                     let eventPic = document.createElement('img')
                     eventPic.setAttribute('class', 'figure-img img-fluid rounded')
                     eventPic.setAttribute('src', response.data[i].picture)
                     eventPic.style = "margin: 3px; object-fit: contain;"
+                    eventPic.setAttribute('idvalue', response.data[i].id)
 
                     eventBlockRowPic.appendChild(eventPic)
 
                     let eventBlockRowContent = document.createElement('div')
                     eventBlockRowContent.setAttribute('class', 'col-md-8')
+                    eventBlockRowContent.setAttribute('idvalue', response.data[i].id)
 
                     let eventBlockRowCardBody = document.createElement('div')
                     eventBlockRowCardBody.setAttribute('class', 'card-body')
-
+                    eventBlockRowCardBody.setAttribute('idvalue', response.data[i].id)
 
                     let eventBlockRowCardTitle = document.createElement('h5')
                     eventBlockRowCardTitle.setAttribute('class', 'card-title')
+                    eventBlockRowCardTitle.setAttribute('idvalue', response.data[i].id)
                     eventBlockRowCardTitle.appendChild(document.createTextNode(` ${response.data[i].title}`))
 
                     let eventBlockRowCardText = document.createElement('p')
                     eventBlockRowCardText.setAttribute('class', 'card-text')
+                    eventBlockRowCardText.setAttribute('idvalue', response.data[i].id)
                     eventBlockRowCardText.appendChild(document.createTextNode(` ${response.data[i].description.substring(0, 30)}...`))
 
 
                     let eventBlockRowCardHost = document.createElement('p')
+                    eventBlockRowCardHost.setAttribute('idvalue', response.data[i].id)
                     eventBlockRowCardHost.setAttribute('class', 'card-text')
 
                     let eventBlockRowCardHostSmall = document.createElement('small')
+                    eventBlockRowCardHostSmall.setAttribute('idvalue', response.data[i].id)
                     eventBlockRowCardHostSmall.setAttribute('class', 'text-muted')
 
                     eventBlockRowCardHostSmall.appendChild(document.createTextNode(`發起人: ${response.data[i].name}`))
@@ -530,7 +539,7 @@ function initMap() {
 
     let mapForHost = new google.maps.Map(document.getElementById("mapForHost"), {
         center: initPoint,
-        zoom: 13,
+        zoom: 14,
         fullscreenControl: false,
         mapTypeControl: false,
         streetViewControl: false,

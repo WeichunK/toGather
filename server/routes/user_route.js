@@ -9,6 +9,7 @@ const {
     signUp,
     signIn,
     getMemberProfile,
+    getProfile,
     getUserRating,
     updatePhoto,
 } = require('../controllers/user_cotroller')
@@ -22,6 +23,9 @@ router.route('/user/signup').post(signUp);
 router.route('/user/signin').post(signIn);
 
 router.route('/user/getmemberprofile').get(authentication(USER_ROLE.ALL), getMemberProfile);
+
+router.route('/user/getprofile').get(authentication(USER_ROLE.FREE), getProfile);
+
 
 router.route('/user/getuserrating').get(authentication(USER_ROLE.ALL), getUserRating);
 

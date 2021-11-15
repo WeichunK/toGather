@@ -86,7 +86,8 @@ const upload = multer({
             const fileExtension = file.mimetype.split('/')[1]; // get file extension from original file name
             cb(null, customFileName + '.' + fileExtension);
         }
-    })
+    }),
+    limits: { fileSize: 1000000 }
 });
 
 const getImagePath = (protocol, hostname, gatheringId) => {

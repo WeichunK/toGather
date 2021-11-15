@@ -325,7 +325,7 @@
 
                 // dataToSent = new FormData(dataToSent)
                 // dataToSent.append('provider', 'native');
-                console.log("dataToSent", dataToSent);
+                // console.log("dataToSent", dataToSent);
                 // fetch("/api/1.0/getgatherings/hostGathering", {
 
                 //     body: dataToSent,
@@ -352,7 +352,7 @@
 
                 xhr.onreadystatechange = async function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
-                        console.log('apiResponse.data', xhr.responseText)
+                        // console.log('apiResponse.data', xhr.responseText)
                         // if (xhr.responseText == 'admin') {
                         //     alert('已成功輸入一筆資料')
                         //     window.location.href = '/admin/product.html'
@@ -370,7 +370,7 @@
 
                         localStorage.setItem("token", accessToken);
                         let responseText
-                        console.log('JSON.parse(xhr.responseText).user', JSON.parse(xhr.responseText).data.user)
+                        // console.log('JSON.parse(xhr.responseText).user', JSON.parse(xhr.responseText).data.user)
                         if (JSON.parse(xhr.responseText).data.user.bonus) {
                             responseText = '登入成功，獲得每日登入積分獎勵1分'
 
@@ -399,6 +399,16 @@
 
 
                         // window.location.href = '/index.html';
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'email或密碼錯誤',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = '/sign.html'
+                        })
+
                     }
                 };
                 xhr.send(dataToSent);
@@ -448,7 +458,7 @@
 
                 // dataToSent = new FormData(dataToSent)
                 // dataToSent.append('provider', 'native');
-                console.log("dataToSent", dataToSent);
+                // console.log("dataToSent", dataToSent);
                 // fetch("/api/1.0/getgatherings/hostGathering", {
 
                 //     body: dataToSent,
@@ -475,7 +485,7 @@
 
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
-                        console.log('apiResponse.data', xhr.responseText)
+                        // console.log('apiResponse.data', xhr.responseText)
                         // if (xhr.responseText == 'admin') {
                         //     alert('已成功輸入一筆資料')
                         //     window.location.href = '/admin/product.html'

@@ -13,7 +13,8 @@ const {
     hostGathering,
     attendGathering,
     removeParticipantAdmin,
-    postFeedback
+    postFeedback,
+    getComment,
 
 } = require('../controllers/gathering_controller');
 
@@ -43,6 +44,14 @@ router.route('/gatherings/removeparticipantadmin')
 
 router.route('/gatherings/feedback')
     .post(authentication(USER_ROLE.ALL), postFeedback);
+
+
+router.route('/gatherings/getcomment')
+    .get(authentication(USER_ROLE.FREE), getComment);
+
+
+
+
 // router.route('/user/signin')
 //     .post(wrapAsync(signIn));
 

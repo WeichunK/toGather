@@ -85,6 +85,20 @@ body {
     grid-area: header;
 }
 
+#commentList {
+    overflow-y: scroll;
+   
+}
+#commentCard{
+    overflow-y: scroll;
+    background-color: ghostwhite;
+}
+
+#commentList::-webkit-scrollbar {
+    width: 1px;
+    /* background-color: black; */
+}
+
 #participants {
     overflow: scroll;
     height: 43%;

@@ -322,18 +322,26 @@
                     <h5 class="rating-boxH1" style="text-align: center;">我要給評分和評論</h5>
                     <div class="rating" style="text-align: center;">
                         <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="1"></span>
+                            data-bs-target="#commentModal" data-bs-rating="1"></span>
                         <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="2"></span>
+                            data-bs-target="#commentModal" data-bs-rating="2"></span>
                         <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="3"></span>
+                            data-bs-target="#commentModal" data-bs-rating="3"></span>
                         <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="4"></span>
+                            data-bs-target="#commentModal" data-bs-rating="4"></span>
                         <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-whatever="5"></span>
+                            data-bs-target="#commentModal" data-bs-rating="5"></span>
                     </div>
                     <h4 id="rating-value">
                         </h1>
+                </div>
+
+
+
+
+                <div id="commentList">
+
+
                 </div>
 
 
@@ -374,41 +382,76 @@
             </div>
             <script>
 
-                var commentModal = document.getElementById('commentModal')
-                commentModal.addEventListener('show.bs.modal', function (event) {
-                    // Button that triggered the modal
-                    var button = event.relatedTarget
-                    // Extract info from data-bs-* attributes
-                    var ratingScore = button.getAttribute('data-bs-whatever')
-                    // If necessary, you could initiate an AJAX request here
-                    // and then do the updating in a callback.
-                    //
-                    // Update the modal's content.
-                    var modalTitle = commentModal.querySelector('.modal-title')
-                    // var modalBodyInput = exampleModal.querySelector('.modal-body input')
+                // var ratingScore = {}
 
-                    modalTitle.textContent = '您給的分數為 ' + ratingScore + ' 顆星'
-                    // modalBodyInput.value = recipient
-                })
+                // var commentModal = document.getElementById('commentModal')
+                // commentModal.addEventListener('show.bs.modal', function (event) {
+                //     // Button that triggered the modal
+                //     var button = event.relatedTarget
+                //     // Extract info from data-bs-* attributes
+                //     ratingScore.score = button.getAttribute('data-bs-rating')
+                //     // If necessary, you could initiate an AJAX request here
+                //     // and then do the updating in a callback.
+                //     //
+                //     // Update the modal's content.
+                //     var modalTitle = commentModal.querySelector('.modal-title')
+                //     // var modalBodyInput = exampleModal.querySelector('.modal-body input')
 
-
-
-
-
-                const sendCommentButton = document.getElementById('sendCommentButton')
-                sendCommentButton.addEventListener('click', function (event) {
+                //     modalTitle.textContent = '您給的分數為 ' + ratingScore.score + ' 顆星'
+                //     // modalBodyInput.value = recipient
+                // })
 
 
-                    Swal.fire({
-                        title: 'Success!',
-                        text: '您的評論已送出',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then(function () {
-                        window.location.reload();
-                    })
 
-                })
+
+
+
+
+                // const sendCommentButton = document.getElementById('sendCommentButton')
+                // sendCommentButton.addEventListener('click', function (event) {
+
+                //     let commentData = {
+                //         gatheringId: location.href.split('?')[1].split('=')[1],
+                //         hostId: hostInfo.hostId,
+                //         rating: ratingScore,
+                //         comment: document.getElementById('message-text').value
+                //     }
+
+                //     console.log('commentData', commentData)
+
+                //     const commentHeaders = {
+                //         // 'Content-Type': 'application/json',
+                //         'Authorization': `Bearer ${accessToken}`
+                //     }
+
+                //     fetch('/api/1.0/gatherings/feedback', { headers: commentHeaders, body: JSON.stringify(commentData), method: 'POST' })
+
+                //         .then((response) => { return response.json(); })
+                //         .then((response) => { console.lod('comment successful', response) })
+                //         .then(() => {
+
+                //             Swal.fire({
+                //                 title: 'Success!',
+                //                 text: '您的評論已送出',
+                //                 icon: 'success',
+                //                 confirmButtonText: 'OK'
+                //             }).then(function () {
+                //                 window.location.reload();
+                //             })
+
+                //         })
+                //         .catch((error) => {
+                //             console.log(error);
+                //         })
+
+
+
+
+
+
+
+
+                // })
 
 
 
@@ -767,6 +810,11 @@
 
                 let getgatheringDetails = await fetchData(`/api/1.0/getgatherings/details?id=${gatheringId}`, accessToken)
 
+                let commentList = await fetchData(`/api/1.0/gatherings/getcomment?id=${gatheringId}`, accessToken)
+
+
+                console.log('commentList', commentList)
+
                 // console.log('getgatheringDetails.data[0].lat', getgatheringDetails.data[0].lat)
                 gathering.title = getgatheringDetails.data[0].title
 
@@ -975,6 +1023,58 @@
                 gatheringDetail.insertBefore(eventMap, gatheringDetail.firstChild)
 
                 gatheringDetail.insertBefore(eventPic, gatheringDetail.firstChild)
+
+
+
+
+
+
+
+
+                let commentListBlock = document.getElementById('commentList')
+                commentListBlock.style = "width: 100%; margin: 15px auto;"
+
+                for (i in commentList.data.comments) {
+
+                    let commentCard = document.createElement('div')
+                    commentCard.id = "commentCard";
+                    commentCard.className = "card";
+                    commentCard.style = "height: 10rem;"
+                    let commentCardBody = document.createElement('div')
+                    let commentCardTitle = document.createElement('h5')
+                    commentCardTitle.className = "card-title"
+                    commentCardTitle.textContent = commentList.data.comments[i].name
+                    let commentCardDate = document.createElement('h6')
+                    commentCardDate.className = "card-subtitle mb-2 text-muted"
+                    let startTime = new Date(commentList.data.comments[i].created_at)
+                    commentCardDate.textContent = `時間 ${startTime.getUTCFullYear()}-${((parseInt(startTime.getUTCMonth()) + 1) < 10 ? '0' : '') + (parseInt(startTime.getUTCMonth()) + 1)}-${(startTime.getUTCDate() < 10 ? '0' : '') + startTime.getUTCDate()}  ${(startTime.getUTCHours() < 10 ? '0' : '') + startTime.getUTCHours()}:${(startTime.getUTCMinutes() < 10 ? '0' : '') + startTime.getUTCMinutes()}`
+
+                    let commentText = document.createElement('p')
+                    commentText.className = "card-text";
+                    commentText.textContent = commentList.data.comments[i].comment
+
+
+
+                    commentCardBody.appendChild(commentCardTitle)
+                    commentCardBody.appendChild(commentCardDate)
+                    commentCardBody.appendChild(commentText)
+
+                    commentCard.appendChild(commentCardBody)
+
+
+                    commentListBlock.appendChild(commentCard)
+
+                }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1654,7 +1754,7 @@
 
                             if (chatRecord[i].user_id == user.id) {
                                 item.style = 'text-align: right;'
-                                item.textContent = `我: ${chatRecord[i].content} `
+                                item.textContent = `${chatRecord[i].content} `
                             } else {
                                 item.textContent = `${chatRecord[i].user_name}: ${chatRecord[i].content} `;
                             }
@@ -1713,7 +1813,7 @@
 
                         if (msg.speaker == user.name) {
                             item.style = 'text-align: right;'
-                            item.textContent = `我: ${msg.content} `;
+                            item.textContent = `${msg.content}`;
                         } else {
                             item.textContent = `${msg.speaker}: ${msg.content} `;
 
@@ -2083,6 +2183,92 @@
 
             // ---------------------------------------------------------------------------------------------- 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            var ratingScore = {}
+
+            var commentModal = document.getElementById('commentModal')
+            commentModal.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var button = event.relatedTarget
+                // Extract info from data-bs-* attributes
+                ratingScore.score = button.getAttribute('data-bs-rating')
+                // If necessary, you could initiate an AJAX request here
+                // and then do the updating in a callback.
+                //
+                // Update the modal's content.
+                var modalTitle = commentModal.querySelector('.modal-title')
+                // var modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+                modalTitle.textContent = '您給的分數為 ' + ratingScore.score + ' 顆星'
+                // modalBodyInput.value = recipient
+            })
+
+
+
+
+
+
+
+            const sendCommentButton = document.getElementById('sendCommentButton')
+            sendCommentButton.addEventListener('click', function (event) {
+
+                let commentData = {
+                    gatheringId: location.href.split('?')[1].split('=')[1],
+                    hostId: hostInfo.hostId,
+                    rating: ratingScore.score,
+                    comment: document.getElementById('message-text').value
+                }
+
+                console.log('commentData', commentData)
+
+                const commentHeaders = {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+
+                fetch('/api/1.0/gatherings/feedback', { headers: commentHeaders, body: JSON.stringify(commentData), method: 'POST' })
+
+                    .then((response) => { return response.json(); })
+                    .then((response) => { console.log('comment successful', response) })
+                    .then(() => {
+
+                        Swal.fire({
+                            title: 'Success!',
+                            text: '您的評論已送出',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.reload();
+                        })
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+
+
+
+
+
+
+
+
+            })
 
 
 

@@ -295,6 +295,31 @@ const postFeedback = async (req, res) => {
 }
 
 
+const getComment = async (req, res) => {
+
+    console.log('gatheringId_comment', req.query)
+    let gatheringId = req.query.id
+
+    // console.log('gatheringId_comment', gatheringId)
+
+    const result = await Gatherings.getComment(gatheringId)
+
+
+    if (result.error) {
+        res.status(403).send({ error: result.error });
+        return;
+    }
+
+    // req.app.io.emit('updateGatheringList', 'DB updated');
+    // console.log('comment', result)
+
+    res.status(200).send({
+        data: { comments: result }
+    })
+    return;
+
+
+}
 
 
 
@@ -305,6 +330,7 @@ module.exports = {
     attendGathering,
     removeParticipantAdmin,
     postFeedback,
+    getComment,
 
 };
 

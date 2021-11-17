@@ -248,7 +248,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <form method="post" action="/api/1.0/gatherings/hostGathering" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data">
 
 
                         <div class="mb-3">
@@ -1122,16 +1122,18 @@
 
         function onClick(form) {
             console.log('type of form', typeof (form))
+            console.log('form', form)
 
             let dataToSent = new FormData(form)
+            console.log('dataToSent', dataToSent)
 
-            // alert('check')
+            alert('check')
 
             if (localStorage.getItem('token')) {
                 var jwt = localStorage.getItem('token')
                 console.log('JWT', jwt)
-                console.log("files[0].size", document.getElementById("main_image").files[0].size)
-                console.log("files[0]", document.getElementById("main_image").files[0])
+                // console.log("files[0].size", document.getElementById("main_image").files[0].size)
+                // console.log("files[0]", document.getElementById("main_image").files[0])
 
 
                 if (!document.getElementById("main_image").files[0]) {

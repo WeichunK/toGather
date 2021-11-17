@@ -323,7 +323,7 @@ function initMap() {
                 console.log(response);
 
                 const gatheringList = document.getElementById('gathering-list')
-                gatheringList.style = `border-style: none; border-color: light; width:90%;`
+                gatheringList.style = `border-style: none; border-color: light; width:98%;`
                 gatheringList.innerHTML = ''
 
                 if (tagType === 'search') {
@@ -393,13 +393,13 @@ function initMap() {
 
 
                     let eventBlock = document.createElement('div')
-                    eventBlock.setAttribute('class', 'card mb-3 gathering')
+                    eventBlock.setAttribute('class', 'card mb-3 border-light gathering')
                     // eventBlock.setAttribute('value', 'gathering')
                     // eventBlock.setAttribute('onclick', `return clickGathering(${response.data[i].id});`)
                     eventBlock.setAttribute('onclick', `location.href='/gathering.html?id=${response.data[i].id}';`)
                     eventBlock.setAttribute('id', response.data[i].id)
                     eventBlock.setAttribute('idvalue', response.data[i].id)
-                    eventBlock.style = "max-width: 100%; cursor:pointer;"
+                    eventBlock.style = "max-width: 100%; cursor:pointer; margin-top: 1rem;"
 
 
                     let eventBlockRow = document.createElement('div')
@@ -409,11 +409,12 @@ function initMap() {
                     eventBlockRowPic.setAttribute('class', 'col-md-4')
                     eventBlockRowPic.setAttribute('idvalue', response.data[i].id)
                     // eventBlockRowPic.style = "min-height:80%;"
+                    eventBlockRowPic.style = "width:255px !important; height:170px !important; display: flex;justify-content: center;flex-direction: column;"
 
                     let eventPic = document.createElement('img')
                     eventPic.setAttribute('class', 'figure-img img-fluid rounded')
                     eventPic.setAttribute('src', response.data[i].picture)
-                    eventPic.style = "margin: 3px; object-fit: contain;"
+                    eventPic.style = "margin: 0 0; object-fit: cover; width:90%;height:90%; border-radius: 0.8rem !important;"
                     eventPic.setAttribute('idvalue', response.data[i].id)
 
                     eventBlockRowPic.appendChild(eventPic)
@@ -421,25 +422,36 @@ function initMap() {
                     let eventBlockRowContent = document.createElement('div')
                     eventBlockRowContent.setAttribute('class', 'col-md-8')
                     eventBlockRowContent.setAttribute('idvalue', response.data[i].id)
+                    eventBlockRowContent.style = "width: 55% !important; flex-shrink: 1;"
 
                     let eventBlockRowCardBody = document.createElement('div')
                     eventBlockRowCardBody.setAttribute('class', 'card-body')
                     eventBlockRowCardBody.setAttribute('idvalue', response.data[i].id)
 
-                    let eventBlockRowCardTitle = document.createElement('h5')
+                    let eventBlockRowCardTitle = document.createElement('span')
                     eventBlockRowCardTitle.setAttribute('class', 'card-title')
                     eventBlockRowCardTitle.setAttribute('idvalue', response.data[i].id)
                     eventBlockRowCardTitle.appendChild(document.createTextNode(` ${response.data[i].title}`))
 
+                    eventBlockRowCardTitle.style = "color: var(--card-typography-color-primary, #222222) !important;word-break: break-all !important;font-size: 18px !important;line-height: 24px !important;"
+
+                    let shortDivider = document.createElement('div')
+                    shortDivider.style = "margin-top: 11px; width: 32px;border-top: 1px solid rgb(221, 221, 221) !important;"
+
+
                     let eventBlockRowCardText = document.createElement('p')
                     eventBlockRowCardText.setAttribute('class', 'card-text')
                     eventBlockRowCardText.setAttribute('idvalue', response.data[i].id)
-                    eventBlockRowCardText.appendChild(document.createTextNode(` ${response.data[i].description.substring(0, 30)}...`))
+                    // eventBlockRowCardText.appendChild(document.createTextNode(` ${response.data[i].description.substring(0, 30)}...`))
+                    eventBlockRowCardText.appendChild(document.createTextNode(response.data[i].description))
 
+
+                    eventBlockRowCardText.style = "margin-top: 9px;color: rgb(113, 113, 113) !important;margin-right: 3px!important;line-height: 18px !important;max-height: 18px!important;overflow: hidden !important;text-overflow: ellipsis !important;display: -webkit-box !important;-webkit-line-clamp: 1 !important;-webkit-box-orient: vertical !important;animation-duration: 0.3s !important;animation-name: keyframe_18jn58a !important;animation-timing-function: ease-in-out !important;opacity: 1 !important;"
 
                     let eventBlockRowCardHost = document.createElement('p')
                     eventBlockRowCardHost.setAttribute('idvalue', response.data[i].id)
                     eventBlockRowCardHost.setAttribute('class', 'card-text')
+                    eventBlockRowCardHost.style = "margin-top:3rem;"
 
                     let eventBlockRowCardHostSmall = document.createElement('small')
                     eventBlockRowCardHostSmall.setAttribute('idvalue', response.data[i].id)
@@ -450,6 +462,8 @@ function initMap() {
 
 
                     eventBlockRowCardBody.appendChild(eventBlockRowCardTitle)
+                    eventBlockRowCardBody.appendChild(shortDivider)
+
                     eventBlockRowCardBody.appendChild(eventBlockRowCardText)
                     eventBlockRowCardBody.appendChild(eventBlockRowCardHost)
 
@@ -468,7 +482,7 @@ function initMap() {
 
 
                     let divider = document.createElement('div')
-                    divider.style = `margin-top: 12px; margin-bottom: 12px; border-style: solid; border-bottom: solid; border-color: rgb(235, 235, 235); border-width: 1px;width:100%`
+                    divider.style = 'margin-top: 6px; margin-bottom: 6px; border-style: solid; border-bottom: solid; border-color: rgb(235, 235, 235); border-width: 1px; width: 100%'
 
                     gatheringList.appendChild(divider)
 
@@ -476,18 +490,18 @@ function initMap() {
 
                     {/* 
 
-                    // eventBlock.style = `border-style: solid; border-color: grey; width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
-                    eventBlock.style = `width:100%;  cursor:pointer; border-left: grey; border-right: grey;`
+                    // eventBlock.style = `border - style: solid; border - color: grey; width: 100 %; cursor: pointer; border - left: grey; border - right: grey; `
+                    eventBlock.style = `width: 100 %; cursor: pointer; border - left: grey; border - right: grey; `
                     let eventPic = document.createElement('img')
                     eventPic.src = response.data[i].picture
-                    eventPic.style = `width: 200px; height: 200px; border-radius: 20%;`
+                    eventPic.style = `width: 200px; height: 200px; border - radius: 20 %; `
                     eventPic.setAttribute('title', response.data[i].title)
                     eventPic.setAttribute('class', 'eventPic')
                     // eventPic.title = response.data[i].title
                     eventBlock.appendChild(eventPic)
-                    eventBlock.appendChild(document.createTextNode(` ${response.data[i].title}`))
+                    eventBlock.appendChild(document.createTextNode(` ${ response.data[i].title } `))
                     eventBlock.appendChild(document.createElement('br'))
-                    eventBlock.appendChild(document.createTextNode(`團主: ${response.data[i].name}`))
+                    eventBlock.appendChild(document.createTextNode(`團主: ${ response.data[i].name } `))
 
 
                     gatheringList.appendChild(eventBlock)
@@ -495,7 +509,7 @@ function initMap() {
 
 
                     let divider = document.createElement('div')
-                    divider.style = `margin-top: 12px; margin-bottom: 12px; border-style: solid; border-bottom: solid; border-color: rgb(235, 235, 235); border-width: 1px;width:100%`
+                    divider.style = `margin - top: 12px; margin - bottom: 12px; border - style: solid; border - bottom: solid; border - color: rgb(235, 235, 235); border - width: 1px; width: 100 % `
 
                     gatheringList.appendChild(divider) */}
 

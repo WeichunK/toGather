@@ -102,8 +102,12 @@ const chat = function (io) {
             io.emit(`host_addParticipant_${participantData.hostId}`, participantData);
 
             // 通知聊天室user更新頁面
+            console.log(`all_changeParticipant_${participantData.gatheringId}_${participantData.participantId}`, `all_changeParticipant_${participantData.gatheringId}_${participantData.participantId}`)
 
             io.emit(`all_changeParticipant_${participantData.gatheringId}`, 'participant change');
+
+            // io.emit(`all_changeParticipant_${participantData.gatheringId}_${participantData.participantId}`, 'participant change');
+
 
 
         });
@@ -140,12 +144,50 @@ const chat = function (io) {
             // 通知聊天室user更新頁面
 
             io.emit(`all_changeParticipant_${participantData.gatheringId}`, 'participant change');
+            // io.emit(`all_changeParticipant_${participantData.gatheringId}_${participantData.participantId}`, 'participant change');
+
 
         });
 
 
 
 
+
+        socket.on('removeParticipantAdmin', async (participantData) => {
+
+
+
+            console.log('participantData: ' + participantData);
+            console.log('participantData.hostId', participantData.hostId)
+
+            console.log('host_quitParticipant_${participantData.hostId}', `host_quitParticipant_${participantData.hostId}`)
+
+
+
+
+            let sysMessageContent = `${participantData.participantName} 已被移出 ${participantData.gatheringTitle} 活動`
+            let sysMessage = { id: participantData.hostId, content: sysMessageContent }
+
+
+            //         let sysMessage = {id: participantData.hostId, content:sysMessageContent, created_at: sysMessageDate}
+            // Chat.writeSystemRecord(sysMessage)
+
+            Chat.writeSystemRecord(sysMessage)
+
+
+            // 通知host
+
+            // io.emit(`host_removeParticipant_${participantData.hostId}`, participantData);
+
+            // 通知聊天室user更新頁面
+
+            io.emit(`all_changeParticipant_${participantData.gatheringId}`, 'participant change');
+
+            console.log('server: ', `all_changeParticipant_${participantData.gatheringId}_${participantData.participantId}`)
+            io.emit(`all_changeParticipant_${participantData.gatheringId}_${participantData.participantId}`, 'participant change');
+
+
+        });
 
 
 

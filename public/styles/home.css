@@ -218,12 +218,12 @@ flex-direction: column;
 
 .btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(255, 2550, 255, 0.2);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
 }
 
 .btn:active {
     transform: translateY(-1px);
-    box-shadow: 0 5px 10px rgba(255, 2550, 255, 0.2);
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.2);
 }
 
 .btn-white {
@@ -247,6 +247,7 @@ flex-direction: column;
 
 .btn-white::after {
     background-color: #fff;
+    color: white;
 }
 
 .btn:hover::after {

@@ -28,94 +28,18 @@
 
 
 
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles/header_footer.css">
     <link rel="stylesheet" type="text/css" href="./styles/gathering.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <style type="text/css">
-        #groupChatRoom {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            width: 90%;
-            max-height: 100%;
-            /* border: thin;
-            border-color: turquoise; */
 
-            box-shadow: 1px 1px 8px grey;
-            /* width:460px;
-            line-height:100px; */
-            /* text-align: center; */
-
-
-        }
-
-
-
-        #messagesForm {
-            background: rgba(0, 0, 0, 0.15);
-            padding: 0.25rem;
-            /* position: fixed; */
-            bottom: 0;
-
-            display: flex;
-
-            box-sizing: border-box;
-            backdrop-filter: blur(10px);
-
-
-        }
-
-        #messageInput {
-            border: none;
-            padding: 0 1rem;
-            flex-grow: 1;
-            border-radius: 2rem;
-            margin: 0.25rem;
-        }
-
-        #input:focus {
-            outline: none;
-        }
-
-        #form>button {
-            background: #333;
-            border: none;
-            padding: 0 1rem;
-            margin: 0.25rem;
-            border-radius: 3px;
-            outline: none;
-            color: #fff;
-        }
-
-        #messages {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            height: inherit;
-            overflow: scroll;
-        }
-
-        #messages>li {
-            padding: 0.5rem 1rem;
-        }
-
-        #messages>li:nth-child(odd) {
-            background: #efefef;
-        }
-
-
-
-        :root {
-            --animate-duration: 500ms;
-            --animate-delay: 1s;
-            --animate-repeat: 1;
-        }
     </style>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 
 
@@ -134,33 +58,59 @@
 
 
         <!-- ---------------------- header --------------------------- -->
-        <div id="header">
-            <nav class="navbar navbar-light fixed-top navbar-expand-lg" style="background-color: #e3f2fd;">
-                <div class="container-md" style="width: 83%; max-width: 90%;">
+        <!-- #e3f2fd; -->
+        <div id="header" style="position: absolute;">
+            <nav class="navbar navbar-light fixed-top navbar-expand-lg"
+                style="background-color: rgba(255, 255, 255); padding:0%; padding-top: 5px">
+                <div class="container-md" style="width: 90%; max-width: 90%; height:60px">
 
                     <a class="navbar-brand logo name" href="./index.html">
-                        <img src="./assets/logo5.png" alt="" width="230" height="60">
+                        <img src="./assets/new_logo2.png" alt="" height="35">
                     </a>
                     <div id="main-header">
                         <div class="collapse navbar-collapse" id="navbarNavDropdown">
                             <ul class="navbar-nav" style="align-items: center;">
 
-                                <li class="nav-item" style="margin: 3px 10px 0 0;" data-bs-toggle="offcanvas"
+
+                                <li class="nav-item" style="margin: 0 0 0 0;" data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
-                                    <a class="nav-link" href="#">
-                                        <img src="./assets/6590582_box_email_mail_mailbox_icon.png"
-                                            style="width: 36px;">
+                                    <a class="nav-link" href="#" style="display: flex;">
+                                        <!-- <img src="./assets/6590582_box_email_mail_mailbox_icon.png"
+                                            style="width: 36px;"> -->
+
+                                        <span class="material-icons">
+                                            all_inbox
+                                        </span>
                                     </a>
                                 </li>
-
-                                <li class="nav-item dropdown">
+                                <!-- <li class="nav-item" style="display: flex;">
+                                    <a class="nav-link" id="caht" href="#"><svg xmlns=" http://www.w3.org/2000/svg"
+                                            width="47" height="47" fill="currentColor" class="bi bi-chat-left-text"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                            <path
+                                                d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                                        </svg></a>
+                                </li> -->
+                                <li class="nav-item dropdown" style="margin: 0 0 0 0;">
                                     <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        data-bs-toggle="dropdown" aria-expanded="false" style="display: flex;">
 
-                                        <img src="./assets/3018530_buyer_customer_figure_person_portrait_icon.png"
-                                            style="width: 36px;">
+                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="47" height="47"
+                                            fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                            <path fill-rule="evenodd"
+                                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                                        </svg> -->
+                                        <!-- <img src="./assets/3018530_buyer_customer_figure_person_portrait_icon.png"
+                                            style="width: 36px;"> -->
+                                        <span class="material-icons">
+                                            account_circle
+                                        </span>
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <ul class="dropdown-menu dropdown-menu-lg-end"
+                                        aria-labelledby="navbarDropdownMenuLink">
                                         <li><a class="dropdown-item dropdown-sign" href="/sign.html"
                                                 style="display: block;">登入</a>
                                         </li>
@@ -183,316 +133,209 @@
 
 
 
-        <div id="left-block">
+        <div id="two-column">
 
-            <!-- <div class="rating-box" style="position:absolute;">
-                <h1 class="rating-boxH1">我要評分</h1>
-                <div class="rating">
-                    <span class="fa fa-star-o"></span>
-                    <span class="fa fa-star-o"></span>
-                    <span class="fa fa-star-o"></span>
-                    <span class="fa fa-star-o"></span>
-                    <span class="fa fa-star-o"></span>
+
+            <div id="center">
+
+
+                <div id="gatheringDetail">
+
+
+
+                    <!-- -----------------------------status bar------------------------------------ -->
+                    <div class="rating-container">
+
+                        <div class="container-status">
+                            <!-- <h5>狀態</h5> -->
+                            <div class="skillbox">
+                                <div class="html">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <h3 style="display: inline;">已開團</h3>
+                                        <h3 style="display: inline;">招募中</h3>
+                                        <h3 style="display: inline;">已額滿</h3>
+                                        <h3 style="display: inline;">已結束</h3>
+                                    </div>
+                                    <!-- <span class="percentage">90%</span> -->
+                                    <div class="cover">
+                                        <div class="progressbar" id="progressbar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- ------------------------------------------------------------ -->
+
+                        <div class="rating-box" style="position:relative; width: 100%;">
+                            <h5 class="rating-boxH1" style="text-align: center;">目前的評分</h5>
+                            <div class="ratingResult" style="text-align: center;">
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
+                            </div>
+                            <p id="rating-description" class="text-muted" style="text-align: center;">目前尚未有人給評分</p>
+                            <h4 id="rating-value">
+                                </h1>
+                        </div>
+
+
+
+                        <br>
+                        <!-- <form class="col"> -->
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="rating-box" style="position:relative; width: 100%;">
+                            <h5 class="rating-boxH1" style="text-align: center;">我要給評分和評論</h5>
+                            <div class="rating" style="text-align: center;">
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                                    data-bs-target="#commentModal" data-bs-rating="1"></span>
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                                    data-bs-target="#commentModal" data-bs-rating="2"></span>
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                                    data-bs-target="#commentModal" data-bs-rating="3"></span>
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                                    data-bs-target="#commentModal" data-bs-rating="4"></span>
+                                <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
+                                    data-bs-target="#commentModal" data-bs-rating="5"></span>
+                            </div>
+                            <h4 id="rating-value">
+                                </h1>
+                        </div>
+
+                    </div>
+                    <!-- -----------------------  mouse ------------------------- -->
+
+
+                    <div class="centered">
+                        <div class="mouse-scroll"></div>
+                    </div>
+
+
+
+
+
+                    <div id="commentList">
+
+
+                    </div>
+
+
+                    <!-- ---------------------- comment----------------------- -->
+
+
+
+
+
+
+                    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="commentModalLabel">New message</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+
+                                        <div class="mb-3">
+                                            <label for="message-text" class="col-form-label">Message:</label>
+                                            <textarea class="form-control" id="message-text"
+                                                placeholder="請在此留下評論（選填）"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" id="sendCommentButton">確定送出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <h4 id="rating-value">
-                    </h1>
-            </div> -->
-            <!-- <script src="./src/rating.js"></script> -->
+
+
+
+
+
+
+
+
+            </div>
+
+
+            <div id="sticky-block">
+
+
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                        <p class="card-text">趕快來參加，和朋友一起享受歡樂時光吧</p>
+                        <a href="#" class="btn btn-white btn-animate" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" id="hostbutton">我要加入</a>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
 
 
         </div>
 
 
 
-        <!-- <div id="left-pic"></div> -->
 
-        <!-- <div id="left-map"></div> -->
 
+        <!-- <div id="left-block">
 
 
-        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 
+        </div> -->
 
-        <!-- <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw")</script> -->
 
-        <div id="center">
 
 
-            <div id="gatheringDetail">
 
 
 
-                <!-- -----------------------------status bar------------------------------------ -->
 
-                <div class="container-status">
-                    <!-- <h5>狀態</h5> -->
-                    <div class="skillbox">
-                        <div class="html">
-                            <div style="display: flex; justify-content: space-between;">
-                                <h3 style="display: inline;">已開團</h3>
-                                <h3 style="display: inline;">招募中</h3>
-                                <h3 style="display: inline;">已額滿</h3>
-                                <h3 style="display: inline;">已結束</h3>
-                            </div>
-                            <!-- <span class="percentage">90%</span> -->
-                            <div class="cover">
-                                <div class="progressbar" id="progressbar"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
+        <div id=right style="display:none;" class="position-absolute bottom-0 end-0 p-5">
 
-                <!-- ------------------------------------------------------------ -->
+            <div id=groupChatRoom style="height: 95vh;">
 
-                <div class="rating-box" style="position:relative; width: 100%;">
-                    <h5 class="rating-boxH1" style="text-align: center;">目前的評分</h5>
-                    <div class="ratingResult" style="text-align: center;">
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;"></span>
-                    </div>
-                    <p id="rating-description" class="text-muted" style="text-align: center;">目前尚未有人給評分</p>
-                    <h4 id="rating-value">
-                        </h1>
-                </div>
-
-
-                <br>
-                <!-- <form class="col"> -->
-
-
-
-
-
-
-
-
-
-
-
-
-                <div class="rating-box" style="position:relative; width: 100%;">
-                    <h5 class="rating-boxH1" style="text-align: center;">我要給評分和評論</h5>
-                    <div class="rating" style="text-align: center;">
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-rating="1"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-rating="2"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-rating="3"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-rating="4"></span>
-                        <span class="fa fa-star-o" style="font-size:36px; color: gold;" data-bs-toggle="modal"
-                            data-bs-target="#commentModal" data-bs-rating="5"></span>
-                    </div>
-                    <h4 id="rating-value">
-                        </h1>
-                </div>
-
-
-                <!-- -----------------------  mouse ------------------------- -->
-
-
-                <div class="centered">
-                    <div class="mouse-scroll"></div>
-                </div>
-
-
-
-
-
-                <div id="commentList">
-
-
-                </div>
-
-
-                <!-- ---------------------- comment----------------------- -->
-
-
-
-
-
-
-                <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="commentModalLabel">New message</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-
-                                    <div class="mb-3">
-                                        <label for="message-text" class="col-form-label">Message:</label>
-                                        <textarea class="form-control" id="message-text"
-                                            placeholder="請在此留下評論（選填）"></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                <button type="button" class="btn btn-primary" id="sendCommentButton">確定送出</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <script>
-
-                // var ratingScore = {}
-
-                // var commentModal = document.getElementById('commentModal')
-                // commentModal.addEventListener('show.bs.modal', function (event) {
-                //     // Button that triggered the modal
-                //     var button = event.relatedTarget
-                //     // Extract info from data-bs-* attributes
-                //     ratingScore.score = button.getAttribute('data-bs-rating')
-                //     // If necessary, you could initiate an AJAX request here
-                //     // and then do the updating in a callback.
-                //     //
-                //     // Update the modal's content.
-                //     var modalTitle = commentModal.querySelector('.modal-title')
-                //     // var modalBodyInput = exampleModal.querySelector('.modal-body input')
-
-                //     modalTitle.textContent = '您給的分數為 ' + ratingScore.score + ' 顆星'
-                //     // modalBodyInput.value = recipient
-                // })
-
-
-
-
-
-
-
-                // const sendCommentButton = document.getElementById('sendCommentButton')
-                // sendCommentButton.addEventListener('click', function (event) {
-
-                //     let commentData = {
-                //         gatheringId: location.href.split('?')[1].split('=')[1],
-                //         hostId: hostInfo.hostId,
-                //         rating: ratingScore,
-                //         comment: document.getElementById('message-text').value
-                //     }
-
-                //     console.log('commentData', commentData)
-
-                //     const commentHeaders = {
-                //         // 'Content-Type': 'application/json',
-                //         'Authorization': `Bearer ${accessToken}`
-                //     }
-
-                //     fetch('/api/1.0/gatherings/feedback', { headers: commentHeaders, body: JSON.stringify(commentData), method: 'POST' })
-
-                //         .then((response) => { return response.json(); })
-                //         .then((response) => { console.lod('comment successful', response) })
-                //         .then(() => {
-
-                //             Swal.fire({
-                //                 title: 'Success!',
-                //                 text: '您的評論已送出',
-                //                 icon: 'success',
-                //                 confirmButtonText: 'OK'
-                //             }).then(function () {
-                //                 window.location.reload();
-                //             })
-
-                //         })
-                //         .catch((error) => {
-                //             console.log(error);
-                //         })
-
-
-
-
-
-
-
-
-                // })
-
-
-
-
-
-
-
-
-
-
-            </script>
-
-
-
-            <!-- -------------------------------------------  -->
-
-
-
-            <!-- <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">留下評論</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            placeholder="請在此留言"></textarea>
-                    </div>
-
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-3">送出</button>
-                    </div>
-                </form>
-            </div> -->
-
-
-
-
-            <div id=right style="display:none;">
-                <!-- <div id=participant-list>
-                <h3 style=" text-align: center;">成員</h3>
+                <h6 style=" text-align: center; margin-top: 10px;">成員</h6>
                 <ul id="participants"></ul>
 
+                <h6 style=" text-align: center;">群組聊天室</h6>
 
-            </div> -->
-                <div id=groupChatRoom style="height: 95vh;">
-
-                    <h6 style=" text-align: center; margin-top: 10px;">成員</h6>
-                    <ul id="participants"></ul>
-
-                    <h6 style=" text-align: center;">群組聊天室</h6>
-                    <!-- <div id="container">
-                        <div id="status-box">Server: <span id="status">-</span> / <span id="online">0</span> online.
-                        </div>
-                        <div id="content">
-                            <div class="msg">
-                                <span class="name">Duye</span>
-                                Hello!
-                            </div>
-                            <div class="msg">
-                                <span class="name">Alice</span>
-                                Hi!
-                            </div>
-                        </div>
-                        <div id="send-box">
-                            <form id="send-form">
-                                <input type="text" name="name" id="name" placeholder="暱稱">
-                                <input type="text" name="msg" id="msg" placeholder="說點什麼？">
-                                <input type="submit" value="送出">
-                            </form>
-                        </div>
-                    </div> -->
-
-
-                    <ul id="messages"></ul>
-                    <div>
-                        <form id="messagesForm" action="">
-                            <input id="messageInput" autocomplete="off" /> <button
-                                class="btn btn-secondary">Send</button>
-                        </form>
-                    </div>
+                <ul id="messages"></ul>
+                <div>
+                    <form id="messagesForm" action="">
+                        <input id="messageInput" autocomplete="off" /> <button class="btn btn-secondary">Send</button>
+                    </form>
                 </div>
             </div>
 
@@ -567,45 +410,6 @@
 
 
 
-        // const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw"
-
-        // localStorage.setItem("token", accessToken)
-
-
-
-
-        // async function fetchData(url, accessToken) {
-        //     try {
-        //         let response
-        //         if (accessToken) {
-
-        //             const headers = {
-        //                 'Content-Type': 'application/json',
-        //                 'Authorization': `Bearer ${accessToken}`
-        //             }
-        //             response = await fetch(url, { headers: headers });
-        //         } else {
-        //             response = await fetch(url);
-        //         }
-
-
-        //         const output = response.json();
-        //         console.log(output);
-
-        //         return output
-        //     } catch (e) {
-        //         console.log("error", e);
-        //     }
-        // }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -653,62 +457,6 @@
 
 
         }
-
-
-
-
-
-
-        // async function ajax(src, accessToken) {
-
-        //     const xhr = new XMLHttpRequest()
-
-        //     xhr.onload = function () {
-        //         if (xhr.readyState === 4 && xhr.status === 200) {
-        //             let response = JSON.parse(xhr.responseText)
-        //             // response = xhr.responseText;
-        //             console.log('ajax response', response)
-        //             return response
-        //         }
-        //     }
-
-        //     await xhr.open('GET', src)
-        //     if (accessToken) {
-        //         // console.log('accessToken: ', accessToken)
-        //         xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-        //     }
-        //     console.log('ready to send ajax')
-        //     let output = await xhr.send()
-
-        //     return output
-
-
-
-
-
-        // }
-
-
-
-        // function removeParticipant(gatheringId, participantId) {
-        //     var exampleModal = document.getElementById('removeParticipantModal')
-        //     exampleModal.addEventListener('show.bs.modal', function (event) {
-        //         // Button that triggered the modal
-        //         var button = event.relatedTarget
-        //         // Extract info from data-bs-* attributes
-        //         var recipient = button.getAttribute('data-bs-whatever')
-        //         // If necessary, you could initiate an AJAX request here
-        //         // and then do the updating in a callback.
-        //         //
-        //         // Update the modal's content.
-        //         var modalTitle = exampleModal.querySelector('.modal-title')
-        //         var modalBodyInput = exampleModal.querySelector('.modal-body input')
-
-        //         modalTitle.textContent = 'New message to ' + recipient
-        //         modalBodyInput.value = recipient
-        //     })
-        // }
-
 
 
 
@@ -782,7 +530,7 @@
                 const gatheringDetail = document.getElementById('gatheringDetail')
 
                 gatheringDetail.class = "card"
-                gatheringDetail.style = "width:60%;"
+
 
 
                 let eventPic = document.createElement('img')
@@ -791,8 +539,12 @@
                 eventPic.className = "card-img-top"
 
 
+                // ---------origin setting-----------
+                // eventPic.style = "height:30vh;object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
+                // ---------------------------
 
-                eventPic.style = "height:30vh;object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
+
+                eventPic.style = "width:80%; object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
 
 
                 // gatheringDetail.appendChild(eventPic)
@@ -967,7 +719,7 @@
 
 
                 let commentListBlock = document.getElementById('commentList')
-                commentListBlock.style = "width: 100%; margin: 15px auto;"
+                commentListBlock.style = "width: 80%; margin-top: 15px;"
 
                 for (i in commentList.data.comments) {
 
@@ -1065,20 +817,6 @@
                     stars[j].classList.remove("fa-star-o")
                     stars[j].classList.add("fa-star")
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1292,7 +1030,7 @@
                         joinEvent.style = "display:none;"
                         fullEvent.style = "display:none;"
                         quitEvent.style = "display:none;"
-                        gatheringDetail.style = "width: 45%"
+                        // gatheringDetail.style = "width: 45%"
 
                     }
 
@@ -1303,6 +1041,8 @@
 
 
                     console.log('participantsData', participantsData)
+
+                    let participants = document.getElementById('participants')
 
 
                     // ---------------Host Block-------------
@@ -1406,7 +1146,7 @@
                                 joinEvent.style = "display:none;"
                                 fullEvent.style = "display:none;"
                                 quitEvent.style = "display:block;"
-                                gatheringDetail.style = "width: 45%"
+                                // gatheringDetail.style = "width: 45%"
 
                             }
 
@@ -1622,23 +1362,7 @@
                     socket.on('addRoom', message => {
                         console.log(message)
 
-                        // socket.on('initialRoom', chatList => {
-                        //     console.log('initialRoom', 'chatList.length', chatList.length)
 
-                        //     for (let i in chatList) {
-                        //         chatRecord = document.createElement('li');
-                        //         // item.textContent = userName + ':' + msg;
-                        //         chatRecord.textContent = chatList[i].content;
-                        //         messages.appendChild(chatRecord);
-                        //     }
-
-
-                        //     document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
-
-
-
-
-                        // })
 
                     })
 
@@ -1755,29 +1479,6 @@
                         document.getElementById('messages').scrollBy(0, document.getElementById('messages').scrollHeight)
 
 
-                        // Swal.fire({
-                        //     position: 'top-end',
-                        //     icon: 'success',
-                        //     title: msg.content,
-                        //     showConfirmButton: false,
-                        //     timer: 500
-                        // })
-
-                        // Swal.fire({
-                        //     title: `${ msg.speaker } say: ${ msg.content } `,
-                        //     position: 'bottom-end',
-                        //     showClass: {
-
-                        //         popup: 'animate__animated animate__fadeIn'
-                        //     },
-
-                        //     timer: 1500,
-                        //     hideClass: {
-                        //         popup: 'animate__animated animate__fadeOutUp'
-                        //     },
-                        //     backdrop: false,
-                        //     width: '18rem',
-                        // })
 
                     })
 
@@ -2123,7 +1824,18 @@
 
 
             const sendCommentButton = document.getElementById('sendCommentButton')
-            sendCommentButton.addEventListener('click', function (event) {
+            sendCommentButton.addEventListener('click', async function (event) {
+                if (!accessToken) {
+                    console.log('請先登入再進行評論')
+                    await Swal.fire({
+                        title: 'Error!',
+                        text: '請先登入再進行評論',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        window.location.href = '/sign.html';
+                    })
+                }
 
                 let commentData = {
                     gatheringId: location.href.split('?')[1].split('=')[1],
@@ -2300,7 +2012,7 @@
 
 
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbmXJHj0WUd8Zy-neXlew88hmIkB4bnwI&callback=initMap&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI&callback=initMap&v=weekly"
         async></script>
 
 

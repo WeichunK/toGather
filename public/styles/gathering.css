@@ -6,40 +6,59 @@
 
 body {
     font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background-color:ghostwhite;
+    /* background-color:ghostwhite; */
+    background-color:white;
 }
 
 .wrap {
-    display: grid;
+    /* display: grid;
     grid-template-columns: 10% auto 10%;
-    grid-template-rows: 90px  auto 90px;
-    height: 100vh;
-    max-height: 100vh;
+    grid-template-rows: 70px  auto 90px; */
+    height: 99vh;
+    max-height: 99vh;
+    position: relative;
     
     
 
-    grid-template-areas:
+    /* grid-template-areas:
     "header header header"
     "leftBlock infoBlock rightBlock"
     
-    "leftBlock comment rightBlock";
+    "leftBlock comment rightBlock"; */
 
 
   }
 
-#header {
+/* #header {
     grid-area: header;
+} */
+
+
+
+#two-column {
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+width: 90vw;;
+margin: 0 auto;
 }
 
 
 
 #center{
 
-    grid-area: infoBlock;
+    /* grid-area: infoBlock; */
   
     display: flex;
+    flex-direction: column;
     justify-content: center;
     height: 85vh;
+    justify-content: center;
+    /* margin: 0 auto; */
+    width: 66%;
+    align-items: center;
+    padding-top: 80px;
     
 }
 
@@ -48,7 +67,7 @@ body {
     overflow: auto;
 
     display: inline-block;
-    width: 45%;
+    width: 90%;
     margin: 20px;
     margin-top: 2px;
     height:90%;
@@ -61,14 +80,35 @@ body {
     /* background-color: black; */
 }
 
+
+
+#sticky-block {
+    width: 20%;
+}
+
+
 #left-map {
     /* grid-area: mapBlock; */
     /* overflow: scroll; */
    height:30vh;
+   width: 80%;
+}
+
+.card-body {
+    width: 80%;
+}
+
+.rating-container {
+    width: 80%;
+}
+
+.list-group {
+    width: 80%;
 }
 
 .list-group-item {
-    background-color: ghostwhite;
+    /* background-color: ghostwhite; */
+    background-color: white;
 }
 
 #right {
@@ -82,6 +122,7 @@ body {
     width: 35%;
     margin: 20px;
     margin-top: 2px;
+    position: absolute;
   
 }
 
@@ -254,3 +295,156 @@ border-radius: 100%;
       opacity: .1;
     }
   }
+
+
+  /* chat room */
+
+
+  #groupChatRoom {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 90%;
+    max-height: 100%;
+    /* border: thin;
+    border-color: turquoise; */
+
+    box-shadow: 1px 1px 8px grey;
+    /* width:460px;
+    line-height:100px; */
+    /* text-align: center; */
+    background-color: white;
+
+
+
+}
+
+
+
+#messagesForm {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.25rem;
+    /* position: fixed; */
+    bottom: 0;
+
+    display: flex;
+
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+
+
+}
+
+#messageInput {
+    border: none;
+    padding: 0 1rem;
+    flex-grow: 1;
+    border-radius: 2rem;
+    margin: 0.25rem;
+}
+
+#input:focus {
+    outline: none;
+}
+
+#form>button {
+    background: #333;
+    border: none;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    border-radius: 3px;
+    outline: none;
+    color: #fff;
+}
+
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: inherit;
+    overflow: scroll;
+}
+
+#messages>li {
+    padding: 0.5rem 1rem;
+}
+
+#messages>li:nth-child(odd) {
+    background: #efefef;
+}
+
+
+
+:root {
+    --animate-duration: 500ms;
+    --animate-delay: 1s;
+    --animate-repeat: 1;
+}
+
+
+btn:link,
+.btn:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px 40px;
+    display: inline-block;
+    border-radius: 100px;
+    transition: all .2s;
+    position: relative;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.2);
+}
+
+.btn-white {
+    /* background-color: rgb(62,220,232); */
+    background-color: #FF385C;
+    color: #FFF;
+}
+
+.btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+}
+
+.btn-white::after {
+    background-color: #fff;
+    color: white;
+}
+
+.btn:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+
+.btn-animated {
+    animation: moveInBottom 5s ease-out;
+    animation-fill-mode: backwards;
+}
+
+@keyframes moveInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles/header_footer.css">
 
 
@@ -33,32 +33,39 @@
 <body style="background-color: rgb(205, 242, 245);">
 
 
-    <div class='wrap'>
 
 
 
 
 
-        <!-- ---------------------- header --------------------------- -->
-        <div id="header">
-            <nav class="navbar navbar-light fixed-top navbar-expand-lg" style="background-color: #e3f2fd;">
-                <div class="container-md" style="width: 83%; max-width: 90%;">
 
-                    <a class="navbar-brand logo name" href="./index.html">
-                        <img src="./assets/logo5.png" alt="" width="230" height="60">
-                    </a>
-                    <div id="main-header">
-                        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                            <ul class="navbar-nav" style="align-items: center;">
+    <!-- ---------------------- header --------------------------- -->
+    <!-- #e3f2fd; -->
+    <div id="header" style="position: absolute;">
+        <nav class="navbar navbar-light fixed-top navbar-expand-lg"
+            style="background-color: rgba(255, 255, 255); padding:0%; padding-top: 5px">
+            <div class="container-md" style="width: 90%; max-width: 90%; height:60px">
 
-                                <!-- <li class="nav-item" style="margin: 3px 10px 0 0;" data-bs-toggle="offcanvas"
-                                    data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
-                                    <a class="nav-link" href="#">
-                                        <img src="./assets/6590582_box_email_mail_mailbox_icon.png"
-                                            style="width: 36px;">
-                                    </a>
-                                </li> -->
-                                <!-- <li class="nav-item" style="display: flex;">
+                <a class="navbar-brand logo name" href="./index.html">
+                    <img src="./assets/new_logo2.png" alt="" height="35">
+                </a>
+                <div id="main-header">
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav" style="align-items: center;">
+
+
+                            <li class="nav-item" style="margin: 0 0 0 0;" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
+                                <a class="nav-link" href="#" style="display: flex;">
+                                    <!-- <img src="./assets/6590582_box_email_mail_mailbox_icon.png"
+                                            style="width: 36px;"> -->
+
+                                    <span class="material-icons">
+                                        all_inbox
+                                    </span>
+                                </a>
+                            </li>
+                            <!-- <li class="nav-item" style="display: flex;">
                                     <a class="nav-link" id="caht" href="#"><svg xmlns=" http://www.w3.org/2000/svg"
                                             width="47" height="47" fill="currentColor" class="bi bi-chat-left-text"
                                             viewBox="0 0 16 16">
@@ -68,39 +75,50 @@
                                                 d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
                                         </svg></a>
                                 </li> -->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                            <li class="nav-item dropdown" style="margin: 0 0 0 0;">
+                                <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false" style="display: flex;">
 
-                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="47" height="47"
+                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="47" height="47"
                                             fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                                             <path fill-rule="evenodd"
                                                 d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                                         </svg> -->
-                                        <img src="./assets/3018530_buyer_customer_figure_person_portrait_icon.png"
-                                            style="width: 36px;">
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <li><a class="dropdown-item dropdown-sign" href="/sign.html"
-                                                style="display: block;">登入</a>
-                                        </li>
-                                        <li><a class="dropdown-item dropdown-signed" href="/profile.html"
-                                                style="display: none;">會員資料</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider dropdown-signed" style="display: none;">
-                                        </li>
-                                        <li id=signout><a class="dropdown-item dropdown-signed" href="#"
-                                                style="display: none;">登出</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                                    <!-- <img src="./assets/3018530_buyer_customer_figure_person_portrait_icon.png"
+                                            style="width: 36px;"> -->
+                                    <span class="material-icons">
+                                        account_circle
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><a class="dropdown-item dropdown-sign" href="/sign.html"
+                                            style="display: block;">登入</a>
+                                    </li>
+                                    <li><a class="dropdown-item dropdown-signed" href="/profile.html"
+                                            style="display: none;">會員資料</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider dropdown-signed" style="display: none;">
+                                    </li>
+                                    <li id=signout><a class="dropdown-item dropdown-signed" href="#"
+                                            style="display: none;">登出</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </nav>
-        </div>
-        <!-- -------------------------------------------------- -->
+            </div>
+        </nav>
+    </div>
+    <!-- -------------------------------------------------- -->
+
+
+
+    <div class='wrap'>
+
+
+
+
 
 
 
@@ -109,8 +127,8 @@
 
 
 
-            <img src="./assets/logo4.png" height="30%">
-
+            <img src="./assets/Lovepik_com-401270641-cartoon-cute-character-minimalist-party.png" id="main-img">
+            <br>
             <h6>讓您隨時隨地認識新朋友</h6>
 
         </div>
@@ -150,24 +168,21 @@
                     <button class="btn btn-primary" id="signIn" onclick="return onClick(this.form)">登入</button>
                 </form>
 
-                <div class="divider">
+                <!-- <div class="divider"> -->
 
-                </div>
+
 
                 <div id="signUp">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+
+                    沒有帳號嗎？ <a class="text-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                        id="signUpButton" style="cursor: pointer;">註冊</a>
+                    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop" id="signUpButton">
                         建立新帳號
-                    </button>
+                    </button> -->
 
                 </div>
-
-
             </div>
-
-
-
-
 
         </div>
 
@@ -175,68 +190,74 @@
 
 
 
-
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h6 class="modal-title" id="staticBackdropLabel">請輸入註冊資料</h6>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+    </div>
 
 
 
 
 
 
-                        <form method="post" action="/api/1.0/user/signup" enctype="application/json">
-
-
-
-
-
-                            <div class="mb-3">
-
-                                <input class="form-control" type="text" placeholder="使用者名稱"
-                                    aria-label="default input example" name="name">
-                                <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-
-
-
-                            <div class="mb-3">
-
-                                <input type="email" class="form-control" name="email" aria-describedby="emailHelp"
-                                    placeholder="電子郵件">
-
-                            </div>
-
-
-                            <div class="mb-3">
-
-                                <input type="password" class="form-control" name="password" placeholder="密碼">
-                            </div>
-
-
-                            <button type="submit" class="btn btn-primary" id="signup_submit"
-                                onclick="return onClickSignUp(this.form)">確定註冊</button>
-
-
-                        </form>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="staticBackdropLabel">請輸入註冊資料</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
 
 
 
 
 
-                    </div>
+                    <form method="post" action="/api/1.0/user/signup" enctype="application/json">
+
+
+
+
+
+                        <div class="mb-3">
+
+                            <input class="form-control" type="text" placeholder="使用者名稱"
+                                aria-label="default input example" name="name">
+                            <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                        </div>
+
+
+
+                        <div class="mb-3">
+
+                            <input type="email" class="form-control" name="email" aria-describedby="emailHelp"
+                                placeholder="電子郵件">
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <input type="password" class="form-control" name="password" placeholder="密碼">
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary" id="signup_submit"
+                            onclick="return onClickSignUp(this.form)">確定註冊</button>
+
+
+                    </form>
+
+
+
+
+
 
                 </div>
+
             </div>
         </div>
+    </div>
 
 
 
@@ -247,50 +268,43 @@
 
 
 
-        <script>
+    <script>
 
 
 
-            function fetchData(src, bodyContent, accessToken) {
-                // console.log('access', accessToken)
+        function fetchData(src, bodyContent, accessToken) {
+            // console.log('access', accessToken)
 
-                function processStatus(response) {
-                    // 狀態 "0" 是處理本地檔案 (例如Cordova/Phonegap等等)
-                    if (response.status === 200 || response.status === 0) {
-                        return Promise.resolve(response)
-                    } else {
-                        return Promise.reject(new Error(response.statusText))
-                    }
-                }
-
-                if (accessToken) {
-                    const headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-
-                    return fetch(src, { body: JSON.stringify(bodyContent), method: 'POST', headers: headers })
-                        .then(processStatus)
-                        .then((response) => { return response.json(); })
-                        .catch((error) => {
-                            console.log(error);
-                        })
-
+            function processStatus(response) {
+                // 狀態 "0" 是處理本地檔案 (例如Cordova/Phonegap等等)
+                if (response.status === 200 || response.status === 0) {
+                    return Promise.resolve(response)
                 } else {
-                    const headers = {}
-                    return fetch(src)
-                        .then(processStatus)
-                        .then((response) => { return response.json(); })
-                        .catch((error) => {
-                            console.log(error);
-                        })
+                    return Promise.reject(new Error(response.statusText))
+                }
+            }
+
+            if (accessToken) {
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
                 }
 
+                return fetch(src, { body: JSON.stringify(bodyContent), method: 'POST', headers: headers })
+                    .then(processStatus)
+                    .then((response) => { return response.json(); })
+                    .catch((error) => {
+                        console.log(error);
+                    })
 
-
-
-
-
+            } else {
+                const headers = {}
+                return fetch(src)
+                    .then(processStatus)
+                    .then((response) => { return response.json(); })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             }
 
 
@@ -298,302 +312,309 @@
 
 
 
-
-
-
-            function onClick(form) {
-                console.log('type of form', typeof (form))
-                // console.log('form.title.value', form.title.value)
-
-
-
-
-                if (!Boolean(form.email.value.trim())) {
-                    alert("email不可為空");
-                    return false;
-                }
-                if (!Boolean(form.password.value.trim())) {
-                    alert("password不可為空！");
-                    return false;
-                }
-
-                let dataToSent = { provider: "native", email: form.email.value, password: form.password.value }
-
-                dataToSent = JSON.stringify(dataToSent)
-
-                // dataToSent = new FormData(dataToSent)
-                // dataToSent.append('provider', 'native');
-                // console.log("dataToSent", dataToSent);
-                // fetch("/api/1.0/getgatherings/hostGathering", {
-
-                //     body: dataToSent,
-                //     headers: new Headers({
-                //         "Content-Type": "multipart/form-data",
-                //         "Authorization": `Bearer ${accessToken}`
-                //     }),
-                //     method: "POST"
-                // }).then((e => e.json())).then((e => {
-                //     console.log(e)
-                //     alert('error')
-                // }
-                // )).then(window.alert("註冊成功！")).catch((e => {
-                //     console.log(e)
-                // }
-                // ))
-
-
-                let xhr = new XMLHttpRequest();
-                let url = '/api/1.0/user/signin';
-                xhr.open('POST', url);
-                // xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-
-                xhr.onreadystatechange = async function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        // console.log('apiResponse.data', xhr.responseText)
-                        // if (xhr.responseText == 'admin') {
-                        //     alert('已成功輸入一筆資料')
-                        //     window.location.href = '/admin/product.html'
-                        // } else {
-                        //     alert('無權限操作此頁')
-                        // }
-
-                        // alert('登入成功')
-
-                        // console.log('xhr.responseText.data', JSON.parse(xhr.responseText).data)
-
-                        let accessToken = JSON.parse(xhr.responseText).data.access_token;
-
-
-
-                        localStorage.setItem("token", accessToken);
-                        let responseText
-                        // console.log('JSON.parse(xhr.responseText).user', JSON.parse(xhr.responseText).data.user)
-                        if (JSON.parse(xhr.responseText).data.user.bonus) {
-                            responseText = '登入成功，獲得每日登入積分獎勵1分'
-
-
-                            let systemMessageRecord = await fetchData(`/api/1.0/chat/writesystemrecord`, { content: responseText }, accessToken)
+        }
 
 
 
 
 
 
-                        } else {
-                            responseText = '登入成功'
-                        }
 
-                        Swal.fire({
-                            title: 'Success!',
-                            text: responseText,
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-                            window.location.href = '/index.html'
-                        })
+
+
+        function onClick(form) {
+            console.log('type of form', typeof (form))
+            // console.log('form.title.value', form.title.value)
 
 
 
 
-                        // window.location.href = '/index.html';
+            if (!Boolean(form.email.value.trim())) {
+                alert("email不可為空");
+                return false;
+            }
+            if (!Boolean(form.password.value.trim())) {
+                alert("password不可為空！");
+                return false;
+            }
+
+            let dataToSent = { provider: "native", email: form.email.value, password: form.password.value }
+
+            dataToSent = JSON.stringify(dataToSent)
+
+            // dataToSent = new FormData(dataToSent)
+            // dataToSent.append('provider', 'native');
+            // console.log("dataToSent", dataToSent);
+            // fetch("/api/1.0/getgatherings/hostGathering", {
+
+            //     body: dataToSent,
+            //     headers: new Headers({
+            //         "Content-Type": "multipart/form-data",
+            //         "Authorization": `Bearer ${accessToken}`
+            //     }),
+            //     method: "POST"
+            // }).then((e => e.json())).then((e => {
+            //     console.log(e)
+            //     alert('error')
+            // }
+            // )).then(window.alert("註冊成功！")).catch((e => {
+            //     console.log(e)
+            // }
+            // ))
+
+
+            let xhr = new XMLHttpRequest();
+            let url = '/api/1.0/user/signin';
+            xhr.open('POST', url);
+            // xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = async function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // console.log('apiResponse.data', xhr.responseText)
+                    // if (xhr.responseText == 'admin') {
+                    //     alert('已成功輸入一筆資料')
+                    //     window.location.href = '/admin/product.html'
+                    // } else {
+                    //     alert('無權限操作此頁')
+                    // }
+
+                    // alert('登入成功')
+
+                    // console.log('xhr.responseText.data', JSON.parse(xhr.responseText).data)
+
+                    let accessToken = JSON.parse(xhr.responseText).data.access_token;
+
+
+
+                    localStorage.setItem("token", accessToken);
+                    let responseText
+                    // console.log('JSON.parse(xhr.responseText).user', JSON.parse(xhr.responseText).data.user)
+                    if (JSON.parse(xhr.responseText).data.user.bonus) {
+                        responseText = '登入成功，獲得每日登入積分獎勵1分'
+
+
+                        let systemMessageRecord = await fetchData(`/api/1.0/chat/writesystemrecord`, { content: responseText }, accessToken)
+
+
+
+
+
+
                     } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'email或密碼錯誤',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-                            window.location.href = '/sign.html'
-                        })
-
-                    }
-                };
-                xhr.send(dataToSent);
-
-
-
-                // .finally(location.reload())
-
-
-
-                return false
-            }
-
-
-
-
-
-
-
-
-
-
-            function onClickSignUp(form) {
-                console.log('type of form', typeof (form))
-                // console.log('form.title.value', form.title.value)
-
-
-                if (!Boolean(form.name.value.trim())) {
-                    alert("使用者名稱不可為空！");
-                    return false;
-                }
-
-                if (!Boolean(form.email.value.trim())) {
-                    alert("email不可為空");
-                    return false;
-                }
-                if (!Boolean(form.password.value.trim())) {
-                    alert("密碼不可為空！");
-                    return false;
-                }
-
-                let dataToSent = { name: form.name.value, email: form.email.value, password: form.password.value }
-
-                dataToSent = JSON.stringify(dataToSent)
-
-                // dataToSent = JSON.stringify(dataToSent)
-
-                // dataToSent = new FormData(dataToSent)
-                // dataToSent.append('provider', 'native');
-                // console.log("dataToSent", dataToSent);
-                // fetch("/api/1.0/getgatherings/hostGathering", {
-
-                //     body: dataToSent,
-                //     headers: new Headers({
-                //         "Content-Type": "multipart/form-data",
-                //         "Authorization": `Bearer ${accessToken}`
-                //     }),
-                //     method: "POST"
-                // }).then((e => e.json())).then((e => {
-                //     console.log(e)
-                //     alert('error')
-                // }
-                // )).then(window.alert("註冊成功！")).catch((e => {
-                //     console.log(e)
-                // }
-                // ))
-
-
-                let xhr = new XMLHttpRequest();
-                let url = '/api/1.0/user/signup';
-                xhr.open('POST', url);
-                // xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        // console.log('apiResponse.data', xhr.responseText)
-                        // if (xhr.responseText == 'admin') {
-                        //     alert('已成功輸入一筆資料')
-                        //     window.location.href = '/admin/product.html'
-                        // } else {
-                        //     alert('無權限操作此頁')
-                        // }
-
-                        localStorage.setItem("token", JSON.parse(xhr.responseText).data.access_token);
-
-                        Swal.fire({
-                            title: 'Success!',
-                            text: '註冊成功，獲得獎勵 30點 popularity點數',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-
-                            window.location.href = '/index.html';
-                        })
-
-
-                    } else if (xhr.status === 400) {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: '資料格式錯誤',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-
-                            window.location.href = '/sign.html';
-                        })
-                    } else if (xhr.status === 403) {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: '此email已被註冊',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-
-                            window.location.href = '/sign.html';
-                        })
-                    }
-                };
-
-
-                xhr.send(dataToSent);
-
-
-
-                // .finally(location.reload())
-
-
-
-                return false
-            }
-
-
-
-
-
-
-
-
-        </script>
-
-
-
-
-
-
-
-        <script>
-
-
-
-
-
-
-
-            document.getElementById("navbarDropdownMenuLink").addEventListener('click', () => {
-                if (!localStorage.getItem('token')) {
-                    document.getElementsByClassName('dropdown-sign')[0].style = "display: block;"
-                    let sign = document.getElementsByClassName('dropdown-signed')
-                    for (i = 0; i < sign.length; i++) {
-                        sign[i].style.display = "none";
+                        responseText = '登入成功'
                     }
 
+                    Swal.fire({
+                        title: 'Success!',
+                        text: responseText,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        window.location.href = '/index.html'
+                    })
+
+
+
+
+                    // window.location.href = '/index.html';
                 } else {
-                    document.getElementsByClassName('dropdown-sign')[0].style = "display: none;"
-                    let signed = document.getElementsByClassName('dropdown-signed')
-                    for (i = 0; i < signed.length; i++) {
-                        signed[i].style.display = "block";
-                    }
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'email或密碼錯誤',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        window.location.href = '/sign.html'
+                    })
 
                 }
+            };
+            xhr.send(dataToSent);
 
+
+
+            // .finally(location.reload())
+
+
+
+            return false
+        }
+
+
+
+
+
+
+
+
+
+
+        function onClickSignUp(form) {
+            console.log('type of form', typeof (form))
+            // console.log('form.title.value', form.title.value)
+
+
+            if (!Boolean(form.name.value.trim())) {
+                alert("使用者名稱不可為空！");
+                return false;
+            }
+
+            if (!Boolean(form.email.value.trim())) {
+                alert("email不可為空");
+                return false;
+            }
+            if (!Boolean(form.password.value.trim())) {
+                alert("密碼不可為空！");
+                return false;
+            }
+
+            let dataToSent = { name: form.name.value, email: form.email.value, password: form.password.value }
+
+            dataToSent = JSON.stringify(dataToSent)
+
+            // dataToSent = JSON.stringify(dataToSent)
+
+            // dataToSent = new FormData(dataToSent)
+            // dataToSent.append('provider', 'native');
+            // console.log("dataToSent", dataToSent);
+            // fetch("/api/1.0/getgatherings/hostGathering", {
+
+            //     body: dataToSent,
+            //     headers: new Headers({
+            //         "Content-Type": "multipart/form-data",
+            //         "Authorization": `Bearer ${accessToken}`
+            //     }),
+            //     method: "POST"
+            // }).then((e => e.json())).then((e => {
+            //     console.log(e)
+            //     alert('error')
+            // }
+            // )).then(window.alert("註冊成功！")).catch((e => {
+            //     console.log(e)
+            // }
+            // ))
+
+
+            let xhr = new XMLHttpRequest();
+            let url = '/api/1.0/user/signup';
+            xhr.open('POST', url);
+            // xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // console.log('apiResponse.data', xhr.responseText)
+                    // if (xhr.responseText == 'admin') {
+                    //     alert('已成功輸入一筆資料')
+                    //     window.location.href = '/admin/product.html'
+                    // } else {
+                    //     alert('無權限操作此頁')
+                    // }
+
+                    localStorage.setItem("token", JSON.parse(xhr.responseText).data.access_token);
+
+                    Swal.fire({
+                        title: 'Success!',
+                        text: '註冊成功，獲得獎勵 30點 popularity點數',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+
+                        window.location.href = '/index.html';
+                    })
+
+
+                } else if (xhr.status === 400) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '資料格式錯誤',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+
+                        window.location.href = '/sign.html';
+                    })
+                } else if (xhr.status === 403) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '此email已被註冊',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+
+                        window.location.href = '/sign.html';
+                    })
+                }
+            };
+
+
+            xhr.send(dataToSent);
+
+
+
+            // .finally(location.reload())
+
+
+
+            return false
+        }
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+    <script>
+
+
+
+
+
+
+
+        document.getElementById("navbarDropdownMenuLink").addEventListener('click', () => {
+            if (!localStorage.getItem('token')) {
+                document.getElementsByClassName('dropdown-sign')[0].style = "display: block;"
+                let sign = document.getElementsByClassName('dropdown-signed')
+                for (i = 0; i < sign.length; i++) {
+                    sign[i].style.display = "none";
+                }
+
+            } else {
+                document.getElementsByClassName('dropdown-sign')[0].style = "display: none;"
+                let signed = document.getElementsByClassName('dropdown-signed')
+                for (i = 0; i < signed.length; i++) {
+                    signed[i].style.display = "block";
+                }
+
+            }
+
+        })
+
+
+        document.getElementById("signout").addEventListener('click', () => {
+            localStorage.removeItem("token")
+
+
+            Swal.fire({
+                title: 'Success!',
+                text: '已將您登出',
+                icon: 'success',
+                confirmButtonText: 'OK'
             })
 
-
-            document.getElementById("signout").addEventListener('click', () => {
-                localStorage.removeItem("token")
-
-
-                Swal.fire({
-                    title: 'Success!',
-                    text: '已將您登出',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                })
-
-            })
+        })
 
 
 
@@ -607,7 +628,7 @@
 
 
 
-        </script>
+    </script>
 
 
 

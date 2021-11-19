@@ -167,6 +167,15 @@
 
                         <!-- ------------------------------------------------------------ -->
 
+
+
+
+                        <div id="left-map"></div>
+
+
+                        <br>
+
+
                         <div class="rating-box" style="position:relative; width: 100%;">
                             <h5 class="rating-boxH1" style="text-align: center;">目前的評分</h5>
                             <div class="ratingResult" style="text-align: center;">
@@ -219,9 +228,9 @@
                     <!-- -----------------------  mouse ------------------------- -->
 
 
-                    <div class="centered">
+                    <!-- <div class="centered">
                         <div class="mouse-scroll"></div>
-                    </div>
+                    </div> -->
 
 
 
@@ -283,13 +292,20 @@
 
 
 
-                <div class="card" style="width: 18rem;">
+                <div class="card" style="display:flex; width: 18rem; align-items: center;" id="action-buttons">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                        <h5 class="card-title">有趣的活動正在等著你</h5>
+                        <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
                         <p class="card-text">趕快來參加，和朋友一起享受歡樂時光吧</p>
-                        <a href="#" class="btn btn-white btn-animate" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop" id="hostbutton">我要加入</a>
+                        <!-- <a href="#" class="btn btn-white btn-animate" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" id="hostbutton">我要加入</a> -->
+
+                        <a href="#" class="btn btn-white btn-animate" id="joinEvent" data-bs-toggle="button"
+                            autocomplete="off" style="display: block;">我要加入</a>
+                        <!-- <a class="btn btn-secondary" id="quitEvent" data-bs-toggle="button" autocomplete="off"
+                            style="display: none;">我要退出</a> -->
+                        <a class="btn " id="fullEvent" data-bs-toggle="button" autocomplete="off"
+                            style="display: none;">名額已滿</a>
 
                     </div>
                 </div>
@@ -326,15 +342,17 @@
 
             <div id=groupChatRoom style="height: 95vh;">
 
-                <h6 style=" text-align: center; margin-top: 10px;">成員</h6>
+                <h6 style=" text-align: center; margin-top: 10px;">成員</h6> <a class="btn btn-secondary" id="quitEvent"
+                    data-bs-toggle="button" autocomplete="off" style="display: none;">我要退出</a>
                 <ul id="participants"></ul>
 
                 <h6 style=" text-align: center;">群組聊天室</h6>
 
                 <ul id="messages"></ul>
                 <div>
-                    <form id="messagesForm" action="">
-                        <input id="messageInput" autocomplete="off" /> <button class="btn btn-secondary">Send</button>
+                    <form id="messagesForm" action="" style="border-radius:20px;">
+                        <input id="messageInput" autocomplete="off" /> <button
+                            class="btn-send btn-secondary rounded-pill" id="submit-msg">Send</button>
                     </form>
                 </div>
             </div>
@@ -544,15 +562,15 @@
                 // ---------------------------
 
 
-                eventPic.style = "width:80%; object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
+                eventPic.style = "width:82%; object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
 
 
                 // gatheringDetail.appendChild(eventPic)
 
 
-                let eventMap = document.createElement('div')
-                eventMap.id = "left-map";
-
+                // let eventMap = document.createElement('div')
+                // eventMap.id = "left-map";
+                // eventMap = document.getElementById('left-map')
 
 
                 // gatheringDetail.appendChild(eventMap)
@@ -636,32 +654,36 @@
                 host.className = "list-group-item";
                 host.appendChild(document.createTextNode(`主揪 ${hostInfo.hostName}`))
 
-
-                let joinEventButton = document.createElement('a');
-                joinEventButton.className = "btn btn-primary";
-                joinEventButton.id = "joinEvent";
-                joinEventButton.style = "display: none;"
-                joinEventButton.setAttribute("data-bs-toggle", "button")
-                joinEventButton.setAttribute("autocomplete", "off")
-                joinEventButton.appendChild(document.createTextNode("我要加入"))
+                joinEventButton = document.getElementById('joinEvent')
+                quitEventButton = document.getElementById('quitEvent')
+                fullEventButton = document.getElementById('fullEvent')
 
 
-                let quitEventButton = document.createElement('a');
-                quitEventButton.className = "btn btn-primary";
-                quitEventButton.id = "quitEvent";
-                quitEventButton.style = "display: none;"
-                quitEventButton.setAttribute("data-bs-toggle", "button")
-                quitEventButton.setAttribute("autocomplete", "off")
-                quitEventButton.appendChild(document.createTextNode("我要退出"))
+                // let joinEventButton = document.createElement('a');
+                // joinEventButton.className = "btn btn-primary";
+                // joinEventButton.id = "joinEvent";
+                // joinEventButton.style = "display: none;"
+                // joinEventButton.setAttribute("data-bs-toggle", "button")
+                // joinEventButton.setAttribute("autocomplete", "off")
+                // joinEventButton.appendChild(document.createTextNode("我要加入"))
 
 
-                let fullEventButton = document.createElement('a');
-                fullEventButton.className = "btn ";
-                fullEventButton.id = "fullEvent";
-                fullEventButton.style = "display: none; background-color: 'rebeccapurple';"
-                fullEventButton.setAttribute("data-bs-toggle", "button")
-                fullEventButton.setAttribute("autocomplete", "off")
-                fullEventButton.appendChild(document.createTextNode("名額已滿"))
+                // let quitEventButton = document.createElement('a');
+                // quitEventButton.className = "btn btn-primary";
+                // quitEventButton.id = "quitEvent";
+                // quitEventButton.style = "display: none;"
+                // quitEventButton.setAttribute("data-bs-toggle", "button")
+                // quitEventButton.setAttribute("autocomplete", "off")
+                // quitEventButton.appendChild(document.createTextNode("我要退出"))
+
+
+                // let fullEventButton = document.createElement('a');
+                // fullEventButton.className = "btn ";
+                // fullEventButton.id = "fullEvent";
+                // fullEventButton.style = "display: none; background-color: 'rebeccapurple';"
+                // fullEventButton.setAttribute("data-bs-toggle", "button")
+                // fullEventButton.setAttribute("autocomplete", "off")
+                // fullEventButton.appendChild(document.createTextNode("名額已滿"))
 
 
                 console.log('check', parseInt(gathering.numOfParticipants), getgatheringDetails.data[0].max_participant)
@@ -693,21 +715,25 @@
 
                 // listGroup.appendChild(statusCode)
                 listGroup.appendChild(host)
-                listGroup.appendChild(joinEventButton)
-                listGroup.appendChild(quitEventButton)
-                listGroup.appendChild(fullEventButton)
+                // listGroup.appendChild(joinEventButton)
+                // listGroup.appendChild(quitEventButton)
+                // listGroup.appendChild(fullEventButton)
 
                 listGroup.appendChild(document.createElement('br'))
                 // listGroup.appendChild(returnHome)
 
+                // gatheringDetail.insertBefore(eventMap, gatheringDetail.firstChild)
 
+                // gatheringDetail.appendChild(eventMap)
+
+                // gatheringDetail.insertBefore(statusCode, gatheringDetail.firstChild)
 
                 gatheringDetail.insertBefore(listGroup, gatheringDetail.firstChild)
                 // gatheringDetail.appendChild(listGroup)
 
                 gatheringDetail.insertBefore(cardBody, gatheringDetail.firstChild)
 
-                gatheringDetail.insertBefore(eventMap, gatheringDetail.firstChild)
+
 
                 gatheringDetail.insertBefore(eventPic, gatheringDetail.firstChild)
 
@@ -996,7 +1022,7 @@
                 const right = document.getElementById('right');
                 const joinEvent = document.getElementById('joinEvent');
                 const quitEvent = document.getElementById('quitEvent');
-
+                const actionButtons = document.getElementById('action-buttons')
 
 
 
@@ -1030,6 +1056,7 @@
                         joinEvent.style = "display:none;"
                         fullEvent.style = "display:none;"
                         quitEvent.style = "display:none;"
+                        actionButtons.style = "display:none;"
                         // gatheringDetail.style = "width: 45%"
 
                     }
@@ -1140,12 +1167,14 @@
 
                             console.log('participantsData.data[i]', participantsData.data[i].id, user.id)
 
-                            if (user.id == participantsData.data[i].id | user.id == hostInfo.hostId) {
+                            if (user.id == participantsData.data[i].id) {
                                 console.log('in participant list')
                                 right.style = "display:block;"
                                 joinEvent.style = "display:none;"
                                 fullEvent.style = "display:none;"
                                 quitEvent.style = "display:block;"
+                                actionButtons.style = "display:none;"
+
                                 // gatheringDetail.style = "width: 45%"
 
                             }
@@ -1226,9 +1255,9 @@
 
 
                             if (user.id == hostInfo.hostId) {
-                                removeIcon.style = "width:1.3rem; height:1.3rem;"
+                                removeIcon.style = "width:1.3rem; height:1.3rem; margin-right: 5px;"
                             } else {
-                                removeIcon.style = "width:1.3rem; height:1.3rem; display:none;"
+                                removeIcon.style = "width:1.3rem; height:1.3rem;  margin-right: 5px; display:none;"
 
                             }
 
@@ -1383,19 +1412,23 @@
 
                         // item.textContent = userName + ':' + msg;
                         // let messages = document.getElementById('messages')
-
+                        let item;
                         for (let i in chatRecord) {
                             // console.log('current user.id', user.id)
                             // console.log('chatRecord[i].user_id', chatRecord[i].user_id)
-                            const item = document.createElement('li');
+                            item = document.createElement('li');
+                            item.setAttribute('class', 'rounded-pill')
 
                             // console.log('comapre', 'chatRecord[i].user_id: ', chatRecord[i].user_id, 'user.id:', user.id)
 
                             if (chatRecord[i].user_id == user.id) {
-                                item.style = 'text-align: right;'
+                                // item.style = 'margin: 3px 3px 3px auto;'
+                                item.classList.add('class', 'message-myself')
                                 item.textContent = `${chatRecord[i].content} `
                             } else {
                                 item.textContent = `${chatRecord[i].user_name}: ${chatRecord[i].content} `;
+                                // item.style = 'margin: 3px 3px 3px 3px;'
+                                item.classList.add('class', 'message-others')
                             }
 
                             messages.appendChild(item);
@@ -1449,12 +1482,15 @@
                         // item.textContent = userName + ':' + msg;
 
                         // console.log('comapre', 'msg.speaker: ', msg.speaker, 'user.name:', user.name)
-
+                        item.setAttribute('class', 'rounded-pill')
                         if (msg.speaker == user.name) {
-                            item.style = 'text-align: right;'
+                            // item.style = 'margin: 3px 3px 3px auto;'
                             item.textContent = `${msg.content}`;
+                            item.classList.add('class', 'message-myself')
                         } else {
                             item.textContent = `${msg.speaker}: ${msg.content} `;
+                            // item.style = 'margin: 3px 3px 3px 3px;'
+                            item.classList.add('class', 'message-others')
 
                             Swal.fire({
                                 title: `${msg.speaker} say: ${msg.content} `,
@@ -1524,7 +1560,8 @@
                     // messages.style = "display:none;"
                     // form.style = "display:none;"
                     right.style = "display:none;"
-                    gatheringDetail.style = "width:60%;"
+                    gatheringDetail.style = "width:90%;"
+
 
                 }
 
@@ -1594,7 +1631,15 @@
                                 icon: 'success',
                                 confirmButtonText: 'OK'
                             }).then(function () {
-                                window.location.reload();
+                                renderParticipants()
+
+                                right.style = "display:block;"
+                                joinEvent.style = "display:none;"
+                                fullEvent.style = "display:none;"
+                                quitEvent.style = "display:block;"
+                                actionButtons.style = "display:none;"
+
+
                             })
 
 
@@ -1706,6 +1751,7 @@
                 joinEvent.style = "display:none;"
                 fullEvent.style = "display:none;"
                 quitEvent.style = "display:none;"
+                actionButtons.style = "display:none;"
             }
 
 
@@ -2012,7 +2058,7 @@
 
 
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbmXJHj0WUd8Zy-neXlew88hmIkB4bnwI&callback=initMap&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI&callback=initMap&v=weekly"
         async></script>
 
 

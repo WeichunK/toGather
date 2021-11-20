@@ -5,6 +5,8 @@ const User = require('../models/user_model');
 const pageSize = 6;
 const { s3UploadFile } = require('../../util/util');
 
+const { esSearch } = require('../../util/es_query')
+
 // require('dotenv').config();
 // const validator = require('validator');
 // const { TAPPAY_PARTNER_KEY } = process.env;
@@ -29,8 +31,19 @@ const getGatherings = async (req, res) => {
             case 'search': {
                 console.log('search')
                 const keyword = req.query.keyword;
+                // if (keyword) {
+                //     return await Gatherings.getGatherings(pageSize, paging, { keyword });
+                // }
+                // break;
+
                 if (keyword) {
-                    return await Gatherings.getGatherings(pageSize, paging, { keyword });
+                    let result = await esSearch(keyword)
+                    result = result.hits
+                    console.log('esSearch(keyword).hits', result)
+
+                    result = result.map(x => x._source);
+
+                    return await result;
                 }
                 break;
 

@@ -101,3 +101,12 @@ piblic/gathering_old.html
 public/styles/home_2.css
 public/styles/home_back_up.css
 public/styles/gathering_old.css
+
+editEventTime.js
+
+
+.aws/credentials
+
+es_query_test.js
+es_test.js
+aws_test.js

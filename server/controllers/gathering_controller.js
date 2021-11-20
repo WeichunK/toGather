@@ -39,7 +39,7 @@ const getGatherings = async (req, res) => {
                 if (keyword) {
                     let result = await esSearch(keyword)
                     result = result.hits
-                    console.log('esSearch(keyword).hits', result)
+                    // console.log('esSearch(keyword).hits', result)
 
                     result = result.map(x => x._source);
 

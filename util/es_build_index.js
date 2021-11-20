@@ -3,10 +3,10 @@ require('dotenv').config();
 const { AWS_ElASTIC_SEARCH_DOMAIN, AWS_ElASTIC_SEARCH_REGION } = process.env; // 30 days by seconds
 
 
-const region = AWS_ElASTIC_SEARCH_DOMAIN; // e.g. us-west-1
-const domain = AWS_ElASTIC_SEARCH_REGION; // e.g. search-domain.region.es.amazonaws.com
-const index = 'node-togather';
-const type = '_doc';
+var region = AWS_ElASTIC_SEARCH_DOMAIN; // e.g. us-west-1
+var domain = AWS_ElASTIC_SEARCH_REGION; // e.g. search-domain.region.es.amazonaws.com
+var index = 'node-togather';
+var type = '_doc';
 
 const { pool } = require('../server/models/mysqlcon');
 
@@ -26,9 +26,9 @@ const { pool } = require('../server/models/mysqlcon');
 // id, picture, lat, lng, title, description, name
 
 function indexDocument(document) {
-    const endpoint = new AWS.Endpoint(domain);
-    // console.log('endpoint', endpoint)
-    let request = new AWS.HttpRequest(endpoint, region);
+    var endpoint = new AWS.Endpoint(domain);
+    console.log('endpoint', endpoint)
+    var request = new AWS.HttpRequest(endpoint, region);
 
     request.method = 'POST';
     // request.path += index + '/' + type + '/' + id;
@@ -40,16 +40,16 @@ function indexDocument(document) {
 
     // var credentials = new AWS.EnvironmentCredentials('AWS');
 
-    const credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
+    var credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
     AWS.config.credentials = credentials;
 
-    let signer = new AWS.Signers.V4(request, 'es');
+    var signer = new AWS.Signers.V4(request, 'es');
     signer.addAuthorization(credentials, new Date());
 
-    let client = new AWS.HttpClient();
+    var client = new AWS.HttpClient();
     client.handleRequest(request, null, function (response) {
         console.log(response.statusCode + ' ' + response.statusMessage);
-        let responseBody = '';
+        var responseBody = '';
         response.on('data', function (chunk) {
             responseBody += chunk;
         });
@@ -111,5 +111,44 @@ async function buildIndex() {
 
 buildIndex()
 
+
+
+// indexDocument(json);
+
+// function indexDocument(document) {
+//     var endpoint = new AWS.Endpoint(domain);
+//     console.log('endpoint', endpoint)
+//     var request = new AWS.HttpRequest(endpoint, region);
+
+//     request.method = 'POST';
+//     // request.path += index + '/' + type + '/' + id;
+//     request.path += index + '/' + type;
+//     request.body = JSON.stringify(document);
+//     request.headers['host'] = domain;
+//     request.headers['Content-Type'] = 'application/json';
+//     request.headers['Content-Length'] = Buffer.byteLength(request.body);
+
+//     // var credentials = new AWS.EnvironmentCredentials('AWS');
+
+//     var credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
+//     AWS.config.credentials = credentials;
+
+//     var signer = new AWS.Signers.V4(request, 'es');
+//     signer.addAuthorization(credentials, new Date());
+
+//     var client = new AWS.HttpClient();
+//     client.handleRequest(request, null, function (response) {
+//         console.log(response.statusCode + ' ' + response.statusMessage);
+//         var responseBody = '';
+//         response.on('data', function (chunk) {
+//             responseBody += chunk;
+//         });
+//         response.on('end', function (chunk) {
+//             console.log('Response body: ' + responseBody);
+//         });
+//     }, function (error) {
+//         console.log('Error: ' + error);
+//     });
+// }
 
 

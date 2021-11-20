@@ -27,22 +27,22 @@
 
 
 
-const AWS = require('aws-sdk');
+var AWS = require('aws-sdk');
 
 require('dotenv').config();
 
 const { AWS_ElASTIC_SEARCH_DOMAIN, AWS_ElASTIC_SEARCH_REGION } = process.env; // 30 days by seconds
 
 
-const region = AWS_ElASTIC_SEARCH_REGION; // e.g. us-west-1
-const domain = AWS_ElASTIC_SEARCH_DOMAIN; // e.g. search-domain.region.es.amazonaws.com
-const index = 'node-togather';
-const type = '_doc';
+var region = AWS_ElASTIC_SEARCH_REGION; // e.g. us-west-1
+var domain = AWS_ElASTIC_SEARCH_DOMAIN; // e.g. search-domain.region.es.amazonaws.com
+var index = 'node-togather';
+var type = '_doc';
 
 function queryDocument(keyword) {
-    const endpoint = new AWS.Endpoint(domain);
+    var endpoint = new AWS.Endpoint(domain);
     // console.log('endpoint', endpoint)
-    let request = new AWS.HttpRequest(endpoint, region);
+    var request = new AWS.HttpRequest(endpoint, region);
     // console.log('request', request)
     request.method = 'POST';
 
@@ -130,7 +130,7 @@ function queryDocument(keyword) {
     request.path += index + '/_search';
 
     // request.path += `_search??pretty -d '${querySetting}'`
-    // console.log('request.path 1', request.path)
+    console.log('request.path 1', request.path)
 
     // request.path = encodeURI(request.path)
     // console.log('request.path', request.path)
@@ -141,22 +141,22 @@ function queryDocument(keyword) {
     // console.log('request', request)
     // request.headers['Content-Length'] = Buffer.byteLength(request.body);
 
-    // var credentials = new AWS.EnvironmentCredentials('AWS');
+    var credentials = new AWS.EnvironmentCredentials('AWS');
 
-    const credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
+    // var credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
     AWS.config.credentials = credentials;
 
-    let signer = new AWS.Signers.V4(request, 'es');
+    var signer = new AWS.Signers.V4(request, 'es');
     signer.addAuthorization(credentials, new Date());
 
-    let client = new AWS.HttpClient();
+    var client = new AWS.HttpClient();
 
     return new Promise((resolve, reject) => {
 
 
         client.handleRequest(request, null, function (response) {
-            console.log(response.statusCode + ' ' + response.statusMessage);
-            let responseBody = '';
+            // console.log(response.statusCode + ' ' + response.statusMessage);
+            var responseBody = '';
             response.on('data', function (chunk) {
                 responseBody += chunk;
             });
@@ -172,7 +172,7 @@ function queryDocument(keyword) {
                 // console.log('Response type: ' + typeof responseBody);
                 // console.log('Response body: JSON.parse' + JSON.parse(responseBody));
 
-                // result = JSON.parse(responseBody)
+                result = JSON.parse(responseBody)
                 // console.log('result length', result.hits.hits.length)
 
                 // console.log('result.hits.hits[0]', result.hits.hits[0]._source.description)

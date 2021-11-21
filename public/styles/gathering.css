@@ -372,7 +372,9 @@ border-radius: 100%;
 
     box-sizing: border-box;
     backdrop-filter: blur(10px);
-
+    width: 97%;
+    border-radius: 35px;
+    margin: 0 auto;
 
 }
 

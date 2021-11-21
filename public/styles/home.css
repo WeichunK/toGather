@@ -58,7 +58,7 @@ flex-direction: column;
     overflow-y: scroll;
     max-width: 730px;
     margin-top: 8px;
-    height: 90vh;
+    height: 79vh;
     width: 46vw;
     display: inline-block;
 }
@@ -87,7 +87,7 @@ flex-direction: column;
 #map {
     height: 80vh;
     /* width: 43%; */
-    height: 90vh;
+    height: 79vh;
     margin: 8px;
     /* display: inline-block; */
     max-width: 40vw;

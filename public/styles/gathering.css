@@ -356,10 +356,21 @@ border-radius: 100%;
     /* text-align: center; */
     background-color: white;
 
-
-
 }
 
+#participantPic {
+    border-radius: 50% !important;
+}
+
+
+.accordion-button:not(.collapsed) {
+    color:black;
+    background-color: white;
+}
+
+.accordion-button:not(.collapsed)::before {
+  color: black;
+}
 
 
 #messagesForm {
@@ -372,7 +383,7 @@ border-radius: 100%;
 
     box-sizing: border-box;
     backdrop-filter: blur(10px);
-    width: 97%;
+    width: 94%;
     border-radius: 35px;
     margin: 0 auto;
 

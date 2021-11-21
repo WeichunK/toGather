@@ -342,11 +342,45 @@
 
             <div id=groupChatRoom style="height: 95vh;">
 
-                <h6 style=" text-align: center; margin-top: 10px;">成員</h6> <a class="btn btn-secondary" id="quitEvent"
-                    data-bs-toggle="button" autocomplete="off" style="display: none;">我要退出</a>
-                <ul id="participants"></ul>
+                <h6 style=" text-align: center; margin-top: 10px;">群組聊天室</h6> <a class="btn btn-secondary"
+                    id="quitEvent" data-bs-toggle="button" autocomplete="off" style="display: none;">我要退出</a>
 
-                <h6 style=" text-align: center;">群組聊天室</h6>
+
+
+
+
+
+
+
+
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                                成員
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingOne">
+
+
+
+                            <ul id="participants"></ul>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <!-- <h6 style=" text-align: center;">群組聊天室</h6> -->
 
                 <ul id="messages"></ul>
                 <div>
@@ -355,9 +389,32 @@
                             class="btn-send btn-secondary rounded-pill" id="submit-msg">Send</button>
                     </form>
                 </div>
+
+
+
+
             </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
+
+    </div>
 
     </div>
 
@@ -563,6 +620,9 @@
 
 
                 eventPic.style = "width:82%; object-fit: contain;background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a5f35a112938979.601ee0c09cecd.gif')"
+
+                eventPic.style = "width:82%; object-fit: contain;background-image:url('./assets/grey-background.jpg')"
+
 
 
                 // gatheringDetail.appendChild(eventPic)
@@ -1182,7 +1242,7 @@
                             }
 
 
-
+                            let subParticipants = document.createElement('div')
 
                             let participant = document.createElement('div')
                             participant.setAttribute('class', 'card mb-3 participant')
@@ -1204,7 +1264,9 @@
                             participantRowPic.style = "display: flex; flex-direction:column; justify-content:center;width:min-content;"
 
                             let participantPic = document.createElement('img')
-                            participantPic.setAttribute('class', 'figure-img img-fluid rounded participant-pic')
+                            // participantPic.setAttribute('class', 'figure-img img-fluid rounded participant-pic')
+                            participantPic.setAttribute('class', 'figure-img img-fluid participant-pic')
+
                             participantPic.setAttribute('src', participantsData.data[i].picture)
                             participantPic.style = "margin: 3px; object-fit: contain; height: 50%; max-width:45px;"
 

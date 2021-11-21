@@ -306,14 +306,15 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title" id="staticBackdropLabel">請在地圖上點選位置並輸入資料</h6>
+                        <!-- <h6 class="modal-title" id="staticBackdropLabel">請在地圖上點選位置並輸入資料</h6> -->
+                        <h6 class="modal-title" id="staticBackdropLabel">請輸入活動資料</h6>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
 
 
 
-                        <div id="mapForHost" style="height:15rem; width:22rem;"></div>
+                        <div id="mapForHost" style="height:15rem; width:22rem;display: none;"></div>
 
                         <h6>請輸入活動資訊</h6>
                         <form method="post" action="/api/1.0/gatherings/hostgathering" enctype="multipart/form-data">
@@ -357,24 +358,33 @@
 
                             <div class="mb-3">
                                 <label for="min_participant" class="form-label">最少人數</label>
-                                <input class="min_participant" type="text" placeholder="請輸入數字"
+                                <input class="min_participant" type="number" placeholder="請輸入數字"
                                     aria-label="default input example" name="min_participant" id="min_participant">
                                 <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
 
                             <div class="mb-3">
                                 <label for="max_participant" class="form-label">人數上限</label>
-                                <input class="max_participant" type="text" placeholder="請輸入數字，需大於或等於最少人數"
+                                <input class="max_participant" type="number" placeholder="請輸入數字，需大於或等於最少人數"
                                     aria-label="default input example" name="max_participant" id="max_participant">
                                 <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
 
                             <div class="mb-3">
                                 <label for="place" class="form-label">活動地點</label>
-                                <input class="place" type="text" placeholder="" aria-label="default input example"
-                                    name="place" id="place">
+
+                                <div class="mb-3 place" role="tw-city-selector" id=city>
+                                </div>
+                                <input class="place" type="text" aria-label="default input example" name="place"
+                                    id="place" placeholder="請輸入地址或地標" style="width:100%">
                                 <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+
+
                             </div>
+
+
+
+
 
 
                             <div class="mb-3">
@@ -479,12 +489,16 @@
 
 
 
+        <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
+
         <!-- <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw")</script> -->
 
 
 
 
-
+        <script>
+            new TwCitySelector();
+        </script>
 
 
 
@@ -680,16 +694,16 @@
 
 
 
-                if (localStorage.getItem('lat')) {
+                // if (localStorage.getItem('lat')) {
 
-                    dataToSent.append('lat', localStorage.getItem('lat'));
-                    dataToSent.append('lng', localStorage.getItem('lng'));
+                //     dataToSent.append('lat', localStorage.getItem('lat'));
+                //     dataToSent.append('lng', localStorage.getItem('lng'));
 
 
-                } else {
-                    alert("請在地圖上選取位置");
-                    return false;
-                }
+                // } else {
+                //     alert("請在地圖上選取位置");
+                //     return false;
+                // }
 
                 if (document.getElementById("main_image").files[0].size > 2 * 1024 * 1024) {
                     Swal.fire({
@@ -701,6 +715,45 @@
                         return false;
                     })
                 }
+
+
+                console.log(document.getElementsByName("county")[0])
+                console.log(document.getElementsByName("county")[0].value)
+
+                if (!Boolean(document.getElementsByName("county")[0].value.trim())) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '請選擇縣市',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        return false;
+                    })
+                }
+
+                if (!Boolean(document.getElementsByName("district")[0].value.trim())) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '請選擇區域',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        return false;
+                    })
+                }
+                console.log('document.getElementById("place").value', document.getElementById("place").value)
+                console.log('document.getElementById("place").value.trim()', document.getElementById("place").value.trim())
+                if (!Boolean(document.getElementById("place").value.trim())) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '請輸入位置',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        return false;
+                    })
+                }
+
 
 
 
@@ -757,6 +810,16 @@
                             window.location.reload();
                         })
 
+                    } else if (JSON.parse(xhr.responseText).error == 'invalid address') {
+                        console.log('xhr.responseText', xhr.responseText)
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '無效的位置，請重新輸入活動位置',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.reload();
+                        })
                     }
                 };
                 xhr.send(dataToSent);

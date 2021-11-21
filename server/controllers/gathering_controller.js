@@ -7,6 +7,8 @@ const { s3UploadFile } = require('../../util/util');
 
 const { esSearch } = require('../../util/es_query')
 
+const axios = require('axios')
+
 // require('dotenv').config();
 // const validator = require('validator');
 // const { TAPPAY_PARTNER_KEY } = process.env;
@@ -130,44 +132,67 @@ const getGatherings = async (req, res) => {
 
 const hostGathering = async (req, res) => {
     console.log('req.files', req.files)
-    const gathering = {
-        host_id: req.user.id,
-        title: req.body.title,
-        description: req.body.description,
-        category: req.body.category,
-        // picture: req.files.main_image[0].path,
-        start_at: req.body.start_at,
-        max_participant: req.body.max_participant,
-        min_participant: req.body.min_participant,
-        place: req.body.place,
-        lng: req.body.lng,
-        lat: req.body.lat
-    }
 
-    console.log('gathering', gathering)
+    console.log('req.body', req.body)
 
-    let uploadResult = await s3UploadFile(req.files.main_image[0], '/gathering')
-    console.log('uploadResult', uploadResult)
-    gathering.picture = uploadResult.Location
+    try {
+        let geoInput = `${req.body.county} ${req.body.district} ${req.body.place}`
+        let geo = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(geoInput)}&key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI`)
 
-    const result = await Gatherings.hostGathering(gathering)
+        console.log('geo.data', geo.data)
+
+        const gathering = {
+            host_id: req.user.id,
+            title: req.body.title,
+            description: req.body.description,
+            category: req.body.category,
+            // picture: req.files.main_image[0].path,
+            start_at: req.body.start_at,
+            max_participant: req.body.max_participant,
+            min_participant: req.body.min_participant,
+            place: `${req.body.county} ${req.body.district} ${req.body.place}`,
+            // lng: req.body.lng,
+            // lat: req.body.lat
+            lng: geo.data.results[0].geometry.location.lng,
+            lat: geo.data.results[0].geometry.location.lat
+        }
+
+        console.log('gathering', gathering)
+
+        let uploadResult = await s3UploadFile(req.files.main_image[0], '/gathering')
+        console.log('uploadResult', uploadResult)
+        gathering.picture = uploadResult.Location
+
+        const result = await Gatherings.hostGathering(gathering)
 
 
 
 
-    if (result.error) {
-        res.status(403).send({ error: result.error });
+        if (result.error) {
+            res.status(403).send({ error: result.error });
+            return;
+        }
+
+        // req.app.io.emit('updateGatheringList', 'DB updated');
+
+        res.status(200).send({
+            data: {
+                gathering: gathering
+            }
+        })
+        return;
+
+
+
+    } catch (err) {
+        console.log('err', err.message)
+        res.status(403).send({ error: 'invalid address' });
         return;
     }
 
-    // req.app.io.emit('updateGatheringList', 'DB updated');
 
-    res.status(200).send({
-        data: {
-            gathering: gathering
-        }
-    })
-    return;
+
+
 
 }
 

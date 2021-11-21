@@ -44,6 +44,7 @@ flex-direction: column;
     padding-top: 55px;
 }
 
+
 #center{
     /* grid-area: centerBlock; */
     display: flex;
@@ -170,6 +171,8 @@ flex-direction: column;
 	border-bottom: solid thin rgb(110, 209, 231);
 	color: #141414;
 	color: black;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .searchbar::-webkit-input-placeholder {color: rgb(14, 13, 13); opacity: 0.35;}

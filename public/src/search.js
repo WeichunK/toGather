@@ -24,13 +24,14 @@
 
 // });
 
+// const { initMap } = require('./init_map')
 
 
 const searchButton = document.getElementById('searchbutton');
 const searchInput = document.getElementById('search');
 searchButton.addEventListener('click', () => {
     console.log('searchInput', searchInput.value)
-    const inputValue = searchInput.value;
+    // const inputValue = searchInput.value;
     // alert(inputValue);
 
     if (Boolean(searchInput.value.trim())) {
@@ -51,3 +52,5 @@ searchButton.addEventListener('click', () => {
 
 
 });
+
+

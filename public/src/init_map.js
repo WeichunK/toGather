@@ -758,6 +758,6 @@ function initMap() {
 
 
 
-
+module.exports = { initMap }
 
 

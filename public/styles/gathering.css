@@ -440,11 +440,13 @@ border-radius: 100%;
 .message-myself {
     margin: 8px 8px 8px auto;
     box-shadow: 3px 3px 1.5px rgba(0, 0, 0, 0.5);
+    max-width: 80%;
 }
 
 .message-others {
     margin: 8px 8px 8px 8px;
     box-shadow: 3px 3px 1.5px rgba(0, 0, 0, 0.5);
+    max-width: 80%;
 }
 
 

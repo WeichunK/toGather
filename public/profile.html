@@ -771,9 +771,9 @@
                 // eventBlockRowPic.style = "min-height:80%;"
 
                 let eventPic = document.createElement('img')
-                eventPic.setAttribute('class', 'figure-img img-fluid rounded')
+                eventPic.setAttribute('class', 'figure-img img-fluid rounded gathering-pic')
                 eventPic.setAttribute('src', gatheringList.data[i].picture)
-                eventPic.style = "margin: 3px; object-fit: contain;"
+                eventPic.style = "margin: 3px; object-fit: cover; width:90%; height:90%;"
 
                 eventBlockRowPic.appendChild(eventPic)
 
@@ -915,9 +915,9 @@
                 // eventBlockRowPic.style = "min-height:80%;"
 
                 let eventPicforHost = document.createElement('img')
-                eventPicforHost.setAttribute('class', 'figure-img img-fluid rounded')
+                eventPicforHost.setAttribute('class', 'figure-img img-fluid rounded gathering-pic')
                 eventPicforHost.setAttribute('src', hostList.data[i].picture)
-                eventPicforHost.style = "margin: 3px; object-fit: contain;"
+                eventPicforHost.style = "margin: 3px; object-fit: cover; width:90%; height:90%;"
 
                 eventBlockRowPicforHost.appendChild(eventPicforHost)
 

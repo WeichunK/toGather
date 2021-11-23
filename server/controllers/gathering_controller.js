@@ -141,6 +141,13 @@ const hostGathering = async (req, res) => {
 
         console.log('geo.data', geo.data)
 
+        let currentTime = new Date()
+        if (new Date(req.body.start_at) <= currentTime) {
+            res.status(403).send({ error: 'wrong time!' });
+            return;
+        }
+
+
         const gathering = {
             host_id: req.user.id,
             title: req.body.title,
@@ -149,7 +156,7 @@ const hostGathering = async (req, res) => {
             // picture: req.files.main_image[0].path,
             start_at: req.body.start_at,
             max_participant: req.body.max_participant,
-            min_participant: req.body.min_participant,
+            // min_participant: req.body.min_participant,
             place: `${req.body.county} ${req.body.district} ${req.body.place}`,
             // lng: req.body.lng,
             // lat: req.body.lat

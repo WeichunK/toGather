@@ -337,8 +337,23 @@ function initMap() {
                     });
                 }
 
-
+                let contentString;
                 for (let i in response.data) {
+
+                    //     contentString = `<div class="card" style="cursor:pointer;width: 14rem; height: 10rem;" onclick="location.href='/gathering.html?id=${response.data[i].id}';">
+                    //     <img src=${response.data[i].picture} class="card-img-top" alt="" style:"width:90%;">
+                    //     <h5 class="card-title">${response.data[i].title}</h5>
+                    //   </div>`
+
+
+                    contentString = `<div class="card mb-3 border-light gathering" onclick="location.href='/gathering.html?id=${response.data[i].id}';" id="251" idvalue="251" style="max-width: 100%; cursor: pointer; margin-top: 1rem;">
+                  <div class="row g-0" idvalue="251">
+                  <div class="col-md-4" idvalue="251" style="display: flex; justify-content: center; flex-direction: column; width: 40% !important; height: 170px !important;"><img class="figure-img img-fluid rounded" src="${response.data[i].picture}" idvalue="251" style="margin: 0px; object-fit: cover; width: 100%; height: 90%; border-radius: 0.8rem !important;"></div>
+                  <div class="col-md-8" idvalue="251" style="flex-shrink: 1; width: 60% !important;">
+                  <div class="card-body" idvalue="251">
+                  <span class="card-title" idvalue="251" style="color: var(--card-typography-color-primary, #222222)  !important; word-break: break-all !important; font-size: 18px !important; line-height: 24px !important;"> ${response.data[i].title}</span>
+                  <div style="margin-top: 11px; width: 32px; border-top: 1px solid rgb(221, 221, 221) !important;"></div>
+                  <p idvalue="251" class="card-text" style="margin-top: 3rem;"><small idvalue="251" class="text-muted">發起人: ${response.data[i].name}</small></p></div></div></div></div>`
 
 
                     marker = new google.maps.Marker({
@@ -358,7 +373,31 @@ function initMap() {
                             // origin: new google.maps.Point(0, 0), // origin
                             // anchor: new google.maps.Point(0, 0) // anchor
 
-                        }
+                        },
+                        html: contentString
+                    });
+
+
+
+
+
+
+                    const infowindow = new google.maps.InfoWindow({
+                        content: contentString,
+                    });
+
+
+                    // marker.addListener("click", () => {
+                    //     infowindow.open({
+                    //         anchor: marker,
+                    //         map,
+                    //         shouldFocus: false,
+                    //     });
+                    // });
+
+                    google.maps.event.addListener(marker, "click", function () {
+                        infowindow.setContent(this.html);
+                        infowindow.open(map, this);
                     });
 
 

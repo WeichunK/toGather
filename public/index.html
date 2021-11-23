@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="overflow: auto;">
 
 <head>
     <meta charset="UTF-8" />
@@ -356,16 +356,15 @@
                                 <input type="datetime-local" name="start_at" id="start_at">
                             </div>
 
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label for="min_participant" class="form-label">最少人數</label>
                                 <input class="min_participant" type="number" placeholder="請輸入數字"
                                     aria-label="default input example" name="min_participant" id="min_participant">
-                                <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
+                            </div> -->
 
                             <div class="mb-3">
                                 <label for="max_participant" class="form-label">人數上限</label>
-                                <input class="max_participant" type="number" placeholder="請輸入數字，需大於或等於最少人數"
+                                <input class="max_participant" type="number" placeholder="請輸入數字"
                                     aria-label="default input example" name="max_participant" id="max_participant">
                                 <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
@@ -484,7 +483,7 @@
 
         <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
         <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbmXJHj0WUd8Zy-neXlew88hmIkB4bnwI&callback=initMap&v=weekly"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI&callback=initMap&v=weekly"
             async></script>
 
 
@@ -694,17 +693,32 @@
 
 
 
-                // if (localStorage.getItem('lat')) {
+                if (new Date(document.getElementById("start_at").value) <= new Date()) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '時間不可早於現在',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
 
-                //     dataToSent.append('lat', localStorage.getItem('lat'));
-                //     dataToSent.append('lng', localStorage.getItem('lng'));
+                    })
+                    return false;
+                }
 
 
-                // } else {
-                //     alert("請在地圖上選取位置");
-                //     return false;
-                // }
+                if (!document.getElementById("main_image").files[0]) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: '圖片不可為空',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        // return false;
+                    })
+                    return false;
+                }
 
+                console.log('document.getElementById("main_image").files[0].size', document.getElementById("main_image").files[0].size)
                 if (document.getElementById("main_image").files[0].size > 2 * 1024 * 1024) {
                     Swal.fire({
                         title: 'Error!',
@@ -712,8 +726,9 @@
                         icon: 'error',
                         confirmButtonText: 'OK'
                     }).then(function () {
-                        return false;
+
                     })
+                    return false;
                 }
 
 
@@ -727,8 +742,9 @@
                         icon: 'error',
                         confirmButtonText: 'OK'
                     }).then(function () {
-                        return false;
+
                     })
+                    return false;
                 }
 
                 if (!Boolean(document.getElementsByName("district")[0].value.trim())) {
@@ -738,11 +754,13 @@
                         icon: 'error',
                         confirmButtonText: 'OK'
                     }).then(function () {
-                        return false;
+
                     })
+                    return false;
                 }
-                console.log('document.getElementById("place").value', document.getElementById("place").value)
-                console.log('document.getElementById("place").value.trim()', document.getElementById("place").value.trim())
+                // console.log('document.getElementById("place").value', document.getElementById("place").value)
+                // console.log('document.getElementById("place").value.trim()', document.getElementById("place").value.trim())
+
                 if (!Boolean(document.getElementById("place").value.trim())) {
                     Swal.fire({
                         title: 'Error!',
@@ -750,8 +768,9 @@
                         icon: 'error',
                         confirmButtonText: 'OK'
                     }).then(function () {
-                        return false;
+
                     })
+                    return false;
                 }
 
 

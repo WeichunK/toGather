@@ -44,6 +44,9 @@ flex-direction: column;
     padding-top: 55px;
 }
 
+#main-header {
+    margin-right: 15px;
+}
 
 #center{
     /* grid-area: centerBlock; */
@@ -294,3 +297,12 @@ flex-direction: column;
     outline: none;
     padding: .3em 1.25em;
   }
+
+
+  html, body {
+      height:100%;
+      overflow:auto;
+      margin: 0;}
+
+
+  html{overflow-y:scroll;}

@@ -36,7 +36,9 @@ app.use('/api/' + API_VERSION,
     ]
 );
 
-
+app.use(function (req, res, next) {
+    res.status(404).sendFile(__dirname + '/public/404.html');
+});
 
 chat(io);
 

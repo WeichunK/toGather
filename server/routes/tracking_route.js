@@ -2,18 +2,11 @@ const router = require('express').Router();
 const { authentication } = require('../../util/util');
 // const { wrapAsync } = require('../../util/util');
 
-const {
-    setTracking,
+const { setTracking } = require('../controllers/tracking_controller');
 
-} = require('../controllers/tracking_controller');
+const { USER_ROLE } = require('../models/user_model');
 
-const {
-    USER_ROLE
-} = require('../models/user_model');
-
-// router.route('/getgatherings/:category')
 router.route('/tracking/:category')
     .get(authentication(USER_ROLE.FREE), setTracking);
-
 
 module.exports = router;

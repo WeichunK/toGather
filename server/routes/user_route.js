@@ -4,7 +4,6 @@ const cpUpload = upload.fields([
     { name: 'main_image', maxCount: 1 },
 ]);
 
-
 const {
     signUp,
     signIn,
@@ -31,6 +30,5 @@ router.route('/user/getuserrating').get(authentication(USER_ROLE.ALL), getUserRa
 
 router.route('/user/updatephoto')
     .post(authentication(USER_ROLE.ALL), cpUpload, updatePhoto);
-
 
 module.exports = router;

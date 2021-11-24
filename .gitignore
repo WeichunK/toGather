@@ -95,6 +95,7 @@ public/test.html
 public/assets/gathering_pic/*
 
 app_simpletest.js
+app_simpletest_2.js
 
 public/index_2.html
 public/index copy.html
@@ -106,7 +107,12 @@ public/styles/home copy.css
 public/styles/profile copy.css
 public/styles/gathering_old.css
 
+get_testdata_2_second_run.js
+get_testdata_2.js
 
+get_testdata_3_second_run.js
+get_testdata_3.js
+get_testdata.js
 
 editEventTime.js
 

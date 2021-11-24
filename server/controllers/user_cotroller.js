@@ -27,9 +27,6 @@ const signUp = async (req, res) => {
         return;
     }
 
-
-
-
     const role = 1;
     const provider = 'native'
 
@@ -124,7 +121,6 @@ const signIn = async (req, res) => {
 
 const getMemberProfile = async (req, res) => {
 
-
     res.status(200).send({
         data: {
             id: req.user.id,
@@ -141,12 +137,8 @@ const getMemberProfile = async (req, res) => {
         }
 
     });
-
     return;
-
-
 }
-
 
 const getProfile = async (req, res) => {
 
@@ -168,24 +160,8 @@ const getProfile = async (req, res) => {
             popularity: result.popularity,
 
         }
-        //     id: req.user.id,
-        //     provider: req.user.provider,
-        //     name: req.user.name,
-        //     email: req.user.email,
-        //     picture: req.user.picture,
-        //     introduction: req.user.introduction,
-        //     job: req.user.job,
-        //     title: req.user.title,
-        //     age: req.user.age,
-        //     popularity: req.user.popularity,
-        //     coin: req.user.coin,
-        // }
-
     });
-
     return;
-
-
 }
 
 
@@ -210,8 +186,6 @@ const getUserRating = async (req, res) => {
 
 
 const updatePhoto = async (req, res) => {
-
-
 
     try {
 

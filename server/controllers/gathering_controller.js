@@ -10,11 +10,11 @@ const getGatherings = async (req, res) => {
     async function findGatherings(category) {
         switch (category) {
             case 'all':
-                console.log('all')
+                // console.log('all')
                 return await Gatherings.getGatherings(pageSize, paging, { boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
 
             case 'search': {
-                console.log('search')
+                // console.log('search')
                 const keyword = req.query.keyword;
                 if (keyword) {
                     let result = await esSearch(keyword)
@@ -34,7 +34,7 @@ const getGatherings = async (req, res) => {
             }
 
             case 'participants': {
-                console.log('participants')
+                // console.log('participants')
                 const id = parseInt(req.query.id);
                 if (Number.isInteger(id)) {
                     return await Gatherings.getParticipants(pageSize, paging, { id });
@@ -44,7 +44,7 @@ const getGatherings = async (req, res) => {
             case 'mygatheringlist': {
                 const userId = parseInt(req.query.id);
                 if (Number.isInteger(userId)) {
-                    console.log('mygatheringlist')
+                    // console.log('mygatheringlist')
                     return await Gatherings.getGatherings(pageSize, paging, { userId });
                 }
             }
@@ -52,7 +52,7 @@ const getGatherings = async (req, res) => {
             case 'myhostlist': {
                 const hostId = parseInt(req.query.id);
                 if (Number.isInteger(hostId)) {
-                    console.log('myhostlist')
+                    // console.log('myhostlist')
                     return await Gatherings.getGatherings(pageSize, paging, { hostId });
                 }
             }
@@ -92,7 +92,6 @@ const hostGathering = async (req, res) => {
     try {
         let geoInput = `${req.body.county} ${req.body.district} ${req.body.place}`
         let geo = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(geoInput)}&key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI`)
-
         // console.log('geo.data', geo.data)
 
         let currentTime = new Date()
@@ -101,27 +100,9 @@ const hostGathering = async (req, res) => {
             return;
         }
 
-        let lengthOfTitle;
-        let lengthOfDescription;
-        let lengthOfAddress;
-
-        if (/[\u4e00-\u9fa5]/.test(req.body.title)) {
-            lengthOfTitle = req.body.title.length * 2;
-        } else {
-            lengthOfTitle = req.body.title.length;
-        }
-
-        if (/[\u4e00-\u9fa5]/.test(req.body.Description)) {
-            lengthOfDescription = req.body.description.length * 2;
-        } else {
-            lengthOfDescription = req.body.description.length;
-        }
-
-        if (/[\u4e00-\u9fa5]/.test(req.body.lengthOfAddress)) {
-            lengthOfAddress = req.body.place.length * 2;
-        } else {
-            lengthOfAddress = req.body.place.length;
-        }
+        let lengthOfTitle = /[\u4e00-\u9fa5]/.test(req.body.title) ? req.body.title.length * 2 : req.body.title.length;
+        let lengthOfDescription = /[\u4e00-\u9fa5]/.test(req.body.description) ? req.body.description.length * 2 : req.body.description.length;
+        let lengthOfAddress = /[\u4e00-\u9fa5]/.test(req.body.place) ? req.body.place.length * 2 : req.body.place.length;
 
         if (lengthOfTitle > 20 | lengthOfDescription > 300 | lengthOfAddress > 80) {
             res.status(403).send({ error: 'Exceed the length limit!' });
@@ -272,6 +253,5 @@ module.exports = {
     removeParticipantAdmin,
     postFeedback,
     getComment,
-
 };
 

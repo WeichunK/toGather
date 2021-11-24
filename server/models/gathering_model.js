@@ -147,10 +147,13 @@ const attendGathering = async (participant, action) => {
             from participant group by(gathering_id))p left join gathering g on p. gathering_id = g.id where gathering_id = ?;', [participant.gathering_id]);
             console.log('numOfParticipant', numOfParticipant)
 
-            if (numOfParticipant[0].num_participant >= numOfParticipant[0].max_participant) {
-                console.log('No seats')
-                return { error: 'Participant Full!' };
+            if (numOfParticipant.length != 0) {
+                if (numOfParticipant[0].num_participant >= numOfParticipant[0].max_participant) {
+                    console.log('No seats')
+                    return { error: 'Participant Full!' };
+                }
             }
+
 
             const [users] = await conn.query('SELECT * FROM member WHERE id = ?', [participant.participant_id]);
             const user = users[0];

@@ -90,9 +90,6 @@ const hostGathering = async (req, res) => {
     // console.log('req.files', req.files)
     // console.log('req.body', req.body)
     try {
-        let geoInput = `${req.body.county} ${req.body.district} ${req.body.place}`
-        let geo = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(geoInput)}&key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI`)
-        // console.log('geo.data', geo.data)
 
         let currentTime = new Date()
         if (new Date(req.body.start_at) <= currentTime | req.body.start_at == '') {
@@ -114,6 +111,11 @@ const hostGathering = async (req, res) => {
             return;
         }
 
+        let geoInput = `${req.body.county} ${req.body.district} ${req.body.place}`
+        let geo = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(geoInput)}&key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI`)
+        // console.log('geo.data', geo.data)
+
+
         const gathering = {
             host_id: req.user.id,
             title: req.body.title,
@@ -122,6 +124,7 @@ const hostGathering = async (req, res) => {
             // picture: req.files.main_image[0].path,
             start_at: req.body.start_at,
             max_participant: req.body.max_participant,
+            remaining_quota: req.body.max_participant,
             // min_participant: req.body.min_participant,
             place: `${req.body.county} ${req.body.district} ${req.body.place}`,
             // lng: req.body.lng,

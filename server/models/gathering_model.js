@@ -143,15 +143,23 @@ const attendGathering = async (participant, action) => {
         let popularity
         if (action == 'join') {
             console.log('participant.participant_id', participant.gathering_id)
-            const [numOfParticipant] = await conn.query('select p.gathering_id, p.num_participant, g.max_participant from ( select gathering_id, count(participant_id) as num_participant \
-            from participant group by(gathering_id))p left join gathering g on p. gathering_id = g.id where gathering_id = ?;', [participant.gathering_id]);
-            console.log('numOfParticipant', numOfParticipant)
+            // const [numOfParticipant] = await conn.query('select p.gathering_id, p.num_participant, g.max_participant from ( select gathering_id, count(participant_id) as num_participant \
+            // from participant group by(gathering_id))p left join gathering g on p. gathering_id = g.id where gathering_id = ?;', [participant.gathering_id]);
+            // console.log('numOfParticipant', numOfParticipant)
 
-            if (numOfParticipant.length != 0) {
-                if (numOfParticipant[0].num_participant >= numOfParticipant[0].max_participant) {
-                    console.log('No seats')
-                    return { error: 'Participant Full!' };
-                }
+            // if (numOfParticipant.length != 0) {
+            //     if (numOfParticipant[0].num_participant >= numOfParticipant[0].max_participant) {
+            //         console.log('No seats')
+            //         return { error: 'Participant Full!' };
+            //     }
+            // }
+
+            const [quota] = await conn.query('select remaining_quota from gathering where id = ? for update;', [participant.gathering_id]);
+            console.log('quota[0]', quota[0])
+
+            if (quota[0].remaining_quota <= 0) {
+                console.log('No seats')
+                return { error: 'Participant Full!' };
             }
 
 
@@ -164,12 +172,24 @@ const attendGathering = async (participant, action) => {
                 return { error: 'Not Enough Popularity!' };
             }
 
+            console.log('quota[0].quota - 1', quota[0].remaining_quota)
+
+
+            let [resultQuota] = await conn.query('UPDATE gathering set remaining_quota = ? where id = ?', [quota[0].remaining_quota - 1, participant.gathering_id]);
+
+
+
+
             participant.created_at = new Date();
             queryStr = 'INSERT INTO participant SET ?';
             binding = participant;
             console.log('binding', binding)
 
         } else if (action == 'quit') {
+            const [quota] = await conn.query('select remaining_quota from gathering where id = ? for update;', [participant.gathering_id]);
+            let [resultQuota] = await conn.query('UPDATE gathering set remaining_quota = ? where id = ?', [quota[0].remaining_quota + 1, participant.gathering_id]);
+
+
 
             queryStr = 'DELETE FROM participant where gathering_id = ? and participant_id =?;';
             binding = [participant.gathering_id, participant.participant_id]
@@ -177,7 +197,9 @@ const attendGathering = async (participant, action) => {
 
         }
 
-        let [result] = await conn.query(queryStr, binding);
+
+
+        let [resultParticipant] = await conn.query(queryStr, binding);
 
         if (action == 'join') {
             console.log('popularity', popularity)
@@ -208,7 +230,7 @@ const attendGathering = async (participant, action) => {
         let updateStatus = await conn.query('UPDATE gathering set ?  where id = ?', [statusCode, participant.gathering_id])
 
         await conn.query('COMMIT');
-        return result;
+        return resultParticipant;
     } catch (error) {
         console.log(error);
         await conn.query('ROLLBACK');

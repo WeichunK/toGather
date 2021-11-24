@@ -831,6 +831,36 @@
                             window.location.reload();
                         })
 
+                    } else if (JSON.parse(xhr.responseText).error == 'wrong time!') {
+                        console.log('xhr.responseText', xhr.responseText)
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '時間輸入錯誤',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.reload();
+                        })
+                    } else if (JSON.parse(xhr.responseText).error == 'Exceed the length limit!') {
+                        console.log('xhr.responseText', xhr.responseText)
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'title 描述 或 地址 長度過長',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.reload();
+                        })
+                    } else if (JSON.parse(xhr.responseText).error == 'Max Participant less than 1!') {
+                        console.log('xhr.responseText', xhr.responseText)
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '人數上限不可小於1',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.reload();
+                        })
                     } else if (JSON.parse(xhr.responseText).error == 'invalid address') {
                         console.log('xhr.responseText', xhr.responseText)
                         Swal.fire({
@@ -842,6 +872,10 @@
                             window.location.reload();
                         })
                     }
+
+
+
+
                 };
                 xhr.send(dataToSent);
 

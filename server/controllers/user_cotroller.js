@@ -16,6 +16,20 @@ const signUp = async (req, res) => {
         res.status(400).send({ error: 'invalid email format' })
         return;
     }
+    let lengthOfName;
+    if (/[\u4e00-\u9fa5]/.test(name)) {
+        lengthOfName = name.length * 2;
+    } else {
+        lengthOfName = name.length;
+    }
+    if (lengthOfName > 20) {
+        res.status(403).send({ error: 'Exceed the length limit!' });
+        return;
+    }
+
+
+
+
     const role = 1;
     const provider = 'native'
 
@@ -109,11 +123,6 @@ const signIn = async (req, res) => {
 }
 
 const getMemberProfile = async (req, res) => {
-
-
-    // console.log('req.user.id', req.user.id)
-    // let memberData = await User.getUserDetail(req.user.email)
-
 
 
     res.status(200).send({

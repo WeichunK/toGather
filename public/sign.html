@@ -537,9 +537,16 @@
                         window.location.href = '/sign.html';
                     })
                 } else if (xhr.status === 403) {
+                    let errorMessage;
+                    if (JSON.parse(xhr.responseText).error == 'Exceed the length limit!') {
+                        errorMessage = '使用者名稱過長'
+                    } else if (JSON.parse(xhr.responseText).error == 'This Email Already Exists') {
+                        errorMessage = '此email已被註冊'
+                    }
+                    console.log('JSON.parse(xhr.responseText)', JSON.parse(xhr.responseText))
                     Swal.fire({
                         title: 'Error!',
-                        text: '此email已被註冊',
+                        text: errorMessage,
                         icon: 'error',
                         confirmButtonText: 'OK'
                     }).then(function () {

@@ -1666,10 +1666,20 @@
 
                         } else {
 
-
-
-
                             let joinGathering = await fetchData(`/api/1.0/gatherings/attendGathering/join?id=${gatheringId}`, accessToken)
+
+                            if (joinGathering.error == 'Participant Full!') {
+
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: '名額已被其他用戶加入',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                }).then(function () {
+                                    window.location.reload();
+                                })
+                                // return false;
+                            }
 
 
 

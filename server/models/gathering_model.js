@@ -1,4 +1,6 @@
 const { pool } = require('./mysqlcon');
+const redis = require('redis')
+const redisClient = redis.createClient(6379, 'redisforstylish.jqypcs.0001.apne1.cache.amazonaws.com', { no_ready_check: true })
 
 const getGatherings = async (pageSize, paging = 0, requirement = {}) => {
     // const conn = await pool.getConnection();

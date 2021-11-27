@@ -81,7 +81,7 @@ async function insertGathering() {
 
 
 
-        await client.SET(`gathering_${result[i].id}`, JSON.stringify(gathering), 'EX', 86400)
+        await client.HSET('gathering', result[i].id, JSON.stringify(gathering), 'EX', 86400)
         // redisClient.expire(`gathering_${data[i].id}`, data[i].lng, data[i].id)
         await client.zadd('lat', parseFloat(result[i].lat), parseFloat(result[i].id))
         await client.zadd('lng', parseFloat(result[i].lng), parseFloat(result[i].id))
@@ -149,6 +149,23 @@ async function getGathering(key, start, end) {
 
 }
 
+
+async function getHASH(key, field) {
+    return new Promise(resolve => { // 重点
+
+
+        client.HMGET(key, field, (err, result) => {
+
+
+            if (err) {
+                return reject(err)
+            }
+            return resolve(result); // 重点
+        })
+    })
+
+}
+
 // -----------------------------
 // const p = new Promise((resolve, reject) => {
 //     client.ZRANGEBYSCORE('lat', 22.990375, 24.4929121, (err, result) => {
@@ -167,19 +184,68 @@ async function getGathering(key, start, end) {
 // })
 // --------------------------------
 
-
-let lat = getGathering('lat', 22.990375, 24.4929121).then(lat => {
-    console.log('resultLat', lat);
-    console.log(Array.isArray(lat))
-    // console.log([...lat])
-
-    console.log('Object.prototype', Object.prototype.toString.call(lat))
-    return lat
-})
+let lat = { start: 22.990375, end: 24.4929121 }
+let lng = { start: 120.2, end: 120.7 }
 
 
+async function getIndex(lat, lng) {
 
-console.log('lat', lat)
+
+    let latList = await getGathering('lat', lat.start, lat.end).then(lat => {
+        // console.log('resultLat', lat);
+        // console.log(Array.isArray(lat))
+        // // console.log([...lat])
+
+        // console.log('Object.prototype', Object.prototype.toString.call(lat))
+        return lat
+    })
+
+    let lngList = await getGathering('lng', lng.start, lng.end).then(lng => {
+        // console.log('resultLat', lng);
+        // console.log(Array.isArray(lng))
+        // // console.log([...lat])
+
+        // console.log('Object.prototype', Object.prototype.toString.call(lng))
+        return lng
+    })
+
+    console.log('lat', latList)
+    console.log('lng', lngList)
+
+    let latSet = new Set(latList)
+    let lngSet = new Set(lngList)
+
+    let intersect = await latList.filter((e) => {
+        return lngSet.has(e)
+    })
+
+    console.log('intersect', intersect)
+
+    let result = await getHASH('gathering', [...intersect])
+    console.log('result', typeof result)
+    console.log('result', result)
+
+
+
+}
+
+getIndex(lat, lng)
+
+// let lat = getGathering('lat', 22.990375, 24.4929121).then(lat => {
+//     console.log('resultLat', lat);
+//     console.log(Array.isArray(lat))
+//     // console.log([...lat])
+
+//     console.log('Object.prototype', Object.prototype.toString.call(lat))
+//     return lat
+// })
+
+// console.log('lat', lat)
+
+
+
+
+
 // console.log('keys', lat.length)
 
 // let lng = getGathering('lng', 120.2, 120.7).then(result => {

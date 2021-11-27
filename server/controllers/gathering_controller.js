@@ -1,17 +1,15 @@
 const Gatherings = require('../models/gathering_model');
-const pageSize = 6;
 const { s3UploadFile } = require('../../util/util');
 const { esSearch } = require('../../util/es_query')
 const axios = require('axios')
 
 const getGatherings = async (req, res) => {
     const category = req.params.category;
-    const paging = parseInt(req.query.paging) || 0;
     async function findGatherings(category) {
         switch (category) {
             case 'all':
                 // console.log('all')
-                return await Gatherings.getGatherings(pageSize, paging, { boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
+                return Gatherings.getGatherings({ boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
 
             case 'search': {
                 // console.log('search')
@@ -22,14 +20,17 @@ const getGatherings = async (req, res) => {
                     // console.log('esSearch(keyword).hits', result)
                     result = result.map(x => x._source);
                     return await result;
+                } else {
+                    return;
                 }
-                break;
             }
 
             case 'details': {
                 const id = parseInt(req.query.id);
                 if (Number.isInteger(id)) {
-                    return await Gatherings.getGatherings(pageSize, paging, { id });
+                    return Gatherings.getGatherings({ id });
+                } else {
+                    return;
                 }
             }
 
@@ -37,7 +38,9 @@ const getGatherings = async (req, res) => {
                 // console.log('participants')
                 const id = parseInt(req.query.id);
                 if (Number.isInteger(id)) {
-                    return await Gatherings.getParticipants(pageSize, paging, { id });
+                    return Gatherings.getParticipants({ id });
+                } else {
+                    return;
                 }
             }
 
@@ -45,7 +48,9 @@ const getGatherings = async (req, res) => {
                 const userId = parseInt(req.query.id);
                 if (Number.isInteger(userId)) {
                     // console.log('mygatheringlist')
-                    return await Gatherings.getGatherings(pageSize, paging, { userId });
+                    return Gatherings.getGatherings({ userId });
+                } else {
+                    return;
                 }
             }
 
@@ -53,13 +58,15 @@ const getGatherings = async (req, res) => {
                 const hostId = parseInt(req.query.id);
                 if (Number.isInteger(hostId)) {
                     // console.log('myhostlist')
-                    return await Gatherings.getGatherings(pageSize, paging, { hostId });
+                    return Gatherings.getGatherings({ hostId });
+                } else {
+                    return;
                 }
             }
-            default: {
-                return await Gatherings.getGatherings(pageSize, paging, { boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
-            }
 
+            default: {
+                return Gatherings.getGatherings({ boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
+            }
         };
     }
 
@@ -114,7 +121,6 @@ const hostGathering = async (req, res) => {
         let geoInput = `${req.body.county} ${req.body.district} ${req.body.place}`
         let geo = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(geoInput)}&key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI`)
         // console.log('geo.data', geo.data)
-
 
         const gathering = {
             host_id: req.user.id,
@@ -230,9 +236,7 @@ const postFeedback = async (req, res) => {
         }
     })
     return;
-
 }
-
 
 const getComment = async (req, res) => {
     // console.log('gatheringId_comment', req.query)

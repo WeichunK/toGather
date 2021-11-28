@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>toGather</title>
 
-    <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
-
     <link rel="stylesheet" type="text/css" href="styles/map.css">
 
     <script src="src/init_map.js"></script>
@@ -18,37 +16,22 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-
-
-
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.all.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
 
-
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
     <link href="./assets/favicon.ico" rel="shortcut icon" type="image/ico">
 </head>
 
 <body>
-
-
-
-
     <div class="wrap">
-
         <!-- ---------------------- header --------------------------- -->
         <!-- #e3f2fd; -->
         <div id="header" style="position: absolute;">
@@ -66,22 +49,13 @@
                                 <li class="nav-item" style="margin: 0px 15px 0 0; display: flex;">
                                     <a class="nav-link" href="#">
                                         <div class="host" style="display: flex;">
-                                            <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#staticBackdrop" id="hostbutton">
-                                                我要開團
-                                            </button> -->
-
 
                                             <a href="#" class="btn btn-white btn-animate" data-bs-toggle="modal"
                                                 data-bs-target="#staticBackdrop" id="hostbutton">我要開團</a>
 
-
                                         </div>
                                     </a>
                                 </li>
-
-
-
 
                                 <li class="nav-item" style="margin: 0 0 0 0;" data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">
@@ -94,28 +68,11 @@
                                         </span>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item" style="display: flex;">
-                                    <a class="nav-link" id="caht" href="#"><svg xmlns=" http://www.w3.org/2000/svg"
-                                            width="47" height="47" fill="currentColor" class="bi bi-chat-left-text"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                                            <path
-                                                d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-                                        </svg></a>
-                                </li> -->
+
                                 <li class="nav-item dropdown" style="margin: 0 0 0 0;">
                                     <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false" style="display: flex;">
 
-                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="47" height="47"
-                                            fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                                            <path fill-rule="evenodd"
-                                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                                        </svg> -->
-                                        <!-- <img src="./assets/3018530_buyer_customer_figure_person_portrait_icon.png"
-                                            style="width: 36px;"> -->
                                         <span class="material-icons">
                                             account_circle
                                         </span>
@@ -143,22 +100,11 @@
         <!-- -------------------------------------------------- -->
 
         <div id="search-box-placeholder">
-            <!-- <div id="search-box" class="input-group rounded" style="width: 80%; margin:0 auto 3px auto;">
-                <input id="search-input" type="search" class="form-control rounded" placeholder="搜尋您想要的活動"
-                    aria-label="Search" aria-describedby="search-addon" />
-                <span class="input-group-text border-0" id="search-addon">
-                    <i class="bi bi-search"></i>
-                </span>
-            </div> -->
 
             <search style="width: 45%; margin:0 auto;height: 80px;">
                 <form>
                     <input class='searchbar transparent' id='search' type='search' placeholder='請輸入您想找的活動' />
 
-                    <!-- <div class='searchbutton transparent' id='searchbutton' type="submit" value='找活動'
-                        style="text-align: center; display: flex;justify-content: center; flex-direction: column; padding-top: 13px; float: right;">
-                        <p>找活動</p>
-                    </div> -->
                 </form>
                 <button class='searchbutton transparent' id='searchbutton' style="float: right;">
                     找活動
@@ -168,78 +114,16 @@
             </search>
 
         </div>
-        <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop"
-            aria-controls="offcanvasWithBackdrop">Enable backdrop (default)</button> -->
-
 
 
         <div id="center" aria-live="polite" aria-atomic="true" style="position: relative;">
-            <!-- <hr size="3px" align="center" width="100%"> -->
+
 
             <div id="left">
-
-
-                <!-- <div class="sibling-main" style="z-index: 999;">
-                    <div class="sibling-A"><input id="pac-input" class="controls search" type="text"
-                            placeholder="搜尋活動" />
-                    </div>
-                    <div class="sibling-B" id="cancel-search"><img
-                            src="./assets/2191538_close_cross_delete_erase_hide_icon.png" height=25>
-                    </div>
-
-                </div> -->
-
-
-
-                <!-- <div id=createEvent>
-                <button>我要開團</button>
-            </div> -->
-
-                <!-- <div id="hostGathering" style="display: none;">
-                <h3>請輸入活動資訊</h3>
-
-                <form method="post" action="/api/1.0/gatherings/hostGathering" enctype="multipart/form-data">
-                    ID <input type="text" name="product_id" /><br />
-                    Category <select name="category" id="category">
-                        <option value="food">美食美酒</option>
-                        <option value="sport">運動健身</option>
-                        <option value="travel">旅行出遊</option>
-                        <option value="learning">體驗學習</option>
-                        <option value="media">影音展演</option>
-                        <option value="business">商業投資</option>
-                        <option value="party">唱歌派對</option>
-                        <option value="gmae">遊戲卡牌</option>
-                        <option value="beauty">美容時尚</option>
-                        <option value="astrology">命理諮商</option>
-                        <option value="others">其他</option>
-
-
-                    </select><br />
-                    Title <input type="text" name="title" id="title" /><br />
-                    Description<br /><textarea name="description" id="description"></textarea><br />
-                    start_at <input type="text" name="start_at" id="start_at" /><br />
-                    min_participant <input type=" text" name="min_participant" id="min_participant" /><br />
-                    max_participant <input type="text" name="max_participant" id="max_participant" /><br />
-                    place <input type="text" name="place" id="place" /><br />
-                    <hr />
-                    picture <input type="file" name="main_image" id="main_image" /><br />
-                    <input id="gathering_submit" type="submit" value="開團囉" />
-                    <button id="gathering_submit" onclick="return onClick(this.form)">開團囉</button>
-                    <input id="cancel_submit" type="button" value="取消" />
-                </form>
-            </div> -->
-
 
                 <div id="gathering-list" style="height:99vh; "></div>
 
             </div>
-
-
-
-            <!-- <div aria-live="polite" aria-atomic="true" style="position: relative;"> -->
-
-
-
 
 
             <div id="map"></div>
@@ -247,16 +131,9 @@
 
             <div class="toast-container position-absolute bottom-0 end-0 p-3" id="toastPlaceholder"
                 style="width: 300px; max-width: 300px; position: relative; max-height: 90%;">
-                <!-- Then put toasts within -->
+
 
             </div>
-
-            <!-- </div> -->
-
-
-
-
-
 
 
         </div>
@@ -266,12 +143,6 @@
 
 
         <!-- ------------------------offcanvas block------------------------------------ -->
-
-
-
-
-
-
 
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasWithBackdrop"
             aria-labelledby="offcanvasWithBackdropLabel">
@@ -290,14 +161,6 @@
         </div>
 
 
-
-
-
-
-
-
-
-
         <!-- ------------------------------------------------------------------------------- -->
 
 
@@ -313,15 +176,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
-
-
                         <div id="mapForHost" style="height:15rem; width:22rem;display: none;"></div>
-
                         <h6>請輸入活動資訊</h6>
                         <form method="post" action="/api/1.0/gatherings/hostgathering" enctype="multipart/form-data">
-
-
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
                                 <select id="category" class="form-select" name="category">
@@ -339,7 +196,6 @@
                                 </select>
                             </div>
 
-
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <input class="form-control" type="text" placeholder="請輸入活動名稱"
@@ -352,17 +208,10 @@
                                 <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                             </div>
 
-
                             <div class="mb-3">
                                 <label for="start_at" class="form-label">活動時間</label>
                                 <input type="datetime-local" name="start_at" id="start_at">
                             </div>
-
-                            <!-- <div class="mb-3">
-                                <label for="min_participant" class="form-label">最少人數</label>
-                                <input class="min_participant" type="number" placeholder="請輸入數字"
-                                    aria-label="default input example" name="min_participant" id="min_participant">
-                            </div> -->
 
                             <div class="mb-3">
                                 <label for="max_participant" class="form-label">人數上限</label>
@@ -380,87 +229,16 @@
                                     id="place" placeholder="請輸入地址或地標" style="width:100%">
                                 <!-- <div id="titleHelp" class="form-text">We'll never share your email with anyone else.</div> -->
 
-
                             </div>
-
-
-
-
-
 
                             <div class="mb-3">
                                 <label for="main_image" class="form-label">活動圖片</label>
                                 <input class="form-control" type="file" name="main_image" id="main_image">
                             </div>
 
-
-
-
-
-                            <!-- 
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="textInput" class="form-label">Title</label>
-                            <input class="form-control" type="text" placeholder="Default input"
-                                aria-label="default input example" id="textInput">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="start_at" class="form-label">Default file input example</label>
-                            <input type="datetime-local" name="start_at" id="start_on">
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1">
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="disabledSelect" class="form-label">Disabled select menu</label>
-                            <select id="disabledSelect" class="form-select">
-                                <option>Disabled select 1</option>
-                                <option>Disabled select 2</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="formFile" class="form-label">Default file input example</label>
-                            <input class="form-control" type="file" id="formFile">
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="bdaytime" class="form-label">Default file input example</label>
-                            <input type="datetime-local" name="bdaytime" id="bdaytime">
-                        </div> -->
-
-
-
                             <button type="submit" class="btn btn-primary" id="gathering_submit"
                                 onclick="return onClick(this.form)">確定開團</button>
                         </form>
-
-
-
-
 
 
                     </div>
@@ -477,24 +255,12 @@
 
 
 
-
-
-
-
-
-
         <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
         <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbmXJHj0WUd8Zy-neXlew88hmIkB4bnwI&callback=initMap&v=weekly"
             async></script>
 
-
-
         <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
-
-        <!-- <script>localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiZXhwaXJlc0luIjoiMjU5MjAwMCIsImlhdCI6MTYzNTU4MTQ1NH0.Laoi5iUfR4NePhMBuZdzOoZkpijMALNj28yXE2aQWgw")</script> -->
-
-
 
 
         <script>
@@ -502,472 +268,15 @@
         </script>
 
 
-
-
-
-
-
         <script src="src/search.js"> </script>
-        <script>
-
-
-
-            document.getElementById("hostbutton").addEventListener('click', () => {
-                if (!localStorage.getItem('token')) {
-                    // alert('請先登入')
-
-                    Swal.fire({
-                        title: 'Error!',
-                        text: '請先登入',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    }).then(function () {
-                        window.location.href = '/sign.html'
-                    })
-
-                    // Swal.fire('Any fool can use a computer')
-
-                    // window.location.href = '/sign.html'
-
-                }
-            })
-
-
-
-
-
-            document.getElementById("navbarDropdownMenuLink").addEventListener('click', () => {
-                if (!localStorage.getItem('token')) {
-                    document.getElementsByClassName('dropdown-sign')[0].style = "display: block;"
-                    let sign = document.getElementsByClassName('dropdown-signed')
-                    for (i = 0; i < sign.length; i++) {
-                        sign[i].style.display = "none";
-                    }
-
-                } else {
-                    document.getElementsByClassName('dropdown-sign')[0].style = "display: none;"
-                    let signed = document.getElementsByClassName('dropdown-signed')
-                    for (i = 0; i < signed.length; i++) {
-                        signed[i].style.display = "block";
-                    }
-
-                }
-
-            })
-
-
-            document.getElementById("signout").addEventListener('click', () => {
-                localStorage.removeItem("token")
-
-
-                Swal.fire({
-                    title: 'Success!',
-                    text: '已將您登出',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(function () {
-                    window.location.href = '/sign.html'
-                })
-
-            })
-
-
-
-
-
-            document.getElementById("gathering-list").addEventListener('click', async (event) => {
-
-
-
-                let targetClassName;
-                let targetId;
-                targetClassName = event.target.className
-                targetId = event.target.getAttribute('idvalue')
-
-
-                // if (event.target.className === 'eventPic') {
-                //     targetClassName = event.target.parentElement.className
-                //     targetId = event.target.parentElement.id
-
-                //     // alert('img')
-                // } else {
-                //     targetClassName = event.target.className
-                //     targetId = event.target.id
-                // }
-                // alert(targetClassName)
-
-                // if (targetClassName === 'card') {
-                //     alert('click')
-
-                // alert(event.target.getAttribute('idvalue'))
-                let response
-                const xhr = new XMLHttpRequest()
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        response = JSON.parse(xhr.responseText)
-                        // response = xhr.responseText;
-                        console.log(response)
-                    }
-                }
-
-                const accessToken = localStorage.getItem("token")
-
-                function sendAJAX(accessToken) {
-                    xhr.open('GET', `/api/1.0/tracking/clickGatheringList?id=${targetId}`)
-                    if (accessToken) {
-                        // console.log('accessToken: ', accessToken)
-                        xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-                    }
-                    xhr.send()
-                }
-
-                sendAJAX(accessToken)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                // await fetch(`/tracking/clickGatheringList?id=${targetId}`)
-                //     .then((response) => {
-                //         // 這裡會得到一個 ReadableStream 的物件
-                //         console.log(response);
-                //         // 可以透過 blob(), json(), text() 轉成可用的資訊
-                //         return;
-                //     })
-                // alert('stop')
-
-                // }
-
-
-
-
-            })
-
-
-
-
-
-
-
-            // const hostGathering = document.getElementById("hostGathering")
-
-            // document.getElementById("createEvent").addEventListener('click', () => {
-            //     hostGathering.style.display = 'block'
-            // })
-
-            // document.getElementById("cancel_submit").addEventListener('click', () => {
-            //     hostGathering.style.display = 'none'
-            // })
-
-            // document.getElementById("gathering_submit").addEventListener('click', () => {
-            //     hostGathering.style.display = 'none'
-            // })
-
-
-
-
-
-
-
-
-
-
-
-
-            function onClick(form) {
-                console.log('type of form', typeof (form))
-                console.log('form.title.value', form.title.value)
-                let dataToSent = new FormData(form)
-
-                for (let pair of dataToSent.entries()) {
-                    console.log("pair", pair)
-                }
-
-
-
-                if (new Date(document.getElementById("start_at").value) <= new Date()) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: '時間不可早於現在',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    }).then(function () {
-
-                    })
-                    return false;
-                }
-
-
-                if (!document.getElementById("main_image").files[0]) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: '圖片不可為空',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    }).then(function () {
-                        // return false;
-                    })
-                    return false;
-                }
-
-                console.log('document.getElementById("main_image").files[0].size', document.getElementById("main_image").files[0].size)
-                if (document.getElementById("main_image").files[0].size > 2 * 1024 * 1024) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: '圖片尺寸過大',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    }).then(function () {
-
-                    })
-                    return false;
-                }
-
-
-                console.log(document.getElementsByName("county")[0])
-                console.log(document.getElementsByName("county")[0].value)
-
-                if (!Boolean(document.getElementsByName("county")[0].value.trim())) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: '請選擇縣市',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    }).then(function () {
-
-                    })
-                    return false;
-                }
-
-                if (!Boolean(document.getElementsByName("district")[0].value.trim())) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: '請選擇區域',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    }).then(function () {
-
-                    })
-                    return false;
-                }
-                // console.log('document.getElementById("place").value', document.getElementById("place").value)
-                // console.log('document.getElementById("place").value.trim()', document.getElementById("place").value.trim())
-
-                if (!Boolean(document.getElementById("place").value.trim())) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: '請輸入位置',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    }).then(function () {
-
-                    })
-                    return false;
-                }
-
-
-
-
-                if (localStorage.getItem('token')) {
-                    var jwt = localStorage.getItem('token')
-                    console.log('JWT', jwt)
-                    // alert("資料格式正確，即將為您建檔！");
-                } else {
-                    alert('請先登入')
-                    window.location.href = '/admin/signIn.html'
-                }
-                console.log("dataToSent", dataToSent)
-                const accessToken = localStorage.getItem("token");
-                // fetch("/api/1.0/getgatherings/hostGathering", {
-
-                //     body: dataToSent,
-                //     headers: new Headers({
-                //         "Content-Type": "multipart/form-data",
-                //         "Authorization": `Bearer ${accessToken}`
-                //     }),
-                //     method: "POST"
-                // }).then((e => e.json())).then((e => {
-                //     console.log(e)
-                //     alert('error')
-                // }
-                // )).then(window.alert("註冊成功！")).catch((e => {
-                //     console.log(e)
-                // }
-                // ))
-
-
-                let xhr = new XMLHttpRequest();
-                let url = '/api/1.0/gatherings/hostgathering';
-                xhr.open('POST', url);
-                xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-                // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        console.log('apiResponse.data', xhr.responseText)
-                        // if (xhr.responseText == 'admin') {
-                        //     alert('已成功輸入一筆資料')
-                        //     window.location.href = '/admin/product.html'
-                        // } else {
-                        //     alert('無權限操作此頁')
-                        // }
-
-                        Swal.fire({
-                            title: 'Success!',
-                            text: '活動創建成功，活動結束1日內(至少需有1人參加)，30獎勵積點將發放至您的帳戶',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-                            window.location.reload();
-                        })
-
-                    } else if (JSON.parse(xhr.responseText).error == 'wrong time!') {
-                        console.log('xhr.responseText', xhr.responseText)
-                        Swal.fire({
-                            title: 'Error!',
-                            text: '時間輸入錯誤',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-                            window.location.reload();
-                        })
-                    } else if (JSON.parse(xhr.responseText).error == 'Exceed the length limit!') {
-                        console.log('xhr.responseText', xhr.responseText)
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'title 描述 或 地址 長度過長',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-                            window.location.reload();
-                        })
-                    } else if (JSON.parse(xhr.responseText).error == 'Max Participant less than 1!') {
-                        console.log('xhr.responseText', xhr.responseText)
-                        Swal.fire({
-                            title: 'Error!',
-                            text: '人數上限不可小於1',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-                            window.location.reload();
-                        })
-                    } else if (JSON.parse(xhr.responseText).error == 'invalid address') {
-                        console.log('xhr.responseText', xhr.responseText)
-                        Swal.fire({
-                            title: 'Error!',
-                            text: '無效的位置，請重新輸入活動位置',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        }).then(function () {
-                            window.location.reload();
-                        })
-                    }
-
-
-
-
-                };
-                xhr.send(dataToSent);
-
-
-
-                // .finally(location.reload())
-
-
-
-                return false
-            }
-
-
-
-        // localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlciI6Im5hdGl2ZSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGljdHVyZSI6bnVsbCwiaWF0IjoxNjM0ODg4Mzk4fQ.LDSiUhPGsVvk6Q-H7TKtPJhmTQkb1MYSC2_b8yF5NPE")
-        // // const createEvent = document.getElementById("createEvent")
-        // // const cancelSubmit = document.getElementById("cancel_submit")
-        // // const hostGathering = document.getElementById("hostGathering")
-
-        // document.getElementById("createEvent").addEventListener('click', () => {
-        //     hostGathering.style.display = 'block'
-        // })
-
-        // document.getElementById("cancel_submit").addEventListener('click', () => {
-        //     hostGathering.style.display = 'none'
-        // })
-
-        // document.getElementById("hostGathering").addEventListener('click', () => {
-        //     hostGathering.style.display = 'none'
-        // })
-
-        // document.getElementById("gathering_submit").addEventListener("click", () => {
-        //     const category = document.getElementById("category").value
-        //     const title = document.getElementById("title").value
-        //     const description = document.getElementById("description").value
-        //     const startOn = document.getElementById("start_on").value
-        //     const minParticipant = document.getElementById("min_participant").value
-        //     const maxParticipant = document.getElementById("max_participant").value
-        //     const place = document.getElementById("place").value
-        //     const mainImage = document.getElementById("main_image").value
-
-        //     const accessToken = localStorage.getItem("token");
-
-        //     fetch("http://diekleidungen.com/api/1.0/user/signup", {
-
-
-        //         body: JSON.stringify(i),
-        //         headers: new Headers({
-        //             "Content-Type": "multipart/form-data",
-        //             "Authorization": `Bearer ${a}`
-        //         }),
-        //         method: "POST"
-        //     }).then((e => e.json())).then((e => {
-        //         console.log(e),
-        //             void 0 !== e && sessionStorage.setItem("userLoginStatus", JSON.stringify(e.data))
-        //     }
-        //     )).then(window.alert("註冊成功！")).catch((e => {
-        //         console.log(e)
-        //     }
-        //     )).finally(location.reload()(document.querySelector(".loading").style.display = "none"))
-        // })
-
-        </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <script src="src/index_header.js"></script>
 
 
         <link rel="stylesheet" type="text/css" href="./styles/home.css">
 
-
-
-
-
-        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
-
 
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.all.min.js"></script>
@@ -980,348 +289,7 @@
 
         <script src="/socket.io/socket.io.js"></script>
 
-        <script>
-
-
-            const toastFunc = async (id, message, type, verb) => {
-                let toastPlaceholder = document.getElementById("toastPlaceholder");
-
-                let toastDiv
-                let toastHeader
-                let toastSmall
-                let toastStrong
-                let toastButton
-                let toastBody
-
-
-                toastDiv = document.createElement('div')
-                toastDiv.className = "toast fade show";
-                toastDiv.id = id
-                toastDiv.setAttribute("role", "alert")
-                toastDiv.setAttribute("aria-live", "assertive")
-                toastDiv.setAttribute("aria-atomic", "true")
-
-
-                toastHeader = document.createElement('div')
-                toastHeader.className = "toast-header"
-
-                toastStrong = document.createElement('strong')
-                toastStrong.className = "me-auto"
-                toastStrong.appendChild(document.createTextNode(type))
-
-                toastSmall = document.createElement('small')
-                toastSmall.className = "text-muted"
-                // toastImg.setAttribute("src", "...")
-                toastSmall.appendChild(document.createTextNode("剛剛"))
-
-
-                toastButton = document.createElement('button')
-                toastButton.type = "button"
-                toastButton.className = "btn-close"
-                toastButton.setAttribute("data-bs-dismiss", "toast")
-                toastButton.setAttribute("aria-label", "Close")
-
-
-                toastHeader.appendChild(toastStrong)
-                toastHeader.appendChild(toastSmall)
-                toastHeader.appendChild(toastButton)
-
-
-                toastBody = document.createElement('div')
-                toastBody.className = "toast-body"
-                toastBody.appendChild(document.createTextNode(`${message.participantName} ${verb} ${message.gatheringTitle} 活動`))
-                toastBody.style = "width:max-content;"
-
-                toastDiv.appendChild(toastHeader)
-                toastDiv.appendChild(toastBody)
-
-
-                // toastPlaceholder.appendChild(toastDiv)
-
-                toastPlaceholder.insertBefore(toastDiv, toastPlaceholder.firstChild);
-
-                var toast = new bootstrap.Toast(toastDiv)
-
-                toast.show()
-
-
-
-
-            }
-
-
-
-
-            function fetchData(src, accessToken) {
-                // console.log('access', accessToken)
-
-                function processStatus(response) {
-                    // 狀態 "0" 是處理本地檔案 (例如Cordova/Phonegap等等)
-                    if (response.status === 200 || response.status === 0) {
-                        return Promise.resolve(response)
-                    } else {
-                        return Promise.reject(new Error(response.statusText))
-                    }
-                }
-
-                if (accessToken) {
-                    const headers = {
-                        // 'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-
-                    return fetch(src, { headers: headers })
-                        .then(processStatus)
-                        .then((response) => { return response.json(); })
-                        .catch((error) => {
-                            console.log(error);
-                        })
-
-                } else {
-                    const headers = {}
-                    return fetch(src)
-                        .then(processStatus)
-                        .then((response) => { return response.json(); })
-                        .catch((error) => {
-                            console.log(error);
-                        })
-                }
-
-
-
-
-
-
-            }
-
-
-
-
-            let user = {}
-            var socket = io();
-
-            let tempId = { 'id': 0 }
-
-
-            if (localStorage.getItem("token")) {
-
-                const accessToken = localStorage.getItem("token")
-
-                let xhr = new XMLHttpRequest();
-                let url = '/api/1.0/user/getmemberprofile';
-                xhr.open('GET', url);
-                xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-                // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        console.log('apiResponse.data', xhr.responseText)
-                        console.log('JSON.parse(xhr.responseText).data.id', JSON.parse(xhr.responseText).data.id)
-
-                        user.id = JSON.parse(xhr.responseText).data.id
-
-
-
-
-
-
-
-                        console.log('host_newParticipant_${user.id}', `host_newParticipant_${user.id}`)
-
-                        socket.on(`host_addParticipant_${user.id}`, async (message) => {
-                            console.log('message', message)
-
-
-                            await toastFunc(`${tempId.id
-                                }`, message, '加團', '剛加入您的')
-                            tempId.id += 1;
-
-                            // Swal.fire({
-                            //     title: `${ message.participantName } 剛加入您的 ${ message.gatheringTitle } 活動`,
-                            //     position: 'bottom-end',
-                            //     showClass: {
-
-                            //         popup: 'animate__animated animate__fadeIn'
-                            //     },
-
-                            //     timer: 5500,
-                            //     hideClass: {
-                            //         popup: 'animate__animated animate__fadeOutUp'
-                            //     },
-                            //     backdrop: false,
-                            // })
-                            renderSystemMessage(accessToken)
-
-                        })
-
-
-
-
-                        socket.on(`host_removeParticipant_${user.id}`, async (message) => {
-                            console.log('message', message)
-
-                            await toastFunc(`${tempId.id}`, message, '退團', '剛退出您的')
-
-                            tempId.id += 1;
-                            // Swal.fire({
-                            //     title: `${ message.participantName } 剛加退出您的 ${ message.gatheringTitle } 活動`,
-                            //     position: 'bottom-end',
-                            //     showClass: {
-
-                            //         popup: 'animate__animated animate__fadeIn'
-                            //     },
-
-                            //     timer: 5500,
-                            //     hideClass: {
-                            //         popup: 'animate__animated animate__fadeOutUp'
-                            //     },
-                            //     backdrop: false,
-                            // })
-
-                            renderSystemMessage(accessToken)
-
-                        })
-
-
-
-
-
-
-
-
-
-
-                    }
-                };
-                xhr.send();
-
-
-                // var socket = io();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                //    --------------------------------------system messages block---------------------------- -->
-
-
-
-                const renderSystemMessage = async function (accessToken) {
-
-
-
-                    let systemMessageRecord = await fetchData(`/api/1.0/chat/getsystemrecord`, accessToken)
-
-
-
-                    // console.log('systemMessageRecord.data[0].content', systemMessageRecord.data[0].content)
-
-
-                    let sysMessageList = document.getElementById('sys-message-list')
-
-
-                    for (let i in systemMessageRecord.data) {
-                        // console.log('current user.id', user.id)
-                        // console.log('chatRecord[i].user_id', chatRecord[i].user_id)
-                        let sysMessageItem = document.createElement('li');
-
-                        // console.log('comapre', 'chatRecord[i].user_id: ', chatRecord[i].user_id, 'user.id:', user.id)
-                        sysMessageItem.className = "list-group-item"
-                        sysMessageItem.innerText = systemMessageRecord.data[i].content
-                        let sysMessageItemSmall = document.createElement('small');
-                        sysMessageItemSmall.className = "text-muted";
-                        let startTime = new Date(systemMessageRecord.data[i].created_at);
-                        sysMessageItemSmall.innerText = `${startTime.getUTCFullYear()}-${((parseInt(startTime.getUTCMonth()) + 1) < 10 ? '0' : '') + (parseInt(startTime.getUTCMonth()) + 1)}-${(startTime.getUTCDate() < 10 ? '0' : '') + startTime.getUTCDate()}  ${(startTime.getUTCHours() < 10 ? '0' : '') + startTime.getUTCHours()}:${(startTime.getUTCMinutes() < 10 ? '0' : '') + startTime.getUTCMinutes()}`
-
-
-
-
-
-
-
-
-
-                        sysMessageItem.appendChild(sysMessageItemSmall)
-
-
-                        sysMessageList.appendChild(sysMessageItem);
-
-                    }
-
-
-                    sysMessageList.scrollBy(0, sysMessageList.scrollHeight)
-
-
-
-
-                }
-
-
-
-
-
-
-
-                renderSystemMessage(accessToken)
-
-
-                // ---------------------------------------------------------------------------------------------- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            }
-
-
-
-
-        </script>
-
-
+        <script src="src/index_socket.js"></script>
 
 
 

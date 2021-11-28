@@ -2,8 +2,10 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { pool } = require('./mysqlcon');
 const salt = parseInt(process.env.BCRYPT_SALT);
-const { TOKEN_EXPIRE, TOKEN_SECRET } = process.env; // 30 days by seconds
+const { TOKEN_EXPIRE, TOKEN_SECRET } = process.env;
 const jwt = require('jsonwebtoken');
+const { INITIAL_POPULARITY, DAILY_POPULARITY_BONUS } = process.env;
+
 
 const USER_ROLE = {
     ALL: 1,
@@ -30,7 +32,7 @@ const signUp = async (name, email, password, provider, role) => {
             password: bcrypt.hashSync(password, salt),
             name: name,
             picture: 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png',
-            popularity: 30,
+            popularity: parseInt(INITIAL_POPULARITY),
             access_expired: TOKEN_EXPIRE,
             login_at: loginAt
         };
@@ -60,15 +62,15 @@ const nativeSignIn = async (email, password) => {
     const conn = await pool.getConnection();
     try {
         await conn.query('START TRANSACTION');
-        console.log('query email', email)
+        // console.log('query email', email)
         const [users] = await conn.query('SELECT * FROM member WHERE email = ?', [email]);
-        console.log('query result', users[0])
+        // console.log('query result', users[0])
         const user = users[0];
         if (!bcrypt.compareSync(password, user.password)) {
             await conn.query('COMMIT');
             return { error: 'Wrong Password!' };
         }
-        console.log('parseInt(user.popularity) + 1', parseInt(user.popularity) + 1)
+        // console.log('parseInt(user.popularity) + 1', parseInt(user.popularity) + parseInt(DAILY_POPULARITY_BONUS))
         const loginAtOld = user.login_at
         const loginAt = new Date();
         const accessToken = jwt.sign({
@@ -82,7 +84,7 @@ const nativeSignIn = async (email, password) => {
         if (loginAtOld.getMinutes() != loginAt.getMinutes()) {
             user.bonus = true
             const queryStr = 'UPDATE member SET access_token = ?, access_expired = ?, login_at = ?, popularity = ? WHERE id = ?';
-            await conn.query(queryStr, [accessToken, TOKEN_EXPIRE, loginAt, parseInt(user.popularity) + 1, user.id]);
+            await conn.query(queryStr, [accessToken, TOKEN_EXPIRE, loginAt, parseInt(user.popularity) + parseInt(DAILY_POPULARITY_BONUS), user.id]);
 
         } else {
             user.bonus = false
@@ -140,17 +142,17 @@ const getUserGatheringList = async (userEmail, roleId) => {
 };
 
 const getUserRating = async (userId) => {
-    console.log('user_id', userId)
-    let result;
+    // console.log('user_id', userId)
+    let rating;
     try {
-        console.log('try')
+        // console.log('try')
         const [users] = await pool.query('SELECT host_id, AVG(rating) AS rating FROM feedback group by host_id having host_id = ?', [userId]);
         if (users[0]) {
-            result = users[0]
+            rating = users[0]
         } else {
-            result = { user_id: userId, rating: 0 }
+            rating = { user_id: userId, rating: 0 }
         }
-        return result;
+        return rating;
     } catch (e) {
         return null;
     }

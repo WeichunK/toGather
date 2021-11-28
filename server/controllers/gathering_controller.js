@@ -2,6 +2,7 @@ const Gatherings = require('../models/gathering_model');
 const { s3UploadFile } = require('../../util/util');
 const { esSearch } = require('../../util/es_query')
 const axios = require('axios')
+const { CHINESE_ENGLISH_CHAR_RATIO, LIMIT_FOR_HOST_GATHERING_TITLE, LIMIT_FOR_HOST_GATHERING_DESCRIPTION, LIMIT_FOR_HOST_GATHERING_ADDRESS } = process.env;
 
 const getGatherings = async (req, res) => {
     const category = req.params.category;
@@ -71,7 +72,6 @@ const getGatherings = async (req, res) => {
     }
 
     const gatheringsList = await findGatherings(category);
-
     if (!gatheringsList) {
         res.status(400).send({ error: 'Wrong Request' });
         return;
@@ -104,11 +104,11 @@ const hostGathering = async (req, res) => {
             return;
         }
 
-        let lengthOfTitle = /[\u4e00-\u9fa5]/.test(req.body.title) ? req.body.title.length * 2 : req.body.title.length;
-        let lengthOfDescription = /[\u4e00-\u9fa5]/.test(req.body.description) ? req.body.description.length * 2 : req.body.description.length;
-        let lengthOfAddress = /[\u4e00-\u9fa5]/.test(req.body.place) ? req.body.place.length * 2 : req.body.place.length;
+        let lengthOfTitle = /[\u4e00-\u9fa5]/.test(req.body.title) ? req.body.title.length * parseInt(CHINESE_ENGLISH_CHAR_RATIO) : req.body.title.length;
+        let lengthOfDescription = /[\u4e00-\u9fa5]/.test(req.body.description) ? req.body.description.length * parseInt(CHINESE_ENGLISH_CHAR_RATIO) : req.body.description.length;
+        let lengthOfAddress = /[\u4e00-\u9fa5]/.test(req.body.place) ? req.body.place.length * parseInt(CHINESE_ENGLISH_CHAR_RATIO) : req.body.place.length;
 
-        if (lengthOfTitle > 20 | lengthOfDescription > 300 | lengthOfAddress > 80) {
+        if (lengthOfTitle > parseInt(LIMIT_FOR_HOST_GATHERING_TITLE) | lengthOfDescription > parseInt(LIMIT_FOR_HOST_GATHERING_DESCRIPTION) | lengthOfAddress > parseInt(LIMIT_FOR_HOST_GATHERING_ADDRESS)) {
             res.status(403).send({ error: 'Exceed the length limit!' });
             return;
         }

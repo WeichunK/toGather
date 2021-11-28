@@ -100,7 +100,7 @@ const attendGathering = async (participant, action) => {
             const user = users[0];
             popularity = parseInt(user.popularity)
             console.log('parseInt(user.popularity)', popularity)
-            if (popularity < REQUITED_POPULARITY) {
+            if (popularity < parseInt(REQUITED_POPULARITY)) {
                 return { error: 'Not Enough Popularity!' };
             }
             await conn.query('UPDATE gathering set remaining_quota = ? where id = ?', [quota[0].remaining_quota - 1, participant.gathering_id]);
@@ -159,7 +159,6 @@ const postFeedback = async (feedback) => {
     } finally {
         await conn.release();
     }
-
 }
 
 const getComment = async (gatheringId) => {

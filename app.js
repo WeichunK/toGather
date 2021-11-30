@@ -9,6 +9,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const { chat } = require('./server/controllers/socket_io')
+const { checkExpiredGathering } = require("./server/models/gathering_model")
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,6 +32,7 @@ chat(io);
 
 server.listen(port, () => {
     console.log(`Listening on port: ${port}`);
+    checkExpiredGathering;
 });
 
 module.exports = { app };

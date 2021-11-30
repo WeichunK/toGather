@@ -1,7 +1,7 @@
 
 
 function fetchData(src, accessToken) {
-   
+
     function processStatus(response) {
         if (response.status === 200 || response.status === 0) {
             return Promise.resolve(response)
@@ -81,7 +81,7 @@ async function initMap() {
         hostInfo.rating = getgatheringDetails.data[0].avg_rating
         hostInfo.picture = getgatheringDetails.data[0].host_pic
         // console.log('hostInfo', hostInfo)
-       
+
         const gatheringDetail = document.getElementById('gatheringDetail')
 
         gatheringDetail.class = "card"
@@ -144,16 +144,25 @@ async function initMap() {
         let statusObject = { 1: "已開團", 2: "招募中", 3: "已額滿", 4: "已結束" }
         let statusBarValue = { 1: "3%", 2: "33%", 3: "66%", 4: "100%" }
 
+        joinEventButton = document.getElementById('joinEvent')
+        quitEventButton = document.getElementById('quitEvent')
+        fullEventButton = document.getElementById('fullEvent')
+        expiredEventButton = document.getElementById('expiredEvent')
+
 
         document.getElementById('progressbar').style = `width: ${statusBarValue[getgatheringDetails.data[0].status]};`
+
+        if (getgatheringDetails.data[0].status == 4) {
+            joinEventButton.style = "display: none;"
+            fullEventButton.style = "display: none;"
+            expiredEventButton.style = "display: block;"
+        }
 
         let host = document.createElement('li');
         host.className = "list-group-item";
         host.appendChild(document.createTextNode(`主揪 ${hostInfo.hostName}`))
 
-        joinEventButton = document.getElementById('joinEvent')
-        quitEventButton = document.getElementById('quitEvent')
-        fullEventButton = document.getElementById('fullEvent')
+
 
         // console.log('check', parseInt(gathering.numOfParticipants), getgatheringDetails.data[0].max_participant)
         if ((parseInt(gathering.numOfParticipants)) >= getgatheringDetails.data[0].max_participant) {
@@ -164,21 +173,21 @@ async function initMap() {
             fullEventButton.style = "display: none;"
         }
 
-     
+
         listGroup.appendChild(listGroupItem)
         listGroup.appendChild(time)
-    
+
         listGroup.appendChild(maxParticipant)
         listGroup.appendChild(currentParticipant)
 
-      
+
         listGroup.appendChild(host)
-      
+
         listGroup.appendChild(document.createElement('br'))
-        
+
 
         gatheringDetail.insertBefore(listGroup, gatheringDetail.firstChild)
-      
+
 
         gatheringDetail.insertBefore(cardBody, gatheringDetail.firstChild)
 
@@ -402,7 +411,7 @@ async function initMap() {
             ]
         });
 
-     
+
         let marker = new google.maps.Marker()
 
         marker = new google.maps.Marker({
@@ -414,7 +423,7 @@ async function initMap() {
 
         let participant;
         url = location.href
-      
+
         const messages = document.getElementById('messages');
         const form = document.getElementById('messagesForm');
         const input = document.getElementById('messageInput');
@@ -608,7 +617,13 @@ async function initMap() {
                     participant.appendChild(removeIcon)
 
                     participants.appendChild(participant)
-                   
+
+                }
+
+                if (getgatheringDetails.data[0].status == 4) {
+                    joinEventButton.style = "display: none;"
+                    fullEventButton.style = "display: none;"
+                    expiredEventButton.style = "display: block;"
                 }
 
             }
@@ -617,14 +632,14 @@ async function initMap() {
 
             let removeParticipantModal = document.getElementById('removeParticipantModal')
             removeParticipantModal.addEventListener('show.bs.modal', function (event) {
-                
+
                 let button = event.relatedTarget
-              
+
                 let participantId = button.getAttribute('data-bs-participantId')
                 let gatheringId = button.getAttribute('data-bs-gatheringId')
                 let participantName = button.getAttribute('data-bs-participantName')
                 let hostId = button.getAttribute('data-bs-hostId')
-                
+
                 let modalBody = removeParticipantModal.querySelector('#removeParticipantModalBody')
 
                 modalBody.textContent = `確定要將 ${participantName} 移出活動嗎？`
@@ -842,6 +857,19 @@ async function initMap() {
                     }
 
                     // console.log('joinGathering', joinGathering)
+
+                    if (joinGathering.error == 'Gathering Expired!') {
+
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '活動已結束',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.reload();
+                        })
+                        // return false;
+                    }
 
 
                     let participantData = { gatheringId: gatheringId, gatheringTitle: gathering.title, hostId: hostInfo.hostId, hostName: hostInfo.hostName, participantName: joinGathering.data.participant.participant_name, participantId: joinGathering.data.participant.participant_id }

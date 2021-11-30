@@ -1,5 +1,5 @@
 const { pool } = require('./mysqlcon');
-const { REQUITED_POPULARITY } = process.env;
+const { REQUITED_POPULARITY, CHECK_EXPIRED_GATHERING_INTERVAL } = process.env;
 const GATHERING_STATUS = {
     INITIAL: 1,
     ACTIVE: 2,
@@ -12,7 +12,7 @@ const getGatherings = async (requirement = {}) => {
     const query = { sql: '', binding: [], condition: '' };
     if (requirement.boundary != null) {
         // console.log('boundary')
-        query.sql = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture as host_pic, m.popularity, m.coin, (case when r.avg_rating is null then 3 else r.avg_rating end)+log10(case when c.click_count is null then 1 else c.click_count+1 end) as rating from gathering g \
+        query.sql = 'SELECT g.*, m.email, m.name, m.picture as host_pic, m.popularity, (case when r.avg_rating is null then 3 else r.avg_rating end)+log10(case when c.click_count is null then 1 else c.click_count+1 end) as rating from gathering g \
         LEFT JOIN member m on g.host_id = m.id \
         LEFT JOIN (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id \
         LEFT JOIN (select gathering_id, count(*) as click_count from tracking_click_gathering group by gathering_id) c on c.gathering_id = g.id ';
@@ -21,7 +21,7 @@ const getGatherings = async (requirement = {}) => {
 
     } else if (requirement.id != null) {
         // console.log('id')
-        query.sql = 'SELECT g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture AS host_pic, m.popularity ,m.coin, (case when r.avg_rating is null then 0 else r.avg_rating end) AS avg_rating FROM gathering g \
+        query.sql = 'SELECT g.*, m.email, m.name, m.picture AS host_pic, m.popularity, (case when r.avg_rating is null then 0 else r.avg_rating end) AS avg_rating FROM gathering g \
         LEFT JOIN member m ON g.host_id = m.id \
         LEFT JOIN (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id '
         query.condition = 'WHERE g.id = ?;'
@@ -29,7 +29,7 @@ const getGatherings = async (requirement = {}) => {
 
     } else if (requirement.userId != null) {
         // console.log('userId')
-        query.sql = 'SELECT p.*, g.*, m.email, m.name, m.gender, m.age, m.introduction, m.job, m.title AS host_title, m.picture as host_pic, m.popularity, m.coin, r.avg_rating as rating, c.click_count as click_count from participant p \
+        query.sql = 'SELECT p.*, g.*, m.email, m.name, m.picture as host_pic, m.popularity, r.avg_rating as rating, c.click_count as click_count from participant p \
         LEFT JOIN gathering g on p.gathering_id = g.id \
         LEFT JOIN member m on g.host_id = m.id \
         LEFT JOIN (select host_id, sum(rating)/count(rating) as avg_rating from feedback group by host_id) r on r.host_id = g.host_id \
@@ -91,11 +91,17 @@ const attendGathering = async (participant, action) => {
         let binding;
         let popularity
         if (action == 'join') {
-            const [quota] = await conn.query('select remaining_quota from gathering where id = ? for update;', [participant.gathering_id]);
-            if (quota[0].remaining_quota <= 0) {
+            const [gathering] = await conn.query('select * from gathering where id = ? for update;', [participant.gathering_id]);
+            if (gathering[0].remaining_quota <= 0) {
                 console.log('No seats')
                 return { error: 'Participant Full!' };
             }
+            let currentTime = new Date()
+            if (gathering[0].start_at < currentTime) {
+                console.log('expired')
+                return { error: 'Gathering Expired!' };
+            }
+
             const [users] = await conn.query('SELECT * FROM member WHERE id = ?', [participant.participant_id]);
             const user = users[0];
             popularity = parseInt(user.popularity)
@@ -120,10 +126,13 @@ const attendGathering = async (participant, action) => {
             const queryStr = 'UPDATE member SET popularity = ? WHERE id = ?';
             await conn.query(queryStr, [popularity - REQUITED_POPULARITY, participant.participant_id]);
         }
-        let secondQuery = "select g.id, g.max_participant, g.min_participant, (case when p.num_participant is null then 0 else p.num_participant end) AS num_participant from gathering g \
+        let secondQuery = "select g.id, g.max_participant, (case when p.num_participant is null then 0 else p.num_participant end) AS num_participant from gathering g \
         left join (select gathering_id, count(participant_id) as num_participant from participant group by gathering_id) p on g.id = p.gathering_id where g.id = ?;"
         let gathering = await conn.query(secondQuery, [participant.gathering_id]);
         let statusCode = {}
+        if (gathering[0].status == 4) {
+            return participantResult;
+        }
         if (gathering[0][0].num_participant == gathering[0][0].max_participant) {
             statusCode.status = GATHERING_STATUS.FULL;
         } else if (gathering[0][0].num_participant == 0) {
@@ -170,6 +179,39 @@ const getComment = async (gatheringId) => {
     return comments[0];
 }
 
+async function updateExpiredGathering(Interval) {
+    // console.log("myfunc ", Interval);
+    const conn = await pool.getConnection();
+    let startTime = new Date()
+    startTime.setHours(startTime.getHours() + 8);
+    // console.log('startTime', startTime)
+    let [expiredGatherings] = await conn.query('select * from gathering where start_at < ? and status != 4;', [startTime])
+    // console.log('gathering', expiredGatherings)
+    for (let i in expiredGatherings) {
+        try {
+            await conn.query('START TRANSACTION');
+            // console.log('expiredGatherings[i].id', expiredGatherings[i].id)
+            let [gathering] = await conn.query('select * from gathering where id = ? for update;', [expiredGatherings[i].id]);
+            // console.log(gathering[0])
+            await conn.query('UPDATE gathering SET status = 4 where id = ? ;', [gathering[0].id]);
+            let [host] = await conn.query('select * from member where id = ?;', [gathering[0].host_id]);
+            let popularity = parseInt(host[0].popularity) + 30
+            // console.log('parseInt(user.popularity)', host, popularity)
+            await conn.query('UPDATE member SET popularity = ? WHERE id = ?', [popularity, gathering[0].host_id]);
+            await conn.query('COMMIT');
+
+        } catch (error) {
+            console.log(error);
+            await conn.query('ROLLBACK');
+            // return { error };
+        }
+    }
+    await conn.release();
+    console.log('release')
+}
+
+const checkExpiredGathering = setInterval(updateExpiredGathering, CHECK_EXPIRED_GATHERING_INTERVAL);
+
 module.exports = {
     getGatherings,
     getParticipants,
@@ -177,4 +219,5 @@ module.exports = {
     attendGathering,
     postFeedback,
     getComment,
+    checkExpiredGathering,
 };

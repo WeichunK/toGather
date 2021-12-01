@@ -122,3 +122,10 @@ editEventTime.js
 es_query_test.js
 es_test.js
 aws_test.js
+
+server/models/updateGathering.js
+
+es_update_test.js
+
+fix_geo.jsget_geo.js
+./server/models/test.js

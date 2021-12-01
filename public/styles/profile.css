@@ -62,7 +62,7 @@ justify-content: space-around;
 
 #right {
     /* grid-area: rightBlock; */
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     width: 55%;
 }
 

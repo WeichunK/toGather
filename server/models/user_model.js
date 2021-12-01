@@ -2,8 +2,10 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { pool } = require('./mysqlcon');
 const salt = parseInt(process.env.BCRYPT_SALT);
-const { TOKEN_EXPIRE, TOKEN_SECRET } = process.env; // 30 days by seconds
+const { TOKEN_EXPIRE, TOKEN_SECRET } = process.env;
 const jwt = require('jsonwebtoken');
+const { INITIAL_POPULARITY, DAILY_POPULARITY_BONUS } = process.env;
+
 
 const USER_ROLE = {
     ALL: 1,
@@ -13,12 +15,9 @@ const USER_ROLE = {
 };
 
 const signUp = async (name, email, password, provider, role) => {
-
     const conn = await pool.getConnection();
-
     try {
         await conn.query('START TRANSACTION');
-
         const emails = await conn.query('SELECT email FROM member WHERE email = ? FOR UPDATE', [email]);
         if (emails[0].length > 0) {
             await conn.query('COMMIT');
@@ -26,7 +25,6 @@ const signUp = async (name, email, password, provider, role) => {
         }
 
         const loginAt = new Date();
-
         const user = {
             provider: provider,
             role: role,
@@ -34,7 +32,7 @@ const signUp = async (name, email, password, provider, role) => {
             password: bcrypt.hashSync(password, salt),
             name: name,
             picture: 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png',
-            popularity: 30,
+            popularity: parseInt(INITIAL_POPULARITY),
             access_expired: TOKEN_EXPIRE,
             login_at: loginAt
         };
@@ -46,10 +44,8 @@ const signUp = async (name, email, password, provider, role) => {
             expiresIn: user.access_expired
         }, TOKEN_SECRET);
         user.access_token = accessToken;
-
         const queryStr = 'INSERT INTO member SET ?';
         const [result] = await conn.query(queryStr, user);
-
         user.id = result.insertId;
         await conn.query('COMMIT');
         return { user };
@@ -60,27 +56,23 @@ const signUp = async (name, email, password, provider, role) => {
     } finally {
         await conn.release();
     }
-
 }
-
 
 const nativeSignIn = async (email, password) => {
     const conn = await pool.getConnection();
     try {
         await conn.query('START TRANSACTION');
-        console.log('query email', email)
+        // console.log('query email', email)
         const [users] = await conn.query('SELECT * FROM member WHERE email = ?', [email]);
-        console.log('query result', users[0])
+        // console.log('query result', users[0])
         const user = users[0];
         if (!bcrypt.compareSync(password, user.password)) {
             await conn.query('COMMIT');
             return { error: 'Wrong Password!' };
         }
-        console.log('parseInt(user.popularity) + 1', parseInt(user.popularity) + 1)
+        // console.log('parseInt(user.popularity) + 1', parseInt(user.popularity) + parseInt(DAILY_POPULARITY_BONUS))
         const loginAtOld = user.login_at
         const loginAt = new Date();
-        // console.log('loginAtOld.getSeconds() != loginAt.getSeconds()', loginAtOld.getSeconds(), loginAt.getSeconds())
-
         const accessToken = jwt.sign({
             provider: user.provider,
             name: user.name,
@@ -89,43 +81,20 @@ const nativeSignIn = async (email, password) => {
             expiresIn: TOKEN_EXPIRE
         }, TOKEN_SECRET);
 
-
         if (loginAtOld.getMinutes() != loginAt.getMinutes()) {
             user.bonus = true
-
             const queryStr = 'UPDATE member SET access_token = ?, access_expired = ?, login_at = ?, popularity = ? WHERE id = ?';
-            await conn.query(queryStr, [accessToken, TOKEN_EXPIRE, loginAt, parseInt(user.popularity) + 1, user.id]);
+            await conn.query(queryStr, [accessToken, TOKEN_EXPIRE, loginAt, parseInt(user.popularity) + parseInt(DAILY_POPULARITY_BONUS), user.id]);
 
         } else {
             user.bonus = false
-
             const queryStr = 'UPDATE member SET access_token = ?, access_expired = ?, login_at = ? WHERE id = ?';
             await conn.query(queryStr, [accessToken, TOKEN_EXPIRE, loginAt, user.id]);
-
         }
-
-
         await conn.query('COMMIT');
-
-
         user.access_token = accessToken;
         user.login_at = loginAt;
         user.access_expired = TOKEN_EXPIRE;
-
-        // if (loginAtOld.getSeconds() != loginAt.Seconds()) {
-        //     user.bonus = true
-
-        //     console('update popularity', parseInt(user.popularity) + 1, user.email)
-        //     await conn.query('SET SQL_SAFE_UPDATES=0;')
-        //     await conn.query('UPDATE member SET popularity = ?  where email =?;', [parseInt(popularity) + 1, user.email])
-        //     await conn.query('SET SQL_SAFE_UPDATES=1;')
-        //     console('popularity+1')
-
-        // } else {
-        //     user.bonus = false
-        // }
-
-
         return { user };
     } catch (error) {
         await conn.query('ROLLBACK');
@@ -135,7 +104,6 @@ const nativeSignIn = async (email, password) => {
     }
 };
 
-
 const getUserDetail = async (userEmail, roleId) => {
     try {
         if (roleId) {
@@ -143,7 +111,6 @@ const getUserDetail = async (userEmail, roleId) => {
             return users[0];
         } else {
             const [users] = await pool.query('SELECT * FROM member WHERE email = ?', [userEmail]);
-            // console.log('users[0] ', users[0])
             return users[0];
         }
     } catch (e) {
@@ -151,19 +118,14 @@ const getUserDetail = async (userEmail, roleId) => {
     }
 };
 
-
 const getProfile = async (userId) => {
     try {
-
         const [users] = await pool.query('SELECT * FROM member WHERE id = ?', [userId]);
-        // console.log('users[0] ', users[0])
         return users[0];
-
     } catch (e) {
         return null;
     }
 };
-
 
 const getUserGatheringList = async (userEmail, roleId) => {
     try {
@@ -172,7 +134,6 @@ const getUserGatheringList = async (userEmail, roleId) => {
             return users[0];
         } else {
             const [users] = await pool.query('SELECT * FROM member WHERE email = ?', [userEmail]);
-            // console.log('users[0] ', users[0])
             return users[0];
         }
     } catch (e) {
@@ -180,41 +141,29 @@ const getUserGatheringList = async (userEmail, roleId) => {
     }
 };
 
-
 const getUserRating = async (userId) => {
-    console.log('user_id', userId)
-    let result;
+    // console.log('user_id', userId)
+    let rating;
     try {
-        console.log('try')
+        // console.log('try')
         const [users] = await pool.query('SELECT host_id, AVG(rating) AS rating FROM feedback group by host_id having host_id = ?', [userId]);
         if (users[0]) {
-            result = users[0]
+            rating = users[0]
         } else {
-            result = { user_id: userId, rating: 0 }
+            rating = { user_id: userId, rating: 0 }
         }
-        console.log('result', result)
-        return result;
+        return rating;
     } catch (e) {
-        console.log('catch')
         return null;
     }
 }
 
-
-
 const updatePhoto = async (photo, user_id) => {
-
     const conn = await pool.getConnection();
-
     try {
         await conn.query('START TRANSACTION');
-
-
-
         const queryStr = 'UPDATE member SET ? WHERE id = ?';
         const [result] = await conn.query(queryStr, [photo, user_id]);
-
-        // gathering.id = result.insertId;
         await conn.query('COMMIT');
         return result;
     } catch (error) {
@@ -222,19 +171,9 @@ const updatePhoto = async (photo, user_id) => {
         await conn.query('ROLLBACK');
         return { error };
     } finally {
-        // io.emit('updateGatheringList', 'DB updated');
         await conn.release();
-
     }
-
 }
-
-
-
-
-
-
-
 module.exports = {
     USER_ROLE,
     signUp,

@@ -1,20 +1,19 @@
 const Gatherings = require('../models/gathering_model');
-const pageSize = 6;
 const { s3UploadFile } = require('../../util/util');
 const { esSearch } = require('../../util/es_query')
 const axios = require('axios')
+const { CHINESE_ENGLISH_CHAR_RATIO, LIMIT_FOR_HOST_GATHERING_TITLE, LIMIT_FOR_HOST_GATHERING_DESCRIPTION, LIMIT_FOR_HOST_GATHERING_ADDRESS } = process.env;
 
 const getGatherings = async (req, res) => {
     const category = req.params.category;
-    const paging = parseInt(req.query.paging) || 0;
     async function findGatherings(category) {
         switch (category) {
             case 'all':
-                console.log('all')
-                return await Gatherings.getGatherings(pageSize, paging, { boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
+                // console.log('all')
+                return Gatherings.getGatherings({ boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
 
             case 'search': {
-                console.log('search')
+                // console.log('search')
                 const keyword = req.query.keyword;
                 if (keyword) {
                     let result = await esSearch(keyword)
@@ -22,49 +21,57 @@ const getGatherings = async (req, res) => {
                     // console.log('esSearch(keyword).hits', result)
                     result = result.map(x => x._source);
                     return await result;
+                } else {
+                    return;
                 }
-                break;
             }
 
             case 'details': {
                 const id = parseInt(req.query.id);
                 if (Number.isInteger(id)) {
-                    return await Gatherings.getGatherings(pageSize, paging, { id });
+                    return Gatherings.getGatherings({ id });
+                } else {
+                    return;
                 }
             }
 
             case 'participants': {
-                console.log('participants')
+                // console.log('participants')
                 const id = parseInt(req.query.id);
                 if (Number.isInteger(id)) {
-                    return await Gatherings.getParticipants(pageSize, paging, { id });
+                    return Gatherings.getParticipants({ id });
+                } else {
+                    return;
                 }
             }
 
             case 'mygatheringlist': {
                 const userId = parseInt(req.query.id);
                 if (Number.isInteger(userId)) {
-                    console.log('mygatheringlist')
-                    return await Gatherings.getGatherings(pageSize, paging, { userId });
+                    // console.log('mygatheringlist')
+                    return Gatherings.getGatherings({ userId });
+                } else {
+                    return;
                 }
             }
 
             case 'myhostlist': {
                 const hostId = parseInt(req.query.id);
                 if (Number.isInteger(hostId)) {
-                    console.log('myhostlist')
-                    return await Gatherings.getGatherings(pageSize, paging, { hostId });
+                    // console.log('myhostlist')
+                    return Gatherings.getGatherings({ hostId });
+                } else {
+                    return;
                 }
             }
-            default: {
-                return await Gatherings.getGatherings(pageSize, paging, { boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
-            }
 
+            default: {
+                return Gatherings.getGatherings({ boundary: [req.query.Hbg, req.query.Hbi, req.query.tcg, req.query.tci] });
+            }
         };
     }
 
     const gatheringsList = await findGatherings(category);
-
     if (!gatheringsList) {
         res.status(400).send({ error: 'Wrong Request' });
         return;
@@ -90,10 +97,6 @@ const hostGathering = async (req, res) => {
     // console.log('req.files', req.files)
     // console.log('req.body', req.body)
     try {
-        let geoInput = `${req.body.county} ${req.body.district} ${req.body.place}`
-        let geo = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(geoInput)}&key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI`)
-
-        // console.log('geo.data', geo.data)
 
         let currentTime = new Date()
         if (new Date(req.body.start_at) <= currentTime | req.body.start_at == '') {
@@ -101,29 +104,11 @@ const hostGathering = async (req, res) => {
             return;
         }
 
-        let lengthOfTitle;
-        let lengthOfDescription;
-        let lengthOfAddress;
+        let lengthOfTitle = /[\u4e00-\u9fa5]/.test(req.body.title) ? req.body.title.length * parseInt(CHINESE_ENGLISH_CHAR_RATIO) : req.body.title.length;
+        let lengthOfDescription = /[\u4e00-\u9fa5]/.test(req.body.description) ? req.body.description.length * parseInt(CHINESE_ENGLISH_CHAR_RATIO) : req.body.description.length;
+        let lengthOfAddress = /[\u4e00-\u9fa5]/.test(req.body.place) ? req.body.place.length * parseInt(CHINESE_ENGLISH_CHAR_RATIO) : req.body.place.length;
 
-        if (/[\u4e00-\u9fa5]/.test(req.body.title)) {
-            lengthOfTitle = req.body.title.length * 2;
-        } else {
-            lengthOfTitle = req.body.title.length;
-        }
-
-        if (/[\u4e00-\u9fa5]/.test(req.body.Description)) {
-            lengthOfDescription = req.body.description.length * 2;
-        } else {
-            lengthOfDescription = req.body.description.length;
-        }
-
-        if (/[\u4e00-\u9fa5]/.test(req.body.lengthOfAddress)) {
-            lengthOfAddress = req.body.place.length * 2;
-        } else {
-            lengthOfAddress = req.body.place.length;
-        }
-
-        if (lengthOfTitle > 20 | lengthOfDescription > 300 | lengthOfAddress > 80) {
+        if (lengthOfTitle > parseInt(LIMIT_FOR_HOST_GATHERING_TITLE) | lengthOfDescription > parseInt(LIMIT_FOR_HOST_GATHERING_DESCRIPTION) | lengthOfAddress > parseInt(LIMIT_FOR_HOST_GATHERING_ADDRESS)) {
             res.status(403).send({ error: 'Exceed the length limit!' });
             return;
         }
@@ -133,6 +118,10 @@ const hostGathering = async (req, res) => {
             return;
         }
 
+        let geoInput = `${req.body.county} ${req.body.district} ${req.body.place}`
+        let geo = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(geoInput)}&key=AIzaSyBwLNX2P4gamMMFc7dckwq7LRmVYvmWmDI`)
+        // console.log('geo.data', geo.data)
+
         const gathering = {
             host_id: req.user.id,
             title: req.body.title,
@@ -141,6 +130,7 @@ const hostGathering = async (req, res) => {
             // picture: req.files.main_image[0].path,
             start_at: req.body.start_at,
             max_participant: req.body.max_participant,
+            remaining_quota: req.body.max_participant,
             // min_participant: req.body.min_participant,
             place: `${req.body.county} ${req.body.district} ${req.body.place}`,
             // lng: req.body.lng,
@@ -246,9 +236,7 @@ const postFeedback = async (req, res) => {
         }
     })
     return;
-
 }
-
 
 const getComment = async (req, res) => {
     // console.log('gatheringId_comment', req.query)
@@ -272,6 +260,5 @@ module.exports = {
     removeParticipantAdmin,
     postFeedback,
     getComment,
-
 };
 

@@ -6,12 +6,9 @@ const {
     getChatRecord,
     writeSystemRecord,
     getSystemRecord,
-
 } = require('../controllers/chat_controller')
 
-const {
-    USER_ROLE
-} = require('../models/user_model');
+const { USER_ROLE } = require('../models/user_model');
 
 router.route('/chat/writeChatRecord').post(writeChatRecord);
 
@@ -20,9 +17,5 @@ router.route('/chat/getChatRecord').get(getChatRecord);
 router.route('/chat/writesystemrecord').post(authentication(USER_ROLE.ALL), writeSystemRecord);
 
 router.route('/chat/getsystemrecord').get(authentication(USER_ROLE.ALL), getSystemRecord);
-
-
-
-// router.route('/user/getmemberprofile').get(authentication(USER_ROLE.ALL), getMemberProfile);
 
 module.exports = router;

@@ -129,3 +129,17 @@ es_update_test.js
 
 fix_geo.jsget_geo.js
 ./server/models/test.js
+./public/assets/*
+./server/models/redis_test.js
+app_simpletest_2.js
+es_update_test.js
+es_update_test.js
+updateGathering.js
+./新文字文件.txt
+fix_geo.js
+get_geo.js
+get_testdata_2_second_run.js
+get_testdata_2.js
+get_testdata_3_second_run.js
+get_testdata_3.js
+get_testdata.js

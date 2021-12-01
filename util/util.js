@@ -8,8 +8,6 @@ const fs = require('fs');
 const multer = require('multer');
 const S3 = require('aws-sdk/clients/s3')
 
-
-
 const authentication = (roleId) => {
     return async function (req, res, next) {
         let accessToken = req.get('Authorization');
@@ -63,8 +61,6 @@ const authentication = (roleId) => {
                 res.status(403).send({ error: 'Forbidden' });
                 return;
             }
-
-
         }
 
     };
@@ -98,19 +94,14 @@ const getImagePath = (protocol, hostname, gatheringId) => {
     }
 };
 
-
-
 const s3 = new S3({
     AWS_REGION,
     AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY
-
 })
-
 
 function s3UploadFile(file, path = '') {
     const fileStream = fs.createReadStream(file.path)
-
     const uploadParams = {
         Bucket: AWS_BUCKET_NAME + path,
         Body: fileStream,
@@ -119,11 +110,9 @@ function s3UploadFile(file, path = '') {
     }
     console.log('uploadParams', uploadParams)
     return s3.upload(uploadParams).promise()
-
 }
 
 module.exports = {
-
     authentication,
     upload,
     getImagePath,

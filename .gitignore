@@ -143,3 +143,6 @@ get_testdata_2.js
 get_testdata_3_second_run.js
 get_testdata_3.js
 get_testdata.js
+
+
+./util/es_update.js

@@ -1,36 +1,15 @@
 var AWS = require('aws-sdk');
 require('dotenv').config();
-const { AWS_ElASTIC_SEARCH_DOMAIN, AWS_ElASTIC_SEARCH_REGION } = process.env;
+const { AWS_ElASTIC_SEARCH_DOMAIN, AWS_ElASTIC_SEARCH_REGION, AWS_ElASTIC_INDEX } = process.env;
 
 var region = AWS_ElASTIC_SEARCH_REGION;
 var domain = AWS_ElASTIC_SEARCH_DOMAIN;
-var index = 'node-togather';
-var type = '_doc';
+var index = AWS_ElASTIC_INDEX;
 
 function queryDocument(keyword) {
     var endpoint = new AWS.Endpoint(domain);
     var request = new AWS.HttpRequest(endpoint, region);
     request.method = 'POST';
-    // let querySetting = '{\
-    //     "query": {\
-    //         "match": {\
-    //             "text": {\
-    //                 "value": keyword\
-    //             }\
-    //         }\
-    //     }\
-    // })';
-
-    // let querySetting = JSON.stringify({
-    //     "query": {
-    //         "fuzzy": {
-    //             "title": {
-    //                 "value": keyword
-    //             }
-    //         }
-    //     }
-    // });
-
     let querySetting = JSON.stringify(
         {
             "query": {
@@ -91,11 +70,9 @@ function queryDocument(keyword) {
     })
 }
 
-
 async function esSearch(keyword) {
-    let result = await queryDocument(keyword);
-    return result.hits;
-
+    let esSearchResult = await queryDocument(keyword);
+    return esSearchResult.hits;
 }
 
 module.exports = { esSearch };

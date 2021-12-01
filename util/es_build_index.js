@@ -1,12 +1,11 @@
 const AWS = require('aws-sdk');
 require('dotenv').config();
-const { AWS_ElASTIC_SEARCH_DOMAIN, AWS_ElASTIC_SEARCH_REGION } = process.env; // 30 days by seconds
-
+const { AWS_ElASTIC_SEARCH_DOMAIN, AWS_ElASTIC_SEARCH_REGION, AWS_ElASTIC_INDEX, AWS_ElASTIC_TYPE } = process.env;
 
 var region = AWS_ElASTIC_SEARCH_DOMAIN;
 var domain = AWS_ElASTIC_SEARCH_REGION;
-var index = 'node-togather';
-var type = '_doc';
+var index = AWS_ElASTIC_INDEX;
+var type = AWS_ElASTIC_TYPE;
 
 const { pool } = require('../server/models/mysqlcon');
 
@@ -14,7 +13,6 @@ function indexDocument(document) {
     var endpoint = new AWS.Endpoint(domain);
     console.log('endpoint', endpoint)
     var request = new AWS.HttpRequest(endpoint, region);
-
     request.method = 'POST';
     // request.path += index + '/' + type + '/' + id;
     request.path += index + '/' + type;
@@ -42,22 +40,19 @@ function indexDocument(document) {
     });
 }
 
-
 async function getGathering() {
-    let result;
+    let gathering;
     const gatheringQuery = 'SELECT g.id AS id, g.title AS title, description, g.picture AS picture, lat, lng,\
  m.name AS name from gathering g left join member m on g.host_id = m.id;'
 
-    result = await pool.query(gatheringQuery);
-    result = result[0];
-    return result
+    gathering = await pool.query(gatheringQuery);
+    return gathering[0]
     // console.log(result[0].description)
 }
 
 async function buildIndex() {
     let data = await getGathering()
     let gathering
-
     for (let i in data) {
         gathering = {
             id: data[i].id,

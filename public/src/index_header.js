@@ -194,7 +194,7 @@ function onClick(form) {
 
             Swal.fire({
                 title: 'Success!',
-                text: '活動創建成功，活動結束1日內(至少需有1人參加)，30獎勵積點將發放至您的帳戶',
+                text: '活動創建成功，活動結束1日內，30獎勵積點將發放至您的帳戶',
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then(function () {

@@ -94,11 +94,15 @@ const attendGathering = async (participant, action) => {
             let [gathering] = await conn.query('select * from gathering where id = ? for update;', [participant.gathering_id]);
             if (gathering[0].remaining_quota <= 0) {
                 console.log('No seats')
+                await conn.query('COMMIT');
+                await conn.release();
                 return { error: 'Participant Full!' };
             }
             let currentTime = new Date()
             if (gathering[0].start_at < currentTime) {
                 console.log('expired')
+                await conn.query('COMMIT');
+                await conn.release();
                 return { error: 'Gathering Expired!' };
             }
 
@@ -107,6 +111,8 @@ const attendGathering = async (participant, action) => {
             popularity = parseInt(user.popularity)
             console.log('parseInt(user.popularity)', popularity)
             if (popularity < parseInt(REQUITED_POPULARITY)) {
+                await conn.query('COMMIT');
+                await conn.release();
                 return { error: 'Not Enough Popularity!' };
             }
             await conn.query('UPDATE gathering set remaining_quota = ? where id = ?', [gathering[0].remaining_quota - 1, participant.gathering_id]);

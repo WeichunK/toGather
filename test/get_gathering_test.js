@@ -2,26 +2,7 @@
 const { expect } = require('chai');
 const supertest = require('supertest');
 
-// const api = supertest('http://localhost:3000/api/1.0/getgatherings/all');
 const api = supertest('http://localhost:3000/api/1.0');
-
-let accessToken;
-
-// before((done) => {
-//     api.post('/user/signin')
-//         .set('Accept', 'application/json')
-//         .send({
-//             email: 'test@test.com',
-//             password: '123'
-//         })
-//         .expect(200)
-//         .end((err, res) => {
-//             accessToken = res.body.data.access_token;
-//             done();
-//         })
-
-// })
-
 
 describe('Gathering', () => {
     it('Gathering should be an object with keys and values', (done) => {
@@ -31,7 +12,6 @@ describe('Gathering', () => {
                 if (err) {
                     done(err);
                 }
-                // console.log('res.data[0]', res.body.data[0])
                 expect(res.body.data[0]).to.have.property('id');
                 expect(res.body.data[0]).to.have.property('title');
                 expect(res.body.data[0]).to.have.property('description');
@@ -51,11 +31,6 @@ describe('Gathering', () => {
                 expect(res.body.data[0]).to.have.property('popularity');
                 expect(res.body.data[0]).to.have.property('rating');
                 done();
-
-
-
-
-
 
             })
 

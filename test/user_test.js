@@ -9,40 +9,8 @@ const signInTestToken = 'testsigninaccesstoken'
 const signInTestEmail = 'testsignin@gmail.com'
 const signInTestName = 'testsignin'
 const signInTestPicture = 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png'
-// const fbTokenSignInFirstTime = 'fbTokenFirstLogin';
-// const fbTokenSignInAgain = 'fbTokenLoginAgain';
-// const fbProfileSignInFirstTime = {
-//     id: 1111,
-//     name: 'fake fb user',
-//     email: 'fakefbuser@gmail.com'
-// };
-// const fbProfileSignInAgain = {
-//     id: 2222,
-//     name: users[1].name,
-//     email: users[1].email
-// };
-// let stub;
 
 describe('user', () => {
-
-    // before(() => {
-    //     const userModel = require('../server/models/user_model');
-    //     const fakeGetFacebookProfile = (token) => {
-    //         if (!token) {
-    //             return Promise.resolve();
-    //         } else {
-    //             if (token === fbTokenSignInFirstTime) {
-    //                 return Promise.resolve(fbProfileSignInFirstTime);
-    //             } else if (token === fbTokenSignInAgain) {
-    //                 return Promise.resolve(fbProfileSignInAgain);
-    //             } else {
-    //                 return Promise.reject({error: {code: 190}});
-    //             }
-    //         }
-    //     };
-    //     stub = sinon.stub(userModel, 'getFacebookProfile').callsFake(fakeGetFacebookProfile);
-    // });
-
     /**
      * Sign Up
      */
@@ -61,7 +29,7 @@ describe('user', () => {
         const data = res.body.data;
 
         const userExpected = {
-            id: data.user.id, // need id from returned data
+            id: data.user.id,
             provider: 'native',
             name: user.name,
             email: user.email,
@@ -155,7 +123,7 @@ describe('user', () => {
 
         const data = res.body.data;
         const userExpect = {
-            id: data.user.id, // need id from returned data
+            id: data.user.id,
             provider: user1.provider,
             name: user1.name,
             email: user1.email,
@@ -166,7 +134,6 @@ describe('user', () => {
         expect(data.access_token).to.be.a("string")
         expect(data.access_expired).to.equal(expectedExpireTime);
 
-        // make sure DB is changed, too
         const loginTime = await pool.query(
             'SELECT login_at FROM user WHERE email = ?',
             [user.email]
@@ -249,54 +216,4 @@ describe('user', () => {
         expect(res.body.error).to.equal('Wrong Password!');
     });
 
-    // /**
-    //  * Get User Profile
-    //  */
-
-    // it('get profile with valid access_token', async () => {
-    //     const user = {
-    //         provider: 'native',
-    //         access_token: signInTestToken
-    //     };
-
-    //     const res1 = await requester
-    //         .post('/api/1.0/user/signin')
-    //         .send(user);
-
-    //     const user1 = res1.body.data.user;
-
-    //     const accessToken = res1.body.data.access_token;
-    //     const res2 = await requester
-    //         .get('/api/1.0/user/profile')
-    //         .set('Authorization', `Bearer ${accessToken}`);
-
-    //     const user2 = res2.body.data;
-    //     const expectedUser = {
-    //         provider: user1.provider,
-    //         name: signInTestName,
-    //         email: signInTestEmail,
-    //         picture: signInTestPicture
-    //     };
-
-    //     expect(user2).to.deep.equal(expectedUser);
-    // });
-
-    // it('get profile without access_token', async () => {
-    //     const res = await requester
-    //         .get('/api/1.0/user/profile');
-
-    //     expect(res.status).to.equal(401);
-    // });
-
-    // it('get profile with invalid access_token', async () => {
-    //     const res = await requester
-    //         .get('/api/1.0/user/profile')
-    //         .set('Authorization', 'Bearer wrong_token');
-
-    //     expect(res.status).to.equal(403);
-    // });
-
-    after(() => {
-        // stub.restore();
-    });
 });

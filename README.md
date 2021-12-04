@@ -1,20 +1,17 @@
----
-title: 'toGather'
-disqus: hackmd
----
-
 toGather
 ===
 
 A Social Networking Platform to gather friends with the same interest. Aims to help users host and join interesting events and interact with others.
 
-Link: [https://alltogathers.com](https://alltogathers.com)
+Link: [https://alltogathers.com](https://alltogathers.com)  
 
-![Main Page](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/main_page.png =680x)
+![Main Page](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/main_page.png)  
+
 #### Demo Account
 
 account 1 
-email: `testuser1@test.com` password: `12345`
+email: `testuser1@test.com` password: `12345`  
+
 account 2 
 email: `testuser1@test.com` password: `12345`
 
@@ -31,13 +28,13 @@ email: `testuser1@test.com` password: `12345`
 ## Features
 
 #### Filter events with the map
-![mapsearch](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/zoommap.gif =680x)
+![mapsearch](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/zoommap.gif)
 
 #### Fuzzy search
-![fuzzy search](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/fuzzy_search.gif =680x)
+![fuzzy search](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/fuzzy_search.gif)
 
 #### Multiple keyword search
-![multikeyword search](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/multikeyword_search.gif =680x)
+![multikeyword search](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/multikeyword_search.gif)
 
 #### Join event
 ![join1](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/join_event.gif)
@@ -45,11 +42,11 @@ email: `testuser1@test.com` password: `12345`
 ![join2](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/join_event2.gif)
 
 #### Chat room
-![chat](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/chat.gif =680x)
+![chat](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/chat.gif)
 #### Host event
 ![host](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/host.gif)
 #### Profile page
-![profile page](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/profile.gif =680x)
+![profile page](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/profile.gif)
 
 
 ## Technologies

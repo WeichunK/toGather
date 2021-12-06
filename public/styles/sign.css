@@ -65,7 +65,8 @@
     text-align: center;
     margin: auto;
     padding: auto;
-    height: 35%;
+    /* height: 35%; */
+    height: fit-content;
     width: 50%;
     /* display:flex; */
 

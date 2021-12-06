@@ -123,10 +123,8 @@ es_query_test.js
 es_test.js
 aws_test.js
 
-<<<<<<< HEAD
 ./public/assets/*
 ./server/models/redis_test.js
-=======
 server/models/updateGathering.js
 
 es_update_test.js
@@ -135,7 +133,6 @@ fix_geo.jsget_geo.js
 /server/models/test.js
 /public/assets/*
 /server/models/redis_test.js
->>>>>>> refactor
 app_simpletest_2.js
 es_update_test.js
 es_update_test.js
@@ -151,3 +148,5 @@ get_testdata.js
 
 
 /util/es_update.js
+
+README.md

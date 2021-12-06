@@ -91,32 +91,38 @@ const attendGathering = async (participant, action) => {
         let binding;
         let popularity
         if (action == 'join') {
-            const [gathering] = await conn.query('select * from gathering where id = ? for update;', [participant.gathering_id]);
+            let [gathering] = await conn.query('select * from gathering where id = ? for update;', [participant.gathering_id]);
             if (gathering[0].remaining_quota <= 0) {
                 console.log('No seats')
+                await conn.query('COMMIT');
+                await conn.release();
                 return { error: 'Participant Full!' };
             }
             let currentTime = new Date()
             if (gathering[0].start_at < currentTime) {
                 console.log('expired')
+                await conn.query('COMMIT');
+                await conn.release();
                 return { error: 'Gathering Expired!' };
             }
 
-            const [users] = await conn.query('SELECT * FROM member WHERE id = ?', [participant.participant_id]);
-            const user = users[0];
+            let [users] = await conn.query('SELECT * FROM member WHERE id = ?', [participant.participant_id]);
+            let user = users[0];
             popularity = parseInt(user.popularity)
             console.log('parseInt(user.popularity)', popularity)
             if (popularity < parseInt(REQUITED_POPULARITY)) {
+                await conn.query('COMMIT');
+                await conn.release();
                 return { error: 'Not Enough Popularity!' };
             }
-            await conn.query('UPDATE gathering set remaining_quota = ? where id = ?', [quota[0].remaining_quota - 1, participant.gathering_id]);
+            await conn.query('UPDATE gathering set remaining_quota = ? where id = ?', [gathering[0].remaining_quota - 1, participant.gathering_id]);
             participant.created_at = new Date();
             queryStr = 'INSERT INTO participant SET ?';
             binding = participant;
             console.log('binding', binding)
         } else if (action == 'quit') {
-            const [quota] = await conn.query('select remaining_quota from gathering where id = ? for update;', [participant.gathering_id]);
-            await conn.query('UPDATE gathering set remaining_quota = ? where id = ?', [quota[0].remaining_quota + 1, participant.gathering_id]);
+            let [gathering] = await conn.query('select remaining_quota from gathering where id = ? for update;', [participant.gathering_id]);
+            await conn.query('UPDATE gathering set remaining_quota = ? where id = ?', [gathering[0].remaining_quota + 1, participant.gathering_id]);
             queryStr = 'DELETE FROM participant where gathering_id = ? and participant_id =?;';
             binding = [participant.gathering_id, participant.participant_id]
         }
@@ -128,14 +134,14 @@ const attendGathering = async (participant, action) => {
         }
         let secondQuery = "select g.id, g.max_participant, (case when p.num_participant is null then 0 else p.num_participant end) AS num_participant from gathering g \
         left join (select gathering_id, count(participant_id) as num_participant from participant group by gathering_id) p on g.id = p.gathering_id where g.id = ?;"
-        let gathering = await conn.query(secondQuery, [participant.gathering_id]);
+        let gatheringResult = await conn.query(secondQuery, [participant.gathering_id]);
         let statusCode = {}
-        if (gathering[0].status == 4) {
+        if (gatheringResult[0].status == 4) {
             return participantResult;
         }
-        if (gathering[0][0].num_participant == gathering[0][0].max_participant) {
+        if (gatheringResult[0][0].num_participant == gatheringResult[0][0].max_participant) {
             statusCode.status = GATHERING_STATUS.FULL;
-        } else if (gathering[0][0].num_participant == 0) {
+        } else if (gatheringResult[0][0].num_participant == 0) {
             statusCode.status = GATHERING_STATUS.INITIAL;
         } else {
             statusCode.status = GATHERING_STATUS.ACTIVE;

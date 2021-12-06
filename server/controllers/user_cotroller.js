@@ -17,7 +17,7 @@ const signUp = async (req, res) => {
 
     let lengthOfName = /[\u4e00-\u9fa5]/.test(name) ? name.length * parseInt(CHINESE_ENGLISH_CHAR_RATIO) : name.length;
     if (lengthOfName > parseInt(LIMIT_FOR_SIGNUP_NAME)) {
-        res.status(403).send({ error: 'Exceed the length limit!' });
+        res.status(400).send({ error: 'Exceed the length limit!' });
         return;
     }
 

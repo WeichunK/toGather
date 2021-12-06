@@ -13,7 +13,7 @@ const { checkExpiredGathering } = require("./server/models/gathering_model")
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+// app.use(cors());
 
 app.use('/api/' + API_VERSION,
     [
@@ -35,4 +35,5 @@ server.listen(port, () => {
     checkExpiredGathering;
 });
 
-module.exports = { app };
+module.exports = { app, server };
+

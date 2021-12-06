@@ -9,11 +9,11 @@ const users = [
         popularity: 30,
         picture: 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png',
         access_token: 'test1accesstoken',
-        access_expired: (60 * 60), // 1hr by second
+        access_expired: (60 * 60),
         login_at: new Date('2020-01-01')
     },
     {
-        id: 1 = 2,
+        id: 2,
         provider: 'native',
         role: 1,
         email: 'test2@gmail.com',
@@ -67,12 +67,8 @@ const gatherings = [
         remaining_quota: 2,
         place: 'place1',
         lng: 121.5624462,
-        lat: 121.5624462,
-        email: 'test1@gmail.com',
-        name: 'test1',
-        host_pic: 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png',
-        popularity: 30,
-        rating: 5
+        lat: 25.02230243511096,
+        status: 1
     },
     {
         id: 2,
@@ -83,19 +79,15 @@ const gatherings = [
         host_id: 2,
         start_at: new Date('2022-02-01'),
         created_at: new Date('2021-11-01'),
-        max_participant: 'pn1',
-        remaining_quota: 'ps1',
+        max_participant: '12',
+        remaining_quota: '12',
         place: 'place2',
         lng: 121.5624462,
-        lat: 121.5624462,
-        email: 'test2@gmail.com',
-        name: 'test2',
-        host_pic: 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png',
-        popularity: 30,
-        rating: 4
+        lat: 25.03230243511096,
+        status: 1
     },
     {
-        id: 1,
+        id: 3,
         title: 'gathering3',
         description: 'gathering3',
         category: 'men',
@@ -103,19 +95,14 @@ const gatherings = [
         host_id: 3,
         start_at: new Date('2022-03-01'),
         created_at: new Date('2021-11-01'),
-        max_participant: 'pn1',
-        remaining_quota: 'ps1',
+        max_participant: '2',
+        remaining_quota: '2',
         place: 'place3',
         lng: 121.5624462,
-        lat: 121.5624462,
-        email: 'test3@gmail.com',
-        name: 'test3',
-        host_pic: 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png',
-        popularity: 30,
-        rating: 3
+        lat: 25.04230243511096,
+        status: 1
     },
 ];
-
 
 const participants = [
     {
@@ -132,7 +119,6 @@ const participants = [
 
 module.exports = {
     users,
-    roles,
     gatherings,
     participants
 };

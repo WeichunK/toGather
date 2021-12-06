@@ -13,10 +13,11 @@ async function _createFakeUser(conn) {
     const encryped_users = users.map(user => {
         const encryped_user = {
             provider: user.provider,
-            role_id: user.role_id,
+            role_id: user.role,
             email: user.email,
             password: user.password ? bcrypt.hashSync(user.password, salt) : null,
             name: user.name,
+            popularity: user.popularity,
             picture: user.picture,
             access_token: user.access_token,
             access_expired: user.access_expired,
@@ -28,7 +29,7 @@ async function _createFakeUser(conn) {
 }
 
 async function _createFakeGathering(conn) {
-    return await conn.query('INSERT INTO gathering (id,title,description,category,picture,host_id,start_at,created_at,max_participant,remaining_quota,place,lng,lat,email,name,host_pic,popularity,rating) VALUES ?', [gatherings.map(x => Object.values(x))]);
+    return await conn.query('INSERT INTO gathering (id,title,description,category,picture,host_id,start_at,created_at,max_participant,remaining_quota,place,lng,lat,status) VALUES ?', [gatherings.map(x => Object.values(x))]);
 }
 
 async function _createFakeParticipant(conn) {

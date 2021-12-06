@@ -33,7 +33,7 @@ describe('user', () => {
             provider: 'native',
             name: user.name,
             email: user.email,
-            picture: null
+            picture: 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png'
         };
 
         expect(data.user).to.deep.equal(userExpected);
@@ -102,7 +102,7 @@ describe('user', () => {
             .post('/api/1.0/user/signup')
             .send(user);
 
-        expect(res.body.error).to.equal('Request Error: Invalid email format');
+        expect(res.body.error).to.equal('invalid email format');
     });
 
     /**
@@ -123,11 +123,12 @@ describe('user', () => {
 
         const data = res.body.data;
         const userExpect = {
+            bonus: true,
             id: data.user.id,
             provider: user1.provider,
             name: user1.name,
             email: user1.email,
-            picture: null
+            picture: 'https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/img/member/default_head_person_icon.png'
         };
 
         expect(data.user).to.deep.equal(userExpect);
@@ -135,7 +136,7 @@ describe('user', () => {
         expect(data.access_expired).to.equal(expectedExpireTime);
 
         const loginTime = await pool.query(
-            'SELECT login_at FROM user WHERE email = ?',
+            'SELECT login_at FROM member WHERE email = ?',
             [user.email]
         );
 

@@ -1,9 +1,9 @@
-const app = require('../app');
+const app = require('../app').server;
 const chai = require('chai');
 const deepEqualInAnyOrder = require('deep-equal-in-any-order');
 const chaiHttp = require('chai-http');
-const {NODE_ENV} = process.env;
-const {truncateFakeData, createFakeData} = require('./fake_data_generator');
+const { NODE_ENV } = process.env;
+const { truncateFakeData, createFakeData } = require('./fake_data_generator');
 
 chai.use(chaiHttp);
 chai.use(deepEqualInAnyOrder);
@@ -16,7 +16,6 @@ before(async () => {
     if (NODE_ENV !== 'test') {
         throw 'Not in test env';
     }
-
     await truncateFakeData();
     await createFakeData();
 });

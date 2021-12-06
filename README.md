@@ -13,7 +13,7 @@ account 1
 email: `testuser1@test.com` password: `12345`  
 
 account 2 
-email: `testuser1@test.com` password: `12345`
+email: `testuser2@test.com` password: `12345`
 
 
 

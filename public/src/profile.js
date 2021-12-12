@@ -49,6 +49,7 @@ async function initProfile() {
 
     } else {
         profileData = profile
+        profileId = profile.data.id
     }
 
     // console.log('response getmemberprofile', profile)

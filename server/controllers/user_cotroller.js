@@ -139,7 +139,7 @@ const getProfile = async (req, res) => {
 
 const getUserRating = async (req, res) => {
     // console.log('req.user.id', req.user.id)
-    let rating = await User.getUserRating(req.user.id);
+    let rating = await User.getUserRating(req.query.id);
     // console.log('rating', rating)
     if (rating.error) {
         const status_code = rating.status ? rating.status : 403;

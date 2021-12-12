@@ -25,7 +25,7 @@ router.route('/user/getmemberprofile').get(authentication(USER_ROLE.ALL), getMem
 
 router.route('/user/getprofile').get(authentication(USER_ROLE.FREE), getProfile);
 
-router.route('/user/getuserrating').get(authentication(USER_ROLE.ALL), getUserRating);
+router.route('/user/getuserrating').get(authentication(USER_ROLE.FREE), getUserRating);
 
 router.route('/user/updatephoto')
     .post(authentication(USER_ROLE.ALL), cpUpload, updatePhoto);

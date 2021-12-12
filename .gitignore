@@ -150,3 +150,7 @@ get_testdata.js
 /util/es_update.js
 
 README.md
+
+./util/test_geodata_generator.js
+
+./backup.sql

@@ -41,6 +41,9 @@ email: `testuser2@test.com` password: `12345`
 
 ![join2](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/join_event2.gif)
 
+#### Real-time system messages
+![system messages](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/system_message.gif)
+
 #### Chat room
 ![chat](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/chat.gif)
 #### Host event

@@ -64,7 +64,7 @@ email: `testuser2@test.com` password: `12345`
 * MySQL
 
 ####  schema
-![DB schema](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/togather_schema2.png)
+![DB schema](https://my-personal-project-bucket.s3.ap-northeast-1.amazonaws.com/readme/togather_schema3.png)
 
 ### Back-End
 * Node.js

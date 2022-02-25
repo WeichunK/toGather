@@ -17,6 +17,6 @@ def create_app(config_name):
     def index():
         return 'Welcome to Flask Server'
     from .user_controller import userRoute
-    app.register_blueprint(userRoute, url_prefix='/user')
+    app.register_blueprint(userRoute, url_prefix='/api/1.0/user')
 
     return app

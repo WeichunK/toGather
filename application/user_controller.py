@@ -8,8 +8,11 @@ userRoute = Blueprint('userRoute', __name__)
 @userRoute.route('/signin', methods=["POST"])
 def signinRoute():
     data = request.get_json()
-    email = data['email']
-    password = data['password']
+    try:
+        email = data['email']
+        password = data['password']
+    except:
+        return {'error': 'Wrong Request'}, 403
     user = signin(email, password)
     if not user:
         return {'error': 'Wrong Request'}, 403

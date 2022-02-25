@@ -22,7 +22,6 @@ class User(db.Model):
     password = db.Column(db.String(255))
     access_token = db.Column(db.String(1000))
     access_expired = db.Column(BIGINT(unsigned=True))
-    popularity = db.Column(BIGINT(unsigned=True))
     login_at = db.Column(db.DateTime)
 
     @property
@@ -40,6 +39,11 @@ class User(db.Model):
                 'bonus': True
             }
         }
+
+    @property
+    def password_hash(self):
+        return flask_bcrypt.generate_password_hash(
+            self.password).decode('utf-8')
 
     def check_password(self, password: str) -> bool:
         return flask_bcrypt.check_password_hash(self.password, password)

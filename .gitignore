@@ -1,3 +1,15 @@
+# flask
+venv*/
+app.js
+public/
+server/
+util/
+test/
+package.json
+__pycache__/
+
+*/__pycache__
+
 # Logs
 logs
 *.log

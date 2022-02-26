@@ -1,6 +1,28 @@
 toGather
 ===
 
+## FLASK VERSION
+
+#### Server for User API
+
+http://13.231.120.162
+
+#### NGINX SETTING FILE
+Link: [nginx.conf](nginx.conf)
+
+#### DOCKERFILE
+Link: [Dockerfile](Dockerfile)
+
+#### DOCKER BUILD
+docker build -t togather_flask .
+
+#### DOCKER RUN
+docker run -d -p 80:5000 --name togather_flask --env-file .env togather_flask
+
+---
+
+## Introduction
+
 A Social Networking Platform to gather friends with the same interest. Aims to help users host and join interesting events and interact with others.
 
 Link: [https://alltogathers.com](https://alltogathers.com)  

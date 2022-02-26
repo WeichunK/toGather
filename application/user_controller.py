@@ -1,6 +1,6 @@
 from asyncio import constants
 from flask import Blueprint, request
-from .user_service import signin, signup, getUserRating, authentication
+from .user_service import signin, signup, getUserRating, authentication, getProfile
 import re
 from os import environ, path
 from dotenv import load_dotenv
@@ -60,6 +60,21 @@ def signupRoute():
         return {'error': user['error']}, 403
     except:
         return user
+
+
+@userRoute.route('/getmemberprofile', methods=["GET"])
+def getMemberProfileRoute():
+    auth_token = request.headers['Authorization']
+    auth_token = auth_token.replace('Bearer ', '')
+    user = authentication(auth_token)
+    return {'data': user}
+
+
+@userRoute.route('/getprofile', methods=["GET"])
+def getProfileRoute():
+    userId = request.args.get('id')
+    user = getProfile(userId)
+    return {'data': user}
 
 
 @userRoute.route('/getuserrating', methods=["GET"])

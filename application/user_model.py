@@ -46,7 +46,20 @@ class User(db.Model):
             'id': self.id,
             'provider': self.provider,
             'name': self.name,
-            'email': self.email
+            'email': self.email,
+            'picture': self.picture,
+            'popularity': self.popularity,
+        }
+
+    @property
+    def profile(self):
+        return {
+            'id': self.id,
+            'provider': self.provider,
+            'name': self.name,
+            'email': self.email,
+            'picture': self.picture,
+            'popularity': self.popularity,
         }
 
     @property

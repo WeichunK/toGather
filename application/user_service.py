@@ -83,3 +83,12 @@ def authentication(auth_token):
     user = User.query.filter_by(email=payload['email']).first()
     user = user.authentication
     return user
+
+
+def getProfile(id):
+    user = User.query.filter_by(id=id).first()
+    if not user:
+        pass
+    else:
+        user = user.profile
+    return user

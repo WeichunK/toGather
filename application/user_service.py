@@ -92,3 +92,13 @@ def getProfile(id):
     else:
         user = user.profile
     return user
+
+
+def updatePhoto(id, s3Path):
+    try:
+        user = User.query.filter_by(id=id).first()
+        user.picture = s3Path
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        raise

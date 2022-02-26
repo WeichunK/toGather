@@ -23,3 +23,8 @@ config = dict(
 key = BaseConfig.SECRET_KEY
 HOST = environ.get("APPLICATION_HOST")
 PORT = int(environ.get("APPLICATION_PORT"))
+
+S3_LOCATION = environ.get("S3_LOCATION")
+S3_BUCKET = environ.get("S3_BUCKET")
+S3_KEY = environ.get("S3_KEY")
+S3_SECRET = environ.get("S3_SECRET")

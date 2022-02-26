@@ -1,11 +1,14 @@
-from asyncio import constants
 from flask import Blueprint, request
-from .user_service import signin, signup, getUserRating, authentication, getProfile
+from .user_service import signin, signup, getUserRating, authentication, getProfile, updatePhoto
 import re
 from os import environ, path
 from dotenv import load_dotenv
 from email_validator import validate_email
-import json
+from .config import S3_LOCATION, S3_BUCKET, S3_KEY, S3_SECRET
+from werkzeug.utils import secure_filename
+import boto3
+
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
@@ -50,10 +53,8 @@ def signupRoute():
         namelength = len(name)
     if namelength > int(environ.get("LIMIT_FOR_SIGNUP_NAME")):
         return {'error': 'Exceed the length limit!'}, 400
-
     role = 1
     provider = 'native'
-
     user = signup(name, email, password, provider, role)
 
     try:

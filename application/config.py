@@ -5,7 +5,7 @@ basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
 
 
-class BaseConfig:  # 基本配置
+class BaseConfig:
     SECRET_KEY = environ.get("SECRET_KEY")
     DEBUG = False
 

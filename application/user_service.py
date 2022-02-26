@@ -1,4 +1,3 @@
-from copyreg import constructor
 import datetime
 from .user_model import User, Feedback
 from application import db
@@ -99,6 +98,6 @@ def updatePhoto(id, s3Path):
         user = User.query.filter_by(id=id).first()
         user.picture = s3Path
         db.session.commit()
-    except Exception:
+    except Exception as e:
         db.session.rollback()
-        raise
+        return e

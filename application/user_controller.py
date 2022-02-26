@@ -81,8 +81,7 @@ def getProfileRoute():
 @userRoute.route('/getuserrating', methods=["GET"])
 def getUserRatingRoute():
     if not request.args.get('id'):
-        auth_token = request.headers['Authorization']
-        auth_token = auth_token.replace('Bearer ', '')
+        auth_token = request.headers['Authorization'].replace('Bearer ', '')
         user = authentication(auth_token)
         userId = user['id']
     else:
@@ -90,8 +89,8 @@ def getUserRatingRoute():
     try:
         rating = getUserRating(userId)
         return {'data': rating}
-    except Exception:
-        raise
+    except Exception as e:
+        return {'error': e}
 
 
 def allowed_file(filename):
@@ -105,29 +104,32 @@ s3 = boto3.client(
 )
 
 
-def upload_file_to_s3(file, bucket_name, acl='public-read-write', prefix='img/member/'):
+def upload_file_to_s3(file, bucket_name, filename, acl='public-read-write', prefix='img/member/'):
     try:
-        s3.upload_fileobj(file, bucket_name, prefix+file.filename, ExtraArgs={
-                          'ACL': acl, 'ContentType': file.content_type})
+        s3.upload_file(file, bucket_name, prefix+filename, ExtraArgs={
+            'ACL': acl})
     except Exception as e:
-        print("upload file {} failed! {}".format(file.filename, e))
-    return "https://{}.s3.{}.amazonaws.com/{}".format(bucket_name, S3_LOCATION, prefix+file.filename)
+        print("upload file {} failed! {}".format(filename, e))
+    return "https://{}.s3.{}.amazonaws.com/{}".format(bucket_name, S3_LOCATION, prefix+filename)
 
 
 @userRoute.route('/updatephoto', methods=["POST"])
 def updatePhotoRoute():
     file = request.files['main_image']
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        saveFolder = path.join(basedir, '../public/assets/member')
-        resultPath = path.join(saveFolder, filename)
-        file.save(resultPath)
-        s3Path = upload_file_to_s3(file, S3_BUCKET)
-        auth_token = request.headers['Authorization']
-        auth_token = auth_token.replace('Bearer ', '')
-        user = authentication(auth_token)
-        userId = user['id']
-        updateResult = updatePhoto(userId, s3Path)
-        return {'data': {'photo': s3Path}}
+        try:
+            filename = secure_filename(file.filename)
+            saveFolder = path.join(basedir, '../public/assets/member')
+            resultPath = path.join(saveFolder, filename)
+            file.save(resultPath)
+            s3Path = upload_file_to_s3(resultPath, S3_BUCKET, filename)
+            auth_token = request.headers['Authorization'].replace(
+                'Bearer ', '')
+            user = authentication(auth_token)
+            updateResult = updatePhoto(user['id'], s3Path)
+            return {'data': {'photo': s3Path}}
+        except Exception as e:
+            return {'error': e}, 400
+
     else:
         return {'error': 'invalid file'}, 400

@@ -1,4 +1,6 @@
 bcrypt==3.2.0
+boto3==1.21.8
+botocore==1.24.8
 cffi==1.15.0
 click==8.0.4
 cryptography==36.0.1
@@ -12,11 +14,15 @@ greenlet==1.1.2
 idna==3.3
 itsdangerous==2.1.0
 Jinja2==3.0.3
+jmespath==0.10.0
 MarkupSafe==2.1.0
 pycparser==2.21
 PyJWT==2.3.0
 PyMySQL==1.0.2
+python-dateutil==2.8.2
 python-dotenv==0.19.2
+s3transfer==0.5.2
 six==1.16.0
 SQLAlchemy==1.4.31
+urllib3==1.26.8
 Werkzeug==2.0.3

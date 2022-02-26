@@ -91,3 +91,42 @@ def getUserRatingRoute():
         return {'data': rating}
     except Exception:
         raise
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+s3 = boto3.client(
+    "s3",
+    aws_access_key_id=S3_KEY,
+    aws_secret_access_key=S3_SECRET
+)
+
+
+def upload_file_to_s3(file, bucket_name, acl='public-read-write', prefix='img/member/'):
+    try:
+        s3.upload_fileobj(file, bucket_name, prefix+file.filename, ExtraArgs={
+                          'ACL': acl, 'ContentType': file.content_type})
+    except Exception as e:
+        print("upload file {} failed! {}".format(file.filename, e))
+    return "https://{}.s3.{}.amazonaws.com/{}".format(bucket_name, S3_LOCATION, prefix+file.filename)
+
+
+@userRoute.route('/updatephoto', methods=["POST"])
+def updatePhotoRoute():
+    file = request.files['main_image']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        saveFolder = path.join(basedir, '../public/assets/member')
+        resultPath = path.join(saveFolder, filename)
+        file.save(resultPath)
+        s3Path = upload_file_to_s3(file, S3_BUCKET)
+        auth_token = request.headers['Authorization']
+        auth_token = auth_token.replace('Bearer ', '')
+        user = authentication(auth_token)
+        userId = user['id']
+        updateResult = updatePhoto(userId, s3Path)
+        return {'data': {'photo': s3Path}}
+    else:
+        return {'error': 'invalid file'}, 400

@@ -41,6 +41,15 @@ class User(db.Model):
         }
 
     @property
+    def authentication(self):
+        return {
+            'id': self.id,
+            'provider': self.provider,
+            'name': self.name,
+            'email': self.email
+        }
+
+    @property
     def password_hash(self):
         return flask_bcrypt.generate_password_hash(
             self.password).decode('utf-8')
@@ -68,3 +77,18 @@ class User(db.Model):
 
     def __repr__(self):
         return "<User '{}'>".format(self.name)
+
+
+class Feedback(db.Model):
+    """ Feedback Model for storing feedback related details """
+    __tablename__ = "feedback"
+
+    gathering_id = db.Column(BIGINT(unsigned=True))
+    host_id = db.Column(BIGINT(unsigned=True))
+    user_id = db.Column(BIGINT(unsigned=True), primary_key=True)
+    rating = db.Column(db.Integer)
+    comment = db.Column(db.TEXT)
+    created_at = db.Column(db.DateTime, primary_key=True)
+
+    def __repr__(self):
+        return "<Rating '{}'>".format(self.rating)

@@ -1,9 +1,11 @@
+from asyncio import constants
 from flask import Blueprint, request
-from .user_service import signin, signup
+from .user_service import signin, signup, getUserRating, authentication
 import re
 from os import environ, path
 from dotenv import load_dotenv
 from email_validator import validate_email
+import json
 
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
@@ -58,3 +60,19 @@ def signupRoute():
         return {'error': user['error']}, 403
     except:
         return user
+
+
+@userRoute.route('/getuserrating', methods=["GET"])
+def getUserRatingRoute():
+    if not request.args.get('id'):
+        auth_token = request.headers['Authorization']
+        auth_token = auth_token.replace('Bearer ', '')
+        user = authentication(auth_token)
+        userId = user['id']
+    else:
+        userId = request.args.get('id')
+    try:
+        rating = getUserRating(userId)
+        return {'data': rating}
+    except Exception:
+        raise

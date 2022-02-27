@@ -104,7 +104,7 @@ s3 = boto3.client(
 )
 
 
-def upload_file_to_s3(file, bucket_name, filename, acl='public-read-write', prefix='img/member/'):
+def upload_file_to_s3(file, bucket_name, filename, acl='public-read', prefix='img/member/'):
     try:
         s3.upload_file(file, bucket_name, prefix+filename, ExtraArgs={
             'ACL': acl})
